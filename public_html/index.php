@@ -9,7 +9,7 @@
     <div class="WelcomePageContainer">
 
         <input type="text" name="userName">
-
+        
         <input type="password" name="password"
         >
         <input type="submit" name="submit" onclick="">
