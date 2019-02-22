@@ -1,19 +1,19 @@
 <html>
 <head>
 	<title>
-		groep10.rocole.nl
+		Impala Gymnastiek
 	</title>
-
-	<style>
-	* { font-family: verdana; font-size: 10pt; COLOR: gray; }
-	b { font-weight: bold; }
-	table { height: 50%; border: 1px solid gray;}
-	td { text-align: center; padding: 25;}
-
-	</style>
+    <link rel="stylesheet" href="../styles/generalStyles.css">
 </head>
 <body>
+    <div class="WelcomePageContainer">
 
+        <input type="text" name="userName">
+
+        <input type="password" name="password"
+        >
+        <input type="submit" name="submit" onclick="">
+    </div>
 </body>
 
 </html>
