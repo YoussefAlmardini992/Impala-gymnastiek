@@ -1,9 +1,8 @@
 <?php
-
-if(isset($_SESSION["id"]) && $_SESSION["id"] == "secretariaat"){
-    echo "welcome";
+session_start();
+if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
+    header('Location: ../index.php');
 }
-
 ?>
 <html>
 <head>
@@ -20,7 +19,7 @@ if(isset($_SESSION["id"]) && $_SESSION["id"] == "secretariaat"){
     <a href="#">Groepen</a>
     <a href="#">Wedstrijden</a>
     <a href="#">LIVE</a>
-    <a>Log uit</a>
+    <a href="logout.php">Log uit</a>
     </div>
 
     <div id="main">
@@ -41,4 +40,4 @@ function closeNav() {
 }
 </script>
 </html>
->>>>>>> master
+
