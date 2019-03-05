@@ -1,4 +1,5 @@
 <?php
+include("uti/connection.php");
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
     header('Location: ../index.php');
@@ -17,6 +18,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
 <body>
     <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
     <?php
         $turners = "turners";
         echo "
@@ -24,9 +26,10 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
             <a href=''>Groepen</a>
             <a href=''>Wedstrijden</a>
             <a href=''>LIVE</a>
-        "
-    ?>
-        <a href="logout.php">Log uit</a>
+           "
+    ?> 
+    <a href="../uti/logout.php">Log uit</a>
+
     </div>
 
     <div id="main">
