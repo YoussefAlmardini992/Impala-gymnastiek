@@ -1,4 +1,5 @@
 <?php
+include("uti/connection.php");
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
     header('Location: ../index.php');
@@ -16,7 +17,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
 </head>
 <body>
 <div id="main">
-    <a class="score-logout" href="logout.php">X</a>
+    <a class="score-logout" href="../uti/logout.php">X</a>
     <div class="content">
         <h1>Scores - Niveau groep</h1>
         <div class="container-table">
