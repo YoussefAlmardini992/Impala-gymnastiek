@@ -1,7 +1,12 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
 html{
     min-height:100%;/* make sure it is at least as tall as the viewport */
     position:relative;
-    background-color: teal;
+    background-color: #efefef;
+    background-image:url(../assets/bg.jpeg);
 }
 .WelcomePageContainer{
     max-height:100%;
@@ -10,13 +15,19 @@ html{
     width: 50%;
     margin: 5% auto;
     height: 300px;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgb(197,197,197, 0.5);
     padding-top: 2%;
+    border-radius: 5px;
 }
 .inputItem{
     text-align: center;
     margin: 0 auto;
     padding: 1.5%;
+    font-family: 'Open Sans', sans-serif;
+}
+input:focus{
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
 }
 .inputItem input{
     height: 2rem;
@@ -26,19 +37,33 @@ html{
 .inputItem_Submit{
     text-align: center;
     margin: 0 auto;
-    padding-top: 6%;
+    padding-top: 4%;
+    font-family: 'Open Sans', sans-serif;
 }
 .inputItem_Submit input{
+    background-color:#0f2a4e;
+    color: white; 
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border:1px solid #0f2a4e;
+	display:inline-block;
+	font-size:17px;
+	text-decoration:none;
     width: 10rem;
     height: 2.5rem;
-    background-color: white;
     font-size: 1rem;
-    font-family: Andalus;
-    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+}
+.inputItem_Submit input:hover {
+	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
 }
 .title{
     width: 30%;
+    color: white;
     margin: 5% auto;
     text-align: center;
+    font-family: 'Open Sans', sans-serif;
 }
 

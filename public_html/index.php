@@ -3,13 +3,18 @@
     <title>
         Impala Gymnastiek
     </title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="./styles/generalStyles.css">
 </head>
+<?php
+
+
+?>
 <body>
 <div class="WelcomePageContainer">
 
     <div class="title">
-        <h1>Impala gymnaastiek</h1>
+        <h1>Impala Gymnastiek</h1>
     </div>
     <div class="logInForm">
 
@@ -22,10 +27,9 @@
         </div>
 
         <div class="inputItem_Submit">
-            <input type="submit" name="submit" onclick="" value="inloggin">
+            <input type="submit" name="submit" onclick="" value="Inloggen">
         </div>
     </div>
-
 </div>
     <script src="src/index.js" type="module"></script>
 </body>
