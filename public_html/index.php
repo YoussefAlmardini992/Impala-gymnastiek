@@ -1,4 +1,5 @@
 <?php
+include("uti/connection.php");
 session_start();
 if(isset($_POST["submit"])){
     $message = "Gebruikers naam of wachtwoord is verkeerd";
