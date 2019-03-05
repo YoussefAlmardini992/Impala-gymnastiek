@@ -41,3 +41,26 @@ html {
     padding: 16px;
     
 }
+<<<<<<< HEAD
+=======
+.score-logout{
+    font-size: 2em;
+    text-decoration: none;
+    opacity: 0.3;
+}
+.content {
+    text-align: center;
+    font-size: 200%;
+}
+.container-table {
+    font-size: 150%;
+}
+.table {
+    margin: 0px auto;
+    width: 80%;
+    font-size:150%;
+}
+.table td {
+    text-align: center;
+}
+>>>>>>> master
