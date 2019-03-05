@@ -58,3 +58,6 @@ html {
     width: 80%;
     font-size:150%;
 }
+.table td {
+    text-align: center;
+}
