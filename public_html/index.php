@@ -5,6 +5,9 @@ if(isset($_POST["submit"])){
         if($_POST["userName"] == "secretariaat" && $_POST["password"] == "geheim"){
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/secretariaatOverzicht.php');
+        } else if($_POST["userName"] == "scorebord" && $_POST["password"] == "scorebord"){
+            $_SESSION["id"] = $_POST["userName"];
+            header('Location: pages/scorebordOverzicht.php');
         }else{
             echo "<script type='text/javascript'>alert('$message');</script>";
         }
