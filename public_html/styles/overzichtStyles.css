@@ -41,6 +41,7 @@ html {
     padding: 16px;
     
 }
+
 .score-logout{
     font-size: 2em;
     text-decoration: none;
@@ -61,3 +62,4 @@ html {
 .table td {
     text-align: center;
 }
+
