@@ -20,13 +20,13 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
     <?php
-        $turners = "turners";
+        $deelnemers = "deelnemers";
         $groepen = "groepen";
         $wedstrijden = "wedstrijden";
          $live = "live";
 
         echo "
-            <a href='?overzicht=".$turners."'>Turners</a>
+            <a href='?overzicht=".$deelnemers."'>Deelnemers</a>
             <a href='?overzicht=".$groepen."'>Groepen</a>
             <a href='?overzicht=".$wedstrijden."'>Wedstrijden</a>
             <a href='?overzicht=".$live."'>LIVE</a>
