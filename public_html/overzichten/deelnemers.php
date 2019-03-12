@@ -1,23 +1,19 @@
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <?php
-include ("../../../connection.php");
+ if(include ("../../../connection.php")){
 
-//$sqldeelnemers = "SELECT deelnemers.voornaam, deelnemers.tussenvoegsel, deelnemers.achternaam, groepen.naam, deelnemers.geslacht
-//FROM `deelnemers`
-//INNER JOIN `groepen` ON deelnemers.groep_ID=groepen.ID
-//";
-$nieuweDeelnemer = "nieuweDeelnemer";
-$sqldeelnemers = "
+     $nieuweDeelnemer = "nieuweDeelnemer";
+     $sqldeelnemers = "
         SELECT deelnemers.ID, deelnemers.voornaam, deelnemers.tussenvoegsel, deelnemers.achternaam, groepen.naam, deelnemers.geslacht
         FROM `deelnemers`
         INNER JOIN `groepen` 
         ON deelnemers.groep_ID=groepen.ID"
-        ;
+     ;
 
 
-$result = mysqli_query($conn, $sqldeelnemers) or die(mysqli_error($conn));
-$regels[] = "
+     $result = mysqli_query($conn, $sqldeelnemers) or die(mysqli_error($conn));
+     $regels[] = "
             <div class='deelnemersHeader'>
                  <h1>Deelnemers</h1>
                  <a href='?overzicht=.$nieuweDeelnemer.'>Nieuwe deelnemer</a>
@@ -33,10 +29,10 @@ $regels[] = "
                     <th style='width: 30px;'>" . "Aanpassen" . "</th>
                     <th style='width: 30px;'>" . "Verwijderen" . "</th>
                 </tr>";
-if ($result->num_rows > 0) {
-    // output data of each row
-    while ($row = $result->fetch_assoc()) {
-        $regels[] = "<tr>
+     if ($result->num_rows > 0) {
+         // output data of each row
+         while ($row = $result->fetch_assoc()) {
+             $regels[] = "<tr>
                         <td>" . $row["voornaam"] . "</td>
                         <td>" . $row["tussenvoegsel"] . "</td>
                         <td>" . $row["achternaam"] . "</td>
@@ -45,15 +41,18 @@ if ($result->num_rows > 0) {
                         <td>" . "<a class='fas fa-edit' href='?target=deelnemers_change&id={$row["ID"]}'></a>" . "</td>
                         <td>" . "<a class='fas fa-trash-alt' href='?target=deelnemers_delete&id={$row["ID"]}'></a>" . "</td>
                     </tr>";
-    }
-    echo "</table>";
-} else {
-    echo "Error";
-}
+         }
+         echo "</table>";
+     } else {
+         echo "Error";
+     }
 
 // Zet alle groepen (regels) onder elkaar
-if (isset($regels)) {
-    foreach ($regels as $key => $regel) {
-        echo $regel;
-    }
-}
+     if (isset($regels)) {
+         foreach ($regels as $key => $regel) {
+             echo $regel;
+         }
+     }
+
+ }
+
