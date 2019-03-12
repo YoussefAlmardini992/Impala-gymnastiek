@@ -1,7 +1,7 @@
 <?php
 //include("uti/connection.php");
 session_start();
-if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
+if(!isset($_SESSION["id"]) && $_SESSION["id"] != "turner"){
     header('Location: ../index.php');
 } else {
 

@@ -14,6 +14,10 @@ if(isset($_POST["submit"])){
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/CurrentTurnerOverzicht.php');
         }
+        else if($_POST["userName"] == "jury" && $_POST["password"] == "jury"){
+            $_SESSION["id"] = $_POST["userName"];
+            header('Location: pages/juryOverzicht.php');
+        }
         else{
             echo "<script type='text/javascript'>alert('$message');</script>";
         }

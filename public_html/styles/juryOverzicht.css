@@ -1,0 +1,48 @@
+.line{
+    text-align: center;
+}
+input{
+    margin-top: -10px;
+    height: 50px;
+    text-align: center;
+}
+
+button{
+    width: 100px;
+}
+.overzicht_container{
+    margin-left: 0;
+    width: 20%;
+}
+.score{
+    width: 10%;
+}
+.header{
+    display: flex;
+    width: 100%;
+}
+.item{
+    width: 33.33333%;
+    text-align: center;
+}
+.totaal{
+    position: absolute;
+    right: 150px;
+    font-size: 100px;
+    bottom: 100px;
+}
+.inputItem_Submit input{
+    background-color:#0f2a4e;
+    color: white;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    border:1px solid #0f2a4e;
+    display:inline-block;
+    font-size:17px;
+    text-decoration:none;
+    width: 10rem;
+    height: 2.5rem;
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+}
