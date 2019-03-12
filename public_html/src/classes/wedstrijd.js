@@ -20,6 +20,6 @@ export default class Wedstrijd{
     }else{
       console.error("de vorige turner was alle laatste");
     }
-  }
+  };
 
 }

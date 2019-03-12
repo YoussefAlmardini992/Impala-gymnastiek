@@ -38,8 +38,6 @@ html {
 }
 #main {
     transition: margin-left .5s;
-    padding: 16px;
-    
 }
 
 .score-logout{
