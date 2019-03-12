@@ -23,6 +23,9 @@
             <div class="inputItem_Submit start">
                 <input type="submit" name="submit" onclick="onStart()" value="start">
             </div>
+            <div class="inputItem_Submit refresh">
+                <input type="submit" name="submit" onclick="refresh()" value="vernieuwen">
+            </div>
         </div>
     </div>
 
@@ -35,12 +38,12 @@
 
             <div class="option status_loading">
                 <div class="progress">
-                    <div id="box" class="box"></div>
+                    <div id="box_secretariaat" class="box"></div>
                 </div>
             </div>
 
             <div class="option status_loading side">
-                <div id="connect_label">not connected</div>
+                <div id="secretariaat">not connected</div>
             </div>
         </div>
 
@@ -63,12 +66,18 @@
 </div>
 
 <script>
+    function load(box_name,label) {
+          $("#"+box_name).animate({width: "400px"},1000,function(){
+          $("#"+label).text("connected...");
+        });
+    }
+
     function onStart(){
-      $(document).ready(function(){
-        $("#box").animate({width: "400px"},1000,function(){
-          $("#connect_label").text("connected...");
-        })
-      });
+      load("box_secretariaat","secretariaat");
+    }
+    
+    function refresh() {
+      load("box_secretariaat","secretariaat");
     }
 </script>
 
