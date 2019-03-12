@@ -1,9 +1,9 @@
 <?php
-include("uti/connection.php");
-//include("../../../connection.php");
+if(include ("../../../connection.php")){
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
     header('Location: ../index.php');
+}
 }
 ?>
 <html>
@@ -55,7 +55,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
                         $groepen_change[] = "
                             <a class='back' href='?overzicht=groepen'>Back</a>
                             <form class='form' method='post' action=''>
-                                <table>
+                                <table class='table'>
                                     <tr>
                                         <td class='input'>Naam:</td>
                                         <td><input type='text' name='naam' value='" . $row['naam'] . "'></td>
@@ -112,7 +112,6 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
                     header("Location: ?overzicht=" . $deelnemers);
                 }
             }
-
             ?>
         </div>
     </div>
