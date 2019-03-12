@@ -1,5 +1,5 @@
 <?php
-include("uti/connection.php");
+//include("uti/connection.php");
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
     header('Location: ../index.php');
@@ -21,13 +21,17 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
 
     <?php
         $turners = "turners";
+        $groepen = "groepen";
+        $wedstrijden = "wedstrijden";
+         $live = "live";
+
         echo "
-            <a href='../overzichten/overzichten.php?turners=".$turners."'>Turners</a>
-            <a href=''>Groepen</a>
-            <a href=''>Wedstrijden</a>
-            <a href=''>LIVE</a>
+            <a href='?overzicht=".$turners."'>Turners</a>
+            <a href='?overzicht=".$groepen."'>Groepen</a>
+            <a href='?overzicht=".$wedstrijden."'>Wedstrijden</a>
+            <a href='?overzicht=".$live."'>LIVE</a>
            "
-    ?> 
+    ?>
     <a href="../uti/logout.php">Log uit</a>
 
     </div>
@@ -37,9 +41,10 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
         <h2>Secretariaat</h2>
         <div class="overzichtContainer" id="">
             <?php
-            echo "<script> if()  </script>"
+            if(isset($_GET["overzicht"])){
+                include ("../overzichten/overzichten.php");
+            }
             ?>
-            <?php require_once('../overzichten/turners.php');?>
         </div>
     </div>
     <script src="src/index.js" type="module"></script>
