@@ -26,7 +26,12 @@ export default class Turner {
           brug_ongelijk:{}
         }
       }
-    }
+    };
+
+    this.D_score = 10;
+    this.E_score = 10;
+    this.N_score = 0;
+    this.totaalScore = 0;
   }
 }
 

@@ -1,4 +1,5 @@
 <?php
+//include("uti/connection.php");
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
     header('Location: ../index.php');
@@ -17,18 +18,33 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
 <body>
     <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">Turners</a>
-    <a href="#">Groepen</a>
-    <a href="#">Wedstrijden</a>
-    <a href="#">LIVE</a>
-    <a href="logout.php">Log uit</a>
+
+    <?php
+        $deelnemers = "deelnemers";
+        $groepen = "groepen";
+        $wedstrijden = "wedstrijden";
+         $live = "live";
+
+        echo "
+            <a href='?overzicht=".$deelnemers."'>Deelnemers</a>
+            <a href='?overzicht=".$groepen."'>Groepen</a>
+            <a href='?overzicht=".$wedstrijden."'>Wedstrijden</a>
+            <a href='?overzicht=".$live."'>LIVE</a>
+           "
+    ?>
+    <a href="../uti/logout.php">Log uit</a>
+
     </div>
 
     <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Open</span>
         <h2>Secretariaat</h2>
-        <div class="overzichtContainer">
-            <?php require_once('../overzichten/turners.php');?>
+        <div class="overzichtContainer" id="">
+            <?php
+            if(isset($_GET["overzicht"])){
+                include ("../overzichten/overzichten.php");
+            }
+            ?>
         </div>
     </div>
     <script src="src/index.js" type="module"></script>

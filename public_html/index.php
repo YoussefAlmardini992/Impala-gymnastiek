@@ -1,20 +1,25 @@
 <?php
+include("uti/connection.php");
 session_start();
 if(isset($_POST["submit"])){
     $message = "Gebruikers naam of wachtwoord is verkeerd";
         if($_POST["userName"] == "secretariaat" && $_POST["password"] == "geheim"){
             $_SESSION["id"] = $_POST["userName"];
-            header('Location: pages/secretariaatOverzicht.php');
+            header('Location: pages/secretariaatOverzicht.php?overzicht=deelnemers');
         } else if($_POST["userName"] == "scorebord" && $_POST["password"] == "scorebord"){
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/scorebordOverzicht.php');
-        }else{
+        }
+        else if($_POST["userName"] == "turner" && $_POST["password"] == "turner"){
+            $_SESSION["id"] = $_POST["userName"];
+            header('Location: pages/CurrentTurnerOverzicht.php');
+        }
+        else{
             echo "<script type='text/javascript'>alert('$message');</script>";
         }
 }
 
 ?>
-
 <html>
 <head>
     <title>
@@ -52,6 +57,7 @@ if(isset($_POST["submit"])){
 
     </div>
 
-    <script src="src/index.js" type="module"></script>
+    <script src="src/collection.js" type="module"></script>
+
 </body>
 </html>
