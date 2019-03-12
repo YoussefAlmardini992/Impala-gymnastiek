@@ -5,7 +5,7 @@ if(isset($_POST["submit"])){
     $message = "Gebruikers naam of wachtwoord is verkeerd";
         if($_POST["userName"] == "secretariaat" && $_POST["password"] == "geheim"){
             $_SESSION["id"] = $_POST["userName"];
-            header('Location: pages/secretariaatOverzicht.php');
+            header('Location: pages/secretariaatOverzicht.php?overzicht=turners');
         } else if($_POST["userName"] == "scorebord" && $_POST["password"] == "scorebord"){
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/scorebordOverzicht.php');
