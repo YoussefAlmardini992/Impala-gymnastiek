@@ -1,0 +1,16 @@
+{
+  "name": "public_html",
+  "version": "1.0.0",
+  "description": "Impala Gymnastiek",
+  "main": "server.js",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "webpack": "^4.29.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
