@@ -1,5 +1,6 @@
 <?php
-//include("uti/connection.php");
+include("uti/connection.php");
+//include("../../../connection.php");
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
     header('Location: ../index.php');
@@ -44,6 +45,74 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
             if(isset($_GET["overzicht"])){
                 include ("../overzichten/overzichten.php");
             }
+
+            if(isset($_GET["target"]) &&  $_GET["target"] == "groepen_change"){
+                $id = $_GET['id'];
+                $sql = "SELECT * FROM `groepen` WHERE id = " . $id;
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $groepen_change[] = "
+                            <a class='back' href='?overzicht=groepen'>Back</a>
+                            <form class='form' method='post' action=''>
+                                <table>
+                                    <tr>
+                                        <td class='input'>Naam:</td>
+                                        <td><input type='text' name='naam' value='" . $row['naam'] . "'></td>
+                                    </tr>
+                                    <tr>
+                                        <td class='input'>Niveau:</td>
+                                        <td><input type='text' name='niveau' value='" . $row['niveau'] . "'></td>
+                                    </tr>
+                                    <tr>
+                                        <td class='input'>Jaar:</td>
+                                        <td><input type='number' min='1950' max='9999' name='jaar' value='" . $row['jaar'] . "'></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type='hidden' value='groepen_change' name='target'></td>
+                                        <td><input class='button' type='submit' name='submit' value='Verzenden'></td>
+                                    </tr>
+                                </table>
+                            </form>";
+                    }//end while
+                }
+                // Laad form in om waardes aan te passen
+                if (isset($groepen_change)) {
+                    foreach ($groepen_change as $key => $groepen_change1) {
+                        echo $groepen_change1;
+                    }
+                }
+                if (isset($_POST['submit'])) {
+                    $naam = $_POST['naam'];
+                    $niveau = $_POST['niveau'];
+                    $jaar = $_POST['jaar'];
+                    $sqlupdate = "UPDATE `groepen` SET naam ='$naam', niveau ='$niveau', jaar ='$jaar' WHERE id = $id";
+                    if(mysqli_query($conn, $sqlupdate)) {
+                        header("Location: ?overzicht=" . $groepen);
+                        echo mysqli_error($conn);
+                        echo "<br>" . $sqlupdate;
+                    }
+                }
+            }
+
+            if(isset($_GET["target"]) &&  $_GET["target"] == "groepen_delete") {
+                $sqldelete = "DELETE FROM `groepen` WHERE ID = " . $_GET["id"];
+                if(mysqli_query($conn, $sqldelete)) {
+                    header("Location: ?overzicht=" . $groepen);
+                }
+            }
+
+            if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_change"){
+                echo $_GET["id"];
+            }
+
+            if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_delete") {
+                $sqldelete = "DELETE FROM `deelnemers` WHERE ID = " . $_GET["id"];
+                if(mysqli_query($conn, $sqldelete)) {
+                    header("Location: ?overzicht=" . $deelnemers);
+                }
+            }
+
             ?>
         </div>
     </div>
@@ -61,4 +130,3 @@ function closeNav() {
 }
 </script>
 </html>
-
