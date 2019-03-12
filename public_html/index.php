@@ -9,7 +9,12 @@ if(isset($_POST["submit"])){
         } else if($_POST["userName"] == "scorebord" && $_POST["password"] == "scorebord"){
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/scorebordOverzicht.php');
-        }else{
+        }
+        else if($_POST["userName"] == "turner" && $_POST["password"] == "turner"){
+            $_SESSION["id"] = $_POST["userName"];
+            header('Location: pages/CurrentTurnerOverzicht.php');
+        }
+        else{
             echo "<script type='text/javascript'>alert('$message');</script>";
         }
 }
