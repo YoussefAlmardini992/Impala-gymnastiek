@@ -1,9 +1,9 @@
 <?php
-if(include ("../../../connection.php")){
+//include("uti/connection.php");
+include("../../../connection.php");
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
     header('Location: ../index.php');
-}
 }
 ?>
 <html>
@@ -112,6 +112,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
                     header("Location: ?overzicht=" . $deelnemers);
                 }
             }
+
             ?>
         </div>
     </div>
