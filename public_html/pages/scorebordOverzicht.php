@@ -1,5 +1,5 @@
 <?php
-include("uti/connection.php");
+include("../uti/connection.php");
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
     header('Location: ../index.php');
