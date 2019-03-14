@@ -40,12 +40,14 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
     <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Open</span>
         <h2>Secretariaat</h2>
+        <a href="?target=groepen_add">+</a>
         <div class="overzichtContainer" id="">
             <?php
             if(isset($_GET["overzicht"])){
                 include ("../overzichten/overzichten.php");
             }
 
+            // Groep aanpassen
             if(isset($_GET["target"]) &&  $_GET["target"] == "groepen_change"){
                 $id = $_GET['id'];
                 $sql = "SELECT * FROM `groepen` WHERE id = " . $id;
@@ -76,6 +78,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
                             </form>";
                     }//end while
                 }
+
                 // Laad form in om waardes aan te passen
                 if (isset($groepen_change)) {
                     foreach ($groepen_change as $key => $groepen_change1) {
@@ -93,19 +96,57 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
                         echo "<br>" . $sqlupdate;
                     }
                 }
-            }
+            }// end groep aanpassen
 
+            // Groep toevoegen
+            if(isset($_GET["target"]) &&  $_GET["target"] == "groepen_add") {
+                echo"<a class='back' href='?overzicht=groepen'>Back</a>
+                        <form class='form' method='post' action=''>
+                            <table class='table'>
+                            <tr>
+                                <td class='input'>Naam:</td>
+                                <td><input type='text' name='naam'></td>
+                            </tr>
+                            <tr>
+                                <td class='input'>Niveau:</td>
+                                <td><input type='text' name='niveau'></td>
+                            </tr>
+                            <tr>
+                                <td class='input'>Jaar:</td>
+                                <td><input type='number' min='1950' max='9999' name='jaar'></td>
+                            </tr>
+                            <tr>
+                                <td><input type='hidden' value='groepen_change' name='target'></td>
+                                <td><input class='button' type='submit' name='submit' value='Verzenden'></td>
+                            </tr>
+                            </table>
+                        </form>";
+                
+                if (isset($_POST['submit'])) {
+                    $naam = $_POST['naam'];
+                    $niveau = $_POST['niveau'];
+                    $jaar = $_POST['jaar'];
+                    $sqladd = "INSERT INTO `groepen` (naam, niveau, jaar) VALUES ('$naam', '$niveau', '$jaar')";
+                    if(mysqli_query($conn, $sqladd)) {
+                        header("Location: ?overzicht=" . $groepen);
+                    }
+                }
+            }// end groep toevoegen
+
+            // Groep verwijderen
             if(isset($_GET["target"]) &&  $_GET["target"] == "groepen_delete") {
                 $sqldelete = "DELETE FROM `groepen` WHERE ID = " . $_GET["id"];
                 if(mysqli_query($conn, $sqldelete)) {
                     header("Location: ?overzicht=" . $groepen);
                 }
-            }
+            }// end groep verwijderen
 
+            // Deelnemer aanpassen
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_change"){
                 echo $_GET["id"];
             }
 
+            // Deelnemer verwijderen
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_delete") {
                 $sqldelete = "DELETE FROM `deelnemers` WHERE ID = " . $_GET["id"];
                 if(mysqli_query($conn, $sqldelete)) {
