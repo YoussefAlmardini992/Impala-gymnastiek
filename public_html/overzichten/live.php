@@ -15,9 +15,9 @@
             <div class="header_item selector">
                 <select onchange="onGroepSelect(this)">
                     <option value="default">kiezen</option>
-                    <option value="goep naam">goep naam</option>
-                    <option value="goep naam">goep naam</option>
-                    <option value="goep naam">goep naam</option>
+                    <option value="Impala mannen">Impala mannen</option>
+                    <option value="TESTgroep">TESTgroep</option>
+                    <option value="impala vrouwen">impala vrouwen</option>
                     <option value="goep naam">goep naam</option>
                 </select>
             </div>
@@ -86,17 +86,14 @@
 
     function onGroepSelect(select){
         let selectedOption = select.value;
-        const res = socket.emit('select_group',selectedOption);
-        const selectedGroup = getSelectedGroup();
-        console.log(selectedGroup);
+        socket.emit('select_group',selectedOption);
     }
 
-    function getSelectedGroup() {
-      socket.on('selected_group',function (result) {
+   socket.on('selected_group',function (result) {
         console.log(result);
-        return result;
-      })
-    }
+        
+   })
+
 
 </script>
 

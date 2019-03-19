@@ -32,18 +32,21 @@ function emitConnection(SERVER) {
 
   io.sockets.on('connection',function (socket) {
 
-    //Socket Orders
+    //Socket Actions
     //ON SELECT GROUP
     socket.on('select_group',function (groupName) {
 
-      console.log(groupName);
+      let GroupID;
 
-      connection.query('SELECT * FROM deelnemers', function (error, results, fields) {
+      connection.query('SELECT ID FROM groepen WHERE naam = "'+groupName+'"', function (error, results, fields) {
         if (error) throw error;
-        console.log('The solution is: ', results[0]);
+        GroupID = results[0];
         socket.emit('selected_group',results[0])
       });
-    })
+
+    });
+
+
   })
 }
 
