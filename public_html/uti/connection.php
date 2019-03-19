@@ -3,7 +3,7 @@
     global $conn;
     global $dbconfig;
     global $database_name;
-    $servername = 'groep10.rocole.nl';
+    $servername = 'localhost';
     $username = 'rocole_db10';
     $password = 'pa2p1rYbw';
     $database_name = 'rocole_db10';

@@ -1,6 +1,4 @@
 <?php
-
-
 //include("../uti/connection.php"); // Voor online
 include("../../../connection.php"); // Voor localhost
 
@@ -43,7 +41,9 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
 
     <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Open</span>
-        <?php echo '<h3>Ingelogd als: ' . $_SESSION["id"] . '</h3>';  ?>
+        <?php 
+        echo '<h3>Ingelogd als: ' . $_SESSION["id"] . '</h3>';  
+        ?>
         <div class="overzichtContainer" id="">
             <?php
 
@@ -304,7 +304,6 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                 }
             }// end Deelnemer toevoegen
 
-
             // Deelnemer verwijderen
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_delete") {
                 $sqldelete = "DELETE FROM `deelnemers` WHERE ID = " . $_GET["id"];
@@ -312,7 +311,6 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                     header("Location: ?overzicht=" . $deelnemers);
                 }
             }
-
 
             ?>
         </div>

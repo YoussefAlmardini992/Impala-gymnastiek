@@ -1,3 +1,7 @@
+<?php
+//include("../uti/connection.php");
+include("../../../connection.php")
+?>
 <html>
 <head>
     <link rel="stylesheet" href="../styles/liveOverzicht.css">
@@ -14,11 +18,21 @@
             <div class="header_item heading">Groep</div>
             <div class="header_item selector">
                 <select onchange="onGroepSelect(this)">
-                    <option value="default">kiezen</option>
-                    <option value="goep naam">goep naam</option>
-                    <option value="goep naam">goep naam</option>
-                    <option value="goep naam">goep naam</option>
-                    <option value="goep naam">goep naam</option>
+                    <option selected="default"></option>
+                    <!-- SQL query die alle groepen ophaalt en in OPTIONs zet -->
+                    <?php
+                    $groepenNaam = [];
+                    $sql = "SELECT naam, ID FROM `groepen` ";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            array_push($groepenNaam, $row);
+                        }
+                    }
+                    foreach($groepenNaam as $valuekey) {
+                        echo "<option value=".$valuekey['ID'].">".$valuekey['naam']."</option>";
+                    }
+                    ?>
                 </select>
             </div>
             <div class="inputItem_Submit start">
@@ -69,7 +83,6 @@
 <script>
     const socket = io.connect('http://localhost:3000');
 
-
     function load(box_name,label) {
           $("#"+box_name).animate({width: "400px"},1000,function(){
           $("#"+label).text("connected...");
@@ -86,17 +99,14 @@
 
     function onGroepSelect(select){
         let selectedOption = select.value;
-        const res = socket.emit('select_group',selectedOption);
-        const selectedGroup = getSelectedGroup();
-        console.log(selectedGroup);
+        socket.emit('select_group',selectedOption);
     }
 
-    function getSelectedGroup() {
-      socket.on('selected_group',function (result) {
+    socket.on('selected_group',function (result) {
         console.log(result);
         return result;
-      })
-    }
+    })
+
 
 </script>
 

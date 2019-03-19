@@ -1,8 +1,6 @@
 <?php
-
 if(isset($_GET["overzicht"])){
     switch ($_GET["overzicht"]){
-
         case "deelnemers":
             echo '<a class="fas fa-plus-square" href="?target=deelnemers_add"></a>';
             include ("deelnemers.php");
