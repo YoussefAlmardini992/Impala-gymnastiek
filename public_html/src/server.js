@@ -42,6 +42,13 @@ function emitConnection(SERVER) {
         socket.emit('selected_group', results);
       });
     });
+
+
+    //ON SELECT JURY
+    socket.on('Login_value', function (value) {
+      socket.emit('get_jury',value);
+    });
+
   });
 }
 

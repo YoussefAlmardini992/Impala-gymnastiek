@@ -4,7 +4,7 @@ session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
     header('Location: ../index.php');
 } else {
-    
+    $loginID = $_SESSION["id"];
 }
 ?>
 <html>
@@ -14,10 +14,11 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
     </title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="../styles/overzichtStyles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 </head>
 <body>
 <div id="main">
-    <a class="score-logout" href="../uti/logout.php">X</a>
+    <a class="score-logout" href="../uti/logout.php" onclick="ClearLoginValue()">X</a>
     <div class="content">
         <h1>Scores - Niveau groep</h1>
         <div class="container-table">
@@ -51,6 +52,16 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
         </div>
     </div>
 </div>
+    <script>
+        let value = "<?php echo $loginID; ?>";
+
+        const socket = io.connect('http://localhost:3000');
+        socket.emit('Login_value',value);
+        function ClearLoginValue() {
+            value = null;
+            socket.emit('Login_value',value);
+        }
+    </script>
 </body>
 <script>
 

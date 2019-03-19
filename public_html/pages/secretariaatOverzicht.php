@@ -3,7 +3,7 @@
 include("../../../connection.php"); // Voor localhost
 
 session_start();
-if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
+if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
     header('Location: ../index.php');
 }
 ?>
