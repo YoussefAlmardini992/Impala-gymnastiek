@@ -1,9 +1,4 @@
 <?php
-
-    //include("uti/connection.php");
-    include("../../../connection.php");
-
-
      $nieuweDeelnemer = "nieuweDeelnemer";
      $sqldeelnemers = "
         SELECT deelnemers.ID, deelnemers.voornaam, deelnemers.tussenvoegsel, deelnemers.achternaam, groepen.naam, deelnemers.geslacht
@@ -17,12 +12,11 @@
      $regels[] = "
             <div class='deelnemersHeader'>
                  <h1>Deelnemers</h1>
-                 <a href='?overzicht=.$nieuweDeelnemer.'>Nieuwe deelnemer</a>
             </div>
 
             <table class='table'>
                 <tr>
-                    <th>" . "Voornaams" . "</th>
+                    <th>" . "Voornaam" . "</th>
                     <th>" . "Tussenvoegsel" . "</th>
                     <th>" . "Achternaam" . "</th>
                     <th>" . "Groep" . "</th>

@@ -1,6 +1,4 @@
 <?php
-
-
 //include("../uti/connection.php"); // Voor online
 include("../../../connection.php"); // Voor localhost
 
@@ -43,7 +41,9 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
 
     <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Open</span>
-        <?php echo '<h3>Ingelogd als: ' . $_SESSION["id"] . '</h3>';  ?>
+        <?php 
+        echo '<h3>Ingelogd als: ' . $_SESSION["id"] . '</h3>';  
+        ?>
         <div class="overzichtContainer" id="">
             <?php
 
@@ -149,20 +149,19 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
             // Deelnemer aanpassen
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_change") {
                 $groepenNaam = [];
-            $sql = "SELECT naam FROM `groepen` ";
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                array_push($groepenNaam, $row);
-              }
-            }
-
+                $sql = "SELECT naam, ID FROM `groepen` ";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        array_push($groepenNaam, $row);
+                    }
+                }
                 $id = $_GET['id'];
                 $sql = "SELECT * FROM `deelnemers` WHERE id = " . $id;
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $deelnemers_change[] = "
+                        $str = "
                             <a class='back' href='?overzicht=deelnemers'>Back</a>
                             <form class='form' method='post' action=''>
                                 <table class='table'>
@@ -170,29 +169,43 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
                                         <td class='input'>Voornaam:</td>
                                         <td><input type='text' name='voornaam' value='" . $row['voornaam'] . "'></td>
                                     </tr>
-                                     <tr>
+                                    <tr>
                                         <td class='input'>Tussenvoegsel:</td>
                                         <td><input type='text' name='tussenvoegsel' value='" . $row['tussenvoegsel'] . "'></td>
                                     </tr>
                                     <tr>
                                         <td class='input'>Achternaam:</td>
-                                        <td><input type='text' name='voornaam' value='" . $row['achternaam'] . "'></td>
+                                        <td><input type='text' name='achternaam' value='" . $row['achternaam'] . "'></td>
                                     </tr>
-                                           <td class='input' >Groep </td>
-                                           <td>
-                                                 <select>
-                       
-                        
-                                                 </select>
-                                            </td>
+                                    <tr>
+                                        <td class='input' >Groep:</td>
+                                        <td>
+                                                <select name='groep'>";
+                                                
+                                                foreach($groepenNaam as $valuekey):
+                                                    $str .= '<option value='.$valuekey['ID'].'>'.$valuekey['naam'].'</option>';
+                                                endforeach;
+                                                
+                                                $str .= "</select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class='input' >Geslacht:</td>
+                                        <td>
+                                            <select name='geslacht'>
+                                                <option value='m'>m</option>
+                                                <option value='v'>v</option>
+                                             </select>
+                                        </td>
+                                    </tr>              
                                     <tr>
                                         <td><input type='hidden' value='deelnemers_change' name='target'></td>
                                         <td><input class='button' type='submit' name='submit' value='Verzenden'></td>
                                     </tr>
                                 </table>
                             </form>";
+                        $deelnemers_change[] = $str;
                     }//end while
-
                 }
 
                 // Laad form in om waardes aan te passen
@@ -204,16 +217,92 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
 
                 if (isset($_POST['submit'])) {
                     $voornaam = $_POST['voornaam'];
+                    $tussenvoegsel = $_POST['tussenvoegsel'];
                     $achternaam = $_POST['achternaam'];
+                    $groep = $_POST['groep'];
+                    $geslacht = $_POST['geslacht'];
                     //  $jaar = $_POST['jaar'];
-                    $sqlupdate = "UPDATE `deelnemers` SET voornaam ='$voornaam', achternaam ='$achternaam' WHERE id = $id";
+                    $sqlupdate = "UPDATE `deelnemers` SET voornaam ='$voornaam', tussenvoegsel = '$tussenvoegsel', 
+                    achternaam ='$achternaam', groep_ID ='$groep', geslacht = '$geslacht' WHERE id = $id";
+
                     if(mysqli_query($conn, $sqlupdate)) {
-                        header("Location: ?overzicht=" . $groepen);
+                        header("Location: ?overzicht=" . $deelnemers);
                         echo mysqli_error($conn);
                         echo "<br>" . $sqlupdate;
                     }
                 }
-            }
+            }// end Deelnemer aanpassen
+
+            // Deelnemer toevoegen
+            if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_add") {
+                $groepenNaam = [];
+                $sql = "SELECT naam, ID FROM `groepen` ";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        array_push($groepenNaam, $row);
+                    }
+                }
+                $str = "<a class='back' href='?overzicht=deelnemer'>Back</a>
+                        <form class='form' method='post' action=''>
+                            <table class='table'>
+                            <tr>
+                                <td class='input'>Voornaam:</td>
+                                <td><input type='text' name='voornaam'></td>
+                            </tr>
+                            <tr>
+                                <td class='input'>Tussenvoegsel:</td>
+                                <td><input type='text' name='tussenvoegsel'></td>
+                            </tr>
+                            <tr>
+                                <td class='input'>Achternaam:</td>
+                                <td><input type='text' name='achternaam'></td>
+                            </tr>
+                            <tr>
+                                <td class='input'>Groep:</td>
+                                <td>
+                                    <select name='groep'>";
+                                    
+                                    foreach($groepenNaam as $valuekey):
+                                        $str .= '<option value='.$valuekey['ID'].'>'.$valuekey['naam'].'</option>';
+                                    endforeach;
+                                    
+                                    $str .= "</select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='input'>Geslacht:</td>
+                                <td>
+                                    <select name='geslacht'>
+                                        <option value='m'>m</option>
+                                        <option value='v'>v</option>
+                                    </select>
+                                </td>
+                            <tr>
+                                <td><input type='hidden' value='deelnemers_change' name='target'></td>
+                                <td><input class='button' type='submit' name='submit' value='Verzenden'></td>
+                            </tr>
+                            </table>
+                        </form>";
+                    $deelnemers_add[] = $str;
+                    // Laad form in om waardes aan te passen
+                if (isset($deelnemers_add)) {
+                    foreach ($deelnemers_add as $key => $deelnemer_add) {
+                        echo $deelnemer_add;
+                    }
+                }
+                if (isset($_POST['submit'])) {
+                    $voornaam = $_POST['voornaam'];
+                    $tussenvoegsel = $_POST['tussenvoegsel'];
+                    $achternaam = $_POST['achternaam'];
+                    $groep = $_POST['groep'];
+                    $geslacht = $_POST['geslacht'];
+                    $sqladd = "INSERT INTO `deelnemers` (voornaam, tussenvoegsel, achternaam, groep_ID, geslacht) VALUES ('$voornaam', '$tussenvoegsel', '$achternaam', '$groep', '$geslacht')";
+                    if(mysqli_query($conn, $sqladd)) {
+                        header("Location: ?overzicht=" . $deelnemers);
+                    }
+                }
+            }// end Deelnemer toevoegen
 
             // Deelnemer verwijderen
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_delete") {
@@ -222,7 +311,6 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
                     header("Location: ?overzicht=" . $deelnemers);
                 }
             }
-
 
             ?>
         </div>
