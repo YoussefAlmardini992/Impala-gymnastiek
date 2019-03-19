@@ -4,9 +4,11 @@ if(isset($_GET["overzicht"])){
     switch ($_GET["overzicht"]){
 
         case "deelnemers":
+            echo '<a class="fas fa-plus-square" href="?target=deelnemers_add"></a>';
             include ("deelnemers.php");
             break;
         case "groepen":
+            echo '<a class="fas fa-plus-square" href="?target=groepen_add"></a>';
             include ("groepen.php");
             break;
         case "wedstrijden":
@@ -17,24 +19,4 @@ if(isset($_GET["overzicht"])){
             break;
     }
 }
-
-
-//if( && $_GET["overzicht"] == "turners"){
-//include ("deelnemers.php");
-//
-//}
-//
-//if(isset($_GET["overzicht"]) && $_GET["overzicht"] == "groepen") {
-//
-//
-//}
-//
-//if(isset($_GET["overzicht"]) && $_GET["overzicht"] == "wedstrijden") {
-//    echo "wedstrijden";
-//
-//}
-//
-//if(isset($_GET["overzicht"]) && $_GET["overzicht"] == "live") {
-//    echo "live";
-//
-//}
+?>

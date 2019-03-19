@@ -1,6 +1,6 @@
 <?php
-//include("../uti/connection.php");
-include("../../../connection.php");
+//include("../uti/connection.php"); // Voor online
+include("../../../connection.php"); // Voor localhost
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
     header('Location: ../index.php');
@@ -40,8 +40,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
 
     <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Open</span>
-        <h2>Secretariaat</h2>
-        <a href="?target=groepen_add">+</a>
+        <?php echo '<h3>Ingelogd als: ' . $_SESSION["id"] . '</h3>';  ?>
         <div class="overzichtContainer" id="">
             <?php
             if(isset($_GET["overzicht"])){
