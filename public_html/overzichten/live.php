@@ -100,11 +100,11 @@ include("../../../connection.php")
     function onGroepSelect(select){
         let selectedOption = select.value;
         socket.emit('select_group',selectedOption);
-       
     }
+
     socket.on('selected_group',function (result) {
         console.log(result);
-        return result;  
+        return result;
     })
 
 
