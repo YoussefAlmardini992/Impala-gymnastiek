@@ -1,6 +1,8 @@
 <?php
+
     //include("uti/connection.php");
     include("../../../connection.php");
+
 
      $nieuweDeelnemer = "nieuweDeelnemer";
      $sqldeelnemers = "

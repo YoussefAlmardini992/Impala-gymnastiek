@@ -59,4 +59,11 @@ html {
 .table td {
     text-align: center;
 }
-
+/* Add button voor overzichten */
+.fa-plus-square {
+    font-size: 3em;
+}
+.fa-plus-square:hover {
+    text-decoration: none;
+    color: #0050a7;
+}
