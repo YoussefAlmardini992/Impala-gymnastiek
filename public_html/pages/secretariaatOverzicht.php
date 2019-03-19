@@ -148,7 +148,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
 
             // Deelnemer aanpassen
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_change") {
-                $groepenNaam = [];
+            $groepenNaam = [];
             $sql = "SELECT naam FROM `groepen` ";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
@@ -156,7 +156,6 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
                 array_push($groepenNaam, $row);
               }
             }
-
                 $id = $_GET['id'];
                 $sql = "SELECT * FROM `deelnemers` WHERE id = " . $id;
                 $result = $conn->query($sql);
@@ -181,8 +180,11 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "secretariaat"){
                                            <td class='input' >Groep </td>
                                            <td>
                                                  <select>
-                       
-                        
+                                                    <?php
+                                                    foreach($groepenNaam as $valuekey):
+                                                    echo '<option value='$valuekey'>$valuekey</option>';
+                                                    endforeach;
+                                                    ?>
                                                  </select>
                                             </td>
                                     <tr>
