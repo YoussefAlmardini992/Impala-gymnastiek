@@ -1,6 +1,4 @@
 <?php
-include("uti/connection.php");
-//include("../../../connection.php");
 
     $sqlgroepen = "SELECT * FROM `groepen`";
     $result = mysqli_query($conn, $sqlgroepen) or die(mysqli_error($conn));

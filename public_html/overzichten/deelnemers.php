@@ -1,6 +1,6 @@
 <?php
-    include("uti/connection.php");
-    //include("../../../connection.php");
+    //include("uti/connection.php");
+    include("../../../connection.php");
 
      $nieuweDeelnemer = "nieuweDeelnemer";
      $sqldeelnemers = "
@@ -20,7 +20,7 @@
 
             <table class='table'>
                 <tr>
-                    <th>" . "Voornaam" . "</th>
+                    <th>" . "Voornaams" . "</th>
                     <th>" . "Tussenvoegsel" . "</th>
                     <th>" . "Achternaam" . "</th>
                     <th>" . "Groep" . "</th>
@@ -52,5 +52,6 @@
              echo $regel;
          }
      };
+
 
 
