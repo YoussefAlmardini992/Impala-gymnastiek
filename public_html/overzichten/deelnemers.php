@@ -17,12 +17,11 @@
      $regels[] = "
             <div class='deelnemersHeader'>
                  <h1>Deelnemers</h1>
-                 <a href='?overzicht=.$nieuweDeelnemer.'>Nieuwe deelnemer</a>
             </div>
 
             <table class='table'>
                 <tr>
-                    <th>" . "Voornaams" . "</th>
+                    <th>" . "Voornaam" . "</th>
                     <th>" . "Tussenvoegsel" . "</th>
                     <th>" . "Achternaam" . "</th>
                     <th>" . "Groep" . "</th>
