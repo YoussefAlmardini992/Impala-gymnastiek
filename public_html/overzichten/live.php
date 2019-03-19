@@ -12,7 +12,7 @@
         <div class="groep_select_box">
             <div class="header_item heading">Groep</div>
             <div class="header_item selector">
-                <select>
+                <select onchange="onGroepSelect(this)">
                     <option value="default">kiezen</option>
                     <option value="goep naam">goep naam</option>
                     <option value="goep naam">goep naam</option>
@@ -76,9 +76,17 @@
       load("box_secretariaat","secretariaat");
     }
     
-    function refresh() {
+    function refresh(){
       load("box_secretariaat","secretariaat");
     }
+
+    function onGroepSelect(select){
+        let selectedOption = select.value;
+        <?php 
+            $query = "SELECT * FROM 'groepen' WHERE 'groep naam' = "?>selectedOption<?php
+        ?>
+    }
+
 </script>
 
 </body>
