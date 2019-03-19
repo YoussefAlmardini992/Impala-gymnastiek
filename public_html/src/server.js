@@ -7,22 +7,20 @@ const socket = require('socket.io'),
 
 let connection = mysql.createConnection({
   host: 'localhost',
-  user: 'admin',
-  password: 'admin',
-  database: 'rocole_db10'
+  user: 'root',
+  password: '',
+  database: 'rocle_db10'
 });
 
-function connect(){
-  connection.connect(function(err) {
-    if (err) {
-      return console.error('error: ' + err.message);
-    }
-  
-    console.log('Connected to the MySQL server.');
-  });
-}
+connection.connect(function(err) {
+  if (err) {
+    return console.error('error: ' + err.message);
+  }
+  console.log('Connected to the MySQL server.');
+});
 
-connect();
+
+
 
 const app = express();
 const http_server = http.createServer(app).listen(3000);
@@ -33,38 +31,18 @@ function emitConnection(SERVER) {
 
   const io = socket.listen(SERVER);
 
-  io.sockets.on('connection',function (socket) {
-<<<<<<< HEAD
+  io.sockets.on('connection', function (socket) {
 
     //Socket Actions
     //ON SELECT GROUP
-    socket.on('select_group',function (groupName) {
+    socket.on('select_group', function (Group_ID) {
 
-      let GroupID;
-
-      connection.query('SELECT ID FROM groepen WHERE naam = "'+groupName+'"', function (error, results, fields) {
+      connection.query('SELECT * FROM deelnemers WHERE groep_ID = "' + Group_ID + '"', function (error, results, fields) {
         if (error) throw error;
-        GroupID = results[0];
-        socket.emit('selected_group',results[0])
-=======
-    //Socket Orders
-    //ON SELECT GROUP
-    socket.on('select_group',function (groupName) {
-
-      console.log(groupName);
-      connect();
-      connection.query('SELECT * FROM `groepen` WHERE ', function (error, results, fields) {
-        if (error) throw error;
-        console.log('The solution is: ', results[0]);
-        socket.emit('selected_group',results[0]);
-        //connection.end();
->>>>>>> master
+        socket.emit('selected_group', results);
       });
-
     });
-
-
-  })
+  });
 }
 
 emitConnection(http_server);
