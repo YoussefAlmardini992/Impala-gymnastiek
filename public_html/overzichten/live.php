@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="../styles/liveOverzicht.css">
     <link rel="stylesheet" href="../styles/juryOverzicht.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 </head>
 <body>
 
@@ -66,35 +67,8 @@
 </div>
 
 <script>
-  const sql = require('mssql');
+    const socket = io.connect('http://localhost:3000');
 
-  const config = {
-    user: 'root',
-    password: '',
-    server: 'localhost',
-    database: 'rocle_db10',
-
-    options: {
-      encrypt: true
-    }
-  };
-
-  (async function () {
-    try {
-      let pool = await sql.connect(config)
-      let result1 = await pool.request()
-        .input('input_parameter', sql.Int, value)
-        .query('select * from deelnemers')
-
-      console.log(result1);
-    } catch (err) {
-
-    }
-  })();
-
-  sql.on('error', err => {
-
-  });
 
     function load(box_name,label) {
           $("#"+box_name).animate({width: "400px"},1000,function(){
@@ -112,9 +86,16 @@
 
     function onGroepSelect(select){
         let selectedOption = select.value;
-        <?php 
-            $query = "SELECT * FROM 'groepen' WHERE 'groep naam' = "?>selectedOption<?php
-        ?>
+        const res = socket.emit('select_group',selectedOption);
+        const selectedGroup = getSelectedGroup();
+        console.log(selectedGroup);
+    }
+
+    function getSelectedGroup() {
+      socket.on('selected_group',function (result) {
+        console.log(result);
+        return result;
+      })
     }
 
 </script>
