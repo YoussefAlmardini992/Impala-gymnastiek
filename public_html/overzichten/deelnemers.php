@@ -1,9 +1,4 @@
 <?php
-
-    //include("uti/connection.php");
-    include("../../../connection.php");
-
-
      $nieuweDeelnemer = "nieuweDeelnemer";
      $sqldeelnemers = "
         SELECT deelnemers.ID, deelnemers.voornaam, deelnemers.tussenvoegsel, deelnemers.achternaam, groepen.naam, deelnemers.geslacht
