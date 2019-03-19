@@ -66,6 +66,36 @@
 </div>
 
 <script>
+  const sql = require('mssql');
+
+  const config = {
+    user: 'root',
+    password: '',
+    server: 'localhost',
+    database: 'rocle_db10',
+
+    options: {
+      encrypt: true
+    }
+  };
+
+  (async function () {
+    try {
+      let pool = await sql.connect(config)
+      let result1 = await pool.request()
+        .input('input_parameter', sql.Int, value)
+        .query('select * from deelnemers')
+
+      console.log(result1);
+    } catch (err) {
+
+    }
+  })();
+
+  sql.on('error', err => {
+
+  });
+
     function load(box_name,label) {
           $("#"+box_name).animate({width: "400px"},1000,function(){
           $("#"+label).text("connected...");

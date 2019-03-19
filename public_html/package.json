@@ -5,8 +5,12 @@
   "main": "server.js",
   "dependencies": {
     "babel": "^6.23.0",
+    "express": "^4.16.4",
     "jquery": "^3.3.1",
-    "webpack": "^4.29.5"
+    "mssql": "^5.0.3",
+    "socket.io": "^2.2.0",
+    "webpack": "^4.29.5",
+    "winston": "^3.2.1"
   },
   "devDependencies": {},
   "scripts": {
