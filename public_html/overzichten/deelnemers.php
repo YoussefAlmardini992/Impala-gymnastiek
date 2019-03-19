@@ -1,5 +1,9 @@
 <?php
 
+    //include("uti/connection.php");
+    include("../../../connection.php");
+
+
      $nieuweDeelnemer = "nieuweDeelnemer";
      $sqldeelnemers = "
         SELECT deelnemers.ID, deelnemers.voornaam, deelnemers.tussenvoegsel, deelnemers.achternaam, groepen.naam, deelnemers.geslacht
@@ -18,7 +22,7 @@
 
             <table class='table'>
                 <tr>
-                    <th>" . "Voornaam" . "</th>
+                    <th>" . "Voornaams" . "</th>
                     <th>" . "Tussenvoegsel" . "</th>
                     <th>" . "Achternaam" . "</th>
                     <th>" . "Groep" . "</th>
@@ -50,5 +54,6 @@
              echo $regel;
          }
      };
+
 
 
