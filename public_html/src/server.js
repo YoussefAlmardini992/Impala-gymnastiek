@@ -34,6 +34,19 @@ function emitConnection(SERVER) {
   const io = socket.listen(SERVER);
 
   io.sockets.on('connection',function (socket) {
+<<<<<<< HEAD
+
+    //Socket Actions
+    //ON SELECT GROUP
+    socket.on('select_group',function (groupName) {
+
+      let GroupID;
+
+      connection.query('SELECT ID FROM groepen WHERE naam = "'+groupName+'"', function (error, results, fields) {
+        if (error) throw error;
+        GroupID = results[0];
+        socket.emit('selected_group',results[0])
+=======
     //Socket Orders
     //ON SELECT GROUP
     socket.on('select_group',function (groupName) {
@@ -45,8 +58,12 @@ function emitConnection(SERVER) {
         console.log('The solution is: ', results[0]);
         socket.emit('selected_group',results[0]);
         //connection.end();
+>>>>>>> master
       });
-    })
+
+    });
+
+
   })
 }
 

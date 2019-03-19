@@ -99,14 +99,14 @@ include("../../../connection.php")
 
     function onGroepSelect(select){
         let selectedOption = select.value;
-        const res = socket.emit('select_group',selectedOption);
+        socket.emit('select_group',selectedOption);
        
     }
-    // 
     socket.on('selected_group',function (result) {
         console.log(result);
         return result;  
     })
+
 
 </script>
 
