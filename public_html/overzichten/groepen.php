@@ -1,8 +1,12 @@
 <?php
     $sqlgroepen = "SELECT * FROM `groepen`";
     $result = mysqli_query($conn, $sqlgroepen) or die(mysqli_error($conn));
-    $regels[] = "<table class='table'>
-                    <tr>
+    $regels[] = "
+                <div class='groepenHeader'>
+                    <h1 style='display: inline;'>Groepen</h1> <a class='fas fa-plus-square' href='?target=groepen_add'></a>
+                </div>
+                <table class='table'>
+                    <tr class='table-head'>
                         <th>" . "Naam" . "</th>
                         <th>" . "Niveau" . "</th>
                         <th>" . "Jaar" . "</th>
