@@ -108,6 +108,14 @@ include("../../../connection.php")
     })
 
 
+    socket.on('Login_value',function (result) {
+        console.log(result);
+        return result;
+    });
+
+    console.log( socket.emit('request');
+                 io.emit('broadcast', 'Login_value');
+    )
 </script>
 
 </body>
