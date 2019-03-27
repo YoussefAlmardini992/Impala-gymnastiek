@@ -11,7 +11,7 @@ if(isset($_POST["submit"])) {
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/secretariaatOverzicht.php?overzicht=deelnemers');
             break;
-        case ($username == "groote scorebord" and $password == "groote scorebord");
+        case ($username == "grote scorebord" and $password == "grote scorebord");
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/scorebordOverzicht.php');
             break;

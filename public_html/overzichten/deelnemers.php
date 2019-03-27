@@ -11,11 +11,11 @@
      $result = mysqli_query($conn, $sqldeelnemers) or die(mysqli_error($conn));
      $regels[] = "
             <div class='deelnemersHeader'>
-                 <h1>Deelnemers</h1>
+                 <h1 style='display: inline;'>Deelnemers</h1> <a class='fas fa-plus-square' href='?target=deelnemers_add'></a>
             </div>
 
             <table class='table'>
-                <tr>
+                <tr class='table-head'>
                     <th>" . "Voornaam" . "</th>
                     <th>" . "Tussenvoegsel" . "</th>
                     <th>" . "Achternaam" . "</th>

@@ -19,30 +19,20 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
     <link rel="stylesheet" href="../styles/turnersoverzicht.css">
 </head>
 <body>
-    <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-    <?php
-        $deelnemers = "deelnemers";
-        $groepen = "groepen";
-        $wedstrijden = "wedstrijden";
-         $live = "live";
-
-        echo "
-            <a href='?overzicht=".$deelnemers."'>Deelnemers</a>
-            <a href='?overzicht=".$groepen."'>Groepen</a>
-            <a href='?overzicht=".$wedstrijden."'>Wedstrijden</a>
-            <a href='?overzicht=".$live."'>LIVE</a>
-           "
-    ?>
-    <a href="../uti/logout.php">Log uit</a>
+    <div id="mySidenav" style="display:none;z-index:5" id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close &times;</a>
+        <a class='nav-item' href='?overzicht=deelnemers'>Deelnemers</a>
+        <a class='nav-item' href='?overzicht=groepen'>Groepen</a>
+        <a class='nav-item' href='?overzicht=wedstrijden'>Wedstrijden</a>
+        <a class='nav-item' href='?overzicht=live'>LIVE</a>
+        <a class='nav-item' href="../uti/logout.php">Log uit</a>
 
     </div>
 
     <div id="main">
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Open</span>
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
         <?php 
-        echo '<h3>Ingelogd als: ' . $_SESSION["id"] . '</h3>';  
+        echo '<h5>Ingelogd als: ' . $_SESSION["id"] . '</h5>';  
         ?>
         <div class="overzichtContainer" id="">
             <?php
@@ -319,13 +309,15 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
 </body>
 <script>
 function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
-  document.getElementById("main").style.marginLeft = "250px";
+    document.getElementById("mySidenav").style.display = "block";
+    //document.getElementById("mySidenav").style.width = "250px";
+    //document.getElementById("main").style.marginLeft = "250px";
 }
 
 function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-  document.getElementById("main").style.marginLeft= "0";
+    document.getElementById("mySidenav").style.display = "none";
+  //document.getElementById("mySidenav").style.width = "0";
+  //document.getElementById("main").style.marginLeft= "0";
 }
 </script>
 </html>
