@@ -297,13 +297,19 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_delete") {
                 $sqldelete = "DELETE FROM `deelnemers` WHERE ID = " . $_GET["id"];
                 if(mysqli_query($conn, $sqldelete)) {
-                    header("Location: ?overzicht=" . $deelnemers);
+                    header("Location: overzicht.php");
                 }
+            }
+
+            if(isset($_GET["target"]) &&  $_GET["target"] == "start"){
+                $start = "start";
+                header("Location: ?overzicht=". $start);
             }
 
             ?>
         </div>
     </div>
+    <div class="startWedstrijdBody"></div>
     <script src="src/index.js" type="module"></script>
 </body>
 <script>
@@ -318,5 +324,13 @@ function closeNav() {
   //document.getElementById("mySidenav").style.width = "0";
   //document.getElementById("main").style.marginLeft= "0";
 }
+
+// function onStart(){
+//     // load("box_secretariaat","secretariaat");
+//     $(".live_container").css("display" , "none");
+//     $(".startWedstrijdBody").load("CurrentTurnerOverzicht.php");
+//     $(".score-logout").css("display" , "none");
+// }
+
 </script>
 </html>
