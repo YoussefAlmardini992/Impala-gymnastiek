@@ -36,7 +36,8 @@ include("../../../connection.php")
                 </select>
             </div>
             <div class="inputItem_Submit start">
-                <input type="submit" name="submit" onclick="onStart()" value="start">
+
+                <a href='?overzicht=start'  onclick="" >start</a>
             </div>
             <div class="inputItem_Submit refresh">
                 <input type="submit" name="submit" onclick="refresh()" value="vernieuwen">
@@ -91,9 +92,7 @@ include("../../../connection.php")
         });
     }
 
-    function onStart(){
-      load("box_secretariaat","secretariaat");
-    }
+
     
     function refresh(){
       load("box_secretariaat","secretariaat");
