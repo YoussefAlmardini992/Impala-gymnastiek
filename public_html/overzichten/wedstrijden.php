@@ -4,7 +4,7 @@ FROM `wedstrijden` INNER JOIN `groepen` ON wedstrijden.groep_ID=groepen.ID";
 
 $result = mysqli_query($conn, $sqlwedstrijden) or die(mysqli_error($conn));
 $regels[] = "<table class='table'>
-                <tr>
+                <tr class='table-head'>
                     <th>" . "wedstrijddatum" . "</th>
                     <th>" . "totaalScore" . "</th>
                     <th>" . "groepNaam" . "</th>
