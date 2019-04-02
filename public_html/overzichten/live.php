@@ -44,39 +44,8 @@ include("../../../connection.php")
         </div>
     </div>
 
-    <div class="live_status">
+    <div class="live_status" id="live_status">
         <h2>live status</h2>
-        <div class="status_container">
-            <div class="option status_target side">
-                secretariaat
-            </div>
-
-            <div class="option status_loading">
-                <div class="progress">
-                    <div id="box_secretariaat" class="box"></div>
-                </div>
-            </div>
-
-            <div class="option status_loading side">
-                <div id="secretariaat">not connected</div>
-            </div>
-        </div>
-
-        <div class="status_container">
-            <div class="option status_target side">
-                scoreboard
-            </div>
-
-            <div class="option status_loading">
-                <div class="progress">
-                    <div id="box" class="box"></div>
-                </div>
-            </div>
-
-            <div class="option status_loading side">
-                <div id="connect_label">not connected</div>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -135,6 +104,7 @@ include("../../../connection.php")
         if(item.user === res.user){
           users.remove(item);
           founded = true;
+          removeStatusElement(item);
         }
 
       });
@@ -146,10 +116,60 @@ include("../../../connection.php")
       firsTime = false;
     }
 
+      createConnectionStatus();
       console.log(users);
     });
 
+    function removeStatusElement(item) {
+      document.getElementById('live_status').removeChild(document.getElementById(item.user + item.user + item.user));
+    }
 
+    function createConnectionStatus() {
+
+      const status =  document.getElementById('live_status');
+
+      while (status.firstChild) {
+
+          status.removeChild(status.firstChild);
+
+      }
+
+      users.forEach(function (item) {
+        const statusContainer = document.createElement('div');
+        statusContainer.id = item.user + item.user + item.user;
+        const status_target = document.createElement('div');
+        status_target.innerText = item.user;
+        statusContainer.classList.add("status_container");
+        status_target.classList.add("status_container");
+        status_target.classList.add("side");
+        status_target.classList.add("option");
+        statusContainer.appendChild(status_target);
+        const status_loading = document.createElement('div');
+        status_loading.classList.add("option");
+        status_loading.classList.add("status_loading");
+        const progress = document.createElement('div');
+        progress.classList.add('progress');
+        const box = document.createElement('div');
+        box.classList.add('box');
+        progress.appendChild(box);
+        status_loading.appendChild(progress);
+        statusContainer.appendChild(status_loading);
+        const status_loading2 = document.createElement('div');
+        const connect_label = document.createElement('div');
+        status_loading2.classList.add('option');
+        status_loading2.classList.add('status_loading');
+        status_loading2.classList.add('side');
+        status_loading2.appendChild(connect_label);
+        statusContainer.appendChild(status_loading2);
+        box.id = item.user;
+        let Label_ID = item.user + item.user;
+        connect_label.innerText = item.user;
+        connect_label.id = Label_ID;
+
+        document.getElementById('live_status').appendChild(statusContainer);
+        load(item.user,Label_ID);
+      })
+    }
 
 
 
