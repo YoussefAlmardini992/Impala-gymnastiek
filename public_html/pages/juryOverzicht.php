@@ -10,7 +10,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
 <html>
 <head>
     <title>
-        Impala - Huidige turner scherm
+        Impala - Jury <?php echo($loginID)?>
     </title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="../styles/overzichtStyles.css">
@@ -26,7 +26,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
             <h1>t_nummer</h1>
         </div>
         <div class="item">
-            <h1>Sprong</h1>
+            <h1><?php echo($loginID)?></h1>
         </div>
         <div class="item" style="text-align: right">
             <h1>00:00</h1>
@@ -68,11 +68,17 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
 
     let value = {user:"<?php echo $loginID; ?>",status:'connected'};
 
-    const socket = io.connect('http://145.120.207.219:3000');
+    //const socket = io.connect('http://145.120.207.219:3000');
+    const socket = io.connect('http://localhost:3000');
 
 
 
     socket.emit('Login_value',value);
+
+    // Als de gebruiker het tabblad sluit, inplaats van uitlogd
+    window.onbeforeunload = function() {
+        ClearLoginValue();
+    }
 
     function ClearLoginValue() {
         value.status = "disconnected";
