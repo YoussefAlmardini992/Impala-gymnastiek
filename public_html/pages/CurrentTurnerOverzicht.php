@@ -57,8 +57,8 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "turner"){
 </div>
     <script>
         let value = {user:"<?php echo $loginID; ?>",status:'connected'};
-        //const socket = io.connect('http://145.120.207.219:3000');
-        const socket = io.connect('http://localhost:3000');
+        const socket = io.connect('http://145.120.207.219:3000');
+        //const socket = io.connect('http://localhost:3000');
 
         socket.emit('Login_value',value);
 

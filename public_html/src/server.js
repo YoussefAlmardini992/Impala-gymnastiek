@@ -7,9 +7,9 @@ const socket = require('socket.io'),
 
 let connection = mysql.createConnection({
   host: 'localhost',
-  user: 'admin',
-  password: 'admin',
-  database: 'rocole_db10'
+  user: 'root',
+  password: '',
+  database: 'rocle_db10'
 });
 
 connection.connect(function(err) {
@@ -30,7 +30,6 @@ logger.info('Socket connected...');
 function emitConnection(SERVER) {
 
   const io = socket.listen(SERVER);
-  const users = [];
 
   io.sockets.on('connection', function (socket) {
 
@@ -44,7 +43,7 @@ function emitConnection(SERVER) {
       });
     });
     
-    //ON SELECT JURY
+    //ON SELECT USER
     socket.on('Login_value', function (value) {
       socket.broadcast.emit('get_user',value);
 
