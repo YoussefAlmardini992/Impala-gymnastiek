@@ -8,6 +8,7 @@ include("../../../connection.php")
     <link rel="stylesheet" href="../styles/juryOverzicht.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+    <script src="../src/classes/groep.js"></script>
 </head>
 <body>
 
@@ -22,7 +23,7 @@ include("../../../connection.php")
                     <!-- SQL query die alle groepen ophaalt en in OPTIONs zet -->
                     <?php
                     $groepenNaam = [];
-                    $sql = "SELECT naam, ID FROM `groepen` ";
+                    $sql = "SELECT naam, ID  FROM `groepen`";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
@@ -37,7 +38,7 @@ include("../../../connection.php")
             </div>
             <div class="inputItem_Submit start">
 
-                <a href='?overzicht=start'  onclick="" >start</a>
+                <a href='?overzicht=start'  onclick="startMatch()" >start</a>
             </div>
             <div class="inputItem_Submit refresh">
                 <input type="submit" name="submit" onclick="refresh()" value="vernieuwen">
@@ -51,10 +52,12 @@ include("../../../connection.php")
 </div>
 
 <script>
+
     const socket = io.connect('http://145.120.207.219:3000');
     //const socket = io.connect('http://localhost:3000');
 
     const users = [];
+    let groupName;
 
     function load(box_name,label) {
           $("#"+box_name).animate({width: "400px"},1000,function(){
@@ -62,23 +65,24 @@ include("../../../connection.php")
         });
     }
 
-
-    
     function refresh(){
       load("box_secretariaat","secretariaat");
     }
 
     function onGroepSelect(select){
         let selectedOption = select.value;
+        groupName = select[selectedOption].innerText;
         socket.emit('select_group',selectedOption);
     }
 
+    function startMatch(){
+        console.log(group);
+    }
+
     socket.on('selected_group',function (result) {
-        console.log(result);
-        return result;
+        const groep = new Groep(groupName,result[0].niveau,result);
+        console.log(groep);
     });
-
-
 
     Array.prototype.remove = function() {
       let what, a = arguments, L = a.length, ax;
@@ -169,22 +173,9 @@ include("../../../connection.php")
         load(item.user,Label_ID);
       })
     }
-
-
-
-
-
-
-
-    socket.on('Login_value',function (result) {
-        console.log(result);
-        return result;
-    });
-
-    console.log( socket.emit('request');
-                 io.emit('broadcast', 'Login_value');
-    )
 </script>
+
+
 
 </body>
 </html>

@@ -37,10 +37,12 @@ function emitConnection(SERVER) {
     //ON SELECT GROUP
     socket.on('select_group', function (Group_ID) {
 
-      connection.query('SELECT * FROM deelnemers WHERE groep_ID = "' + Group_ID + '"', function (error, results, fields) {
+
+      connection.query('SELECT * FROM deelnemers INNER JOIN  groepen ON deelnemers.groep_ID = groepen.ID WHERE groep_ID="' + Group_ID + '"', function (error, results, fields) {
         if (error) throw error;
         socket.emit('selected_group', results);
       });
+
     });
     
     //ON SELECT USER

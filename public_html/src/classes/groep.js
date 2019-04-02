@@ -1,4 +1,4 @@
-export default class Groep{
+class Groep{
 
   constructor(groep_naam, niveau,turners) {
 
