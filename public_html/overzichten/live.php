@@ -81,7 +81,7 @@ include("../../../connection.php")
 </div>
 
 <script>
-    const socket = io.connect('http://localhost:3000');
+    const socket = io.connect('http://145.120.207.219:3000');
 
     const users = [];
 
@@ -109,31 +109,40 @@ include("../../../connection.php")
         return result;
     });
 
-    let firsTime = true;
 
+
+    Array.prototype.remove = function() {
+      let what, a = arguments, L = a.length, ax;
+      while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+          this.splice(ax, 1);
+        }
+      }
+      return this;
+    };
+
+
+    let firsTime = true;
     socket.on('get_jury',function (res) {
 
-    console.log(res);
-
     if(!firsTime){
+
+      let founded = false;
+
       users.forEach(function (item) {
 
-        let objectFinded = false;
-
-        console.log(item);
-
-        if(item.user == res.user && res.status == 'disconnected'){
-          users.filter(function (user) {
-            return user !== item;
-          });
-          objectFinded = true;
+        if(item.user === res.user){
+          users.remove(item);
+          founded = true;
         }
-        if(objectFinded){
-            users.push(res)
-        }
+
       });
+
+      !founded && users.push(res);
+
     }else{
-      users.push(res);
+      res.status === 'connected' && users.push(res);
       firsTime = false;
     }
 
