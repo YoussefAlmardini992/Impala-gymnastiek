@@ -1,7 +1,7 @@
 <?php
-
+//include("../uti/connection.php");
+include("../../../connection.php")
 ?>
-
 <html>
 <head>
     <title>
@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 </head>
 <body>
+
 <div id="main">
     <div class="header">
 
@@ -49,9 +50,19 @@
         </div>
     </div>
 </div>
-</body>
 <script>
+  //const socket = io.connect('http://145.120.207.219:3000');
+  const socket = io.connect('http://localhost:3000');
+
+  //>>>>?????????????#$%@#^!#%!$#^%$#&%$#FUCK FUCK FUCK FUCK
+  socket.on('get_group',function (result) {
+    console.log(result);
+  });
 
 </script>
+
+</body>
+
+
 </html>
 

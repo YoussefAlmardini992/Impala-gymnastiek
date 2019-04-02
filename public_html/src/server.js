@@ -48,7 +48,12 @@ function emitConnection(SERVER) {
     //ON SELECT USER
     socket.on('Login_value', function (value) {
       socket.broadcast.emit('get_user',value);
+    });
 
+    //ON START MATCH
+    socket.on('start_match',function (group) {
+      console.log(group);
+      socket.emit('get_group',group);
     });
   });
 }

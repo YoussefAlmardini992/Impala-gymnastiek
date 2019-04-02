@@ -38,7 +38,7 @@ include("../../../connection.php")
             </div>
             <div class="inputItem_Submit start">
 
-                <a href='?overzicht=start'  onclick="startMatch()" >start</a>
+                <a onclick="startMatch()">start</a>
             </div>
             <div class="inputItem_Submit refresh">
                 <input type="submit" name="submit" onclick="refresh()" value="vernieuwen">
@@ -53,11 +53,12 @@ include("../../../connection.php")
 
 <script>
 
-    const socket = io.connect('http://145.120.207.219:3000');
-    //const socket = io.connect('http://localhost:3000');
+    //const socket = io.connect('http://145.120.207.219:3000');
+    const socket = io.connect('http://localhost:3000');
 
     const users = [];
     let groupName;
+    let TheChosenGroup;
 
     function load(box_name,label) {
           $("#"+box_name).animate({width: "400px"},1000,function(){
@@ -75,13 +76,15 @@ include("../../../connection.php")
         socket.emit('select_group',selectedOption);
     }
 
-    function startMatch(){
-        console.log(group);
+     function startMatch(){
+        socket.emit('start_match',TheChosenGroup);
+        //window.location.href = '?overzicht=start';
     }
 
     socket.on('selected_group',function (result) {
         const groep = new Groep(groupName,result[0].niveau,result);
         console.log(groep);
+        TheChosenGroup = groep;
     });
 
     Array.prototype.remove = function() {
