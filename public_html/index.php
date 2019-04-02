@@ -11,11 +11,11 @@ if(isset($_POST["submit"])) {
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/secretariaatOverzicht.php?overzicht=deelnemers');
             break;
-        case ($username == "grote scorebord" and $password == "grote scorebord");
+        case ($username == "scorebord" and $password == "scorebord");
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/scorebordOverzicht.php');
             break;
-        case ($username == "kleine scorebord" and $password == "kleine scorebord");
+        case ($username == "turnerbord" and $password == "turnerbord");
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/CurrentTurnerOverzicht.php');
             break;

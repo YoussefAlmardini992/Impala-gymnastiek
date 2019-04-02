@@ -30,6 +30,7 @@ logger.info('Socket connected...');
 function emitConnection(SERVER) {
 
   const io = socket.listen(SERVER);
+  const users = [];
 
   io.sockets.on('connection', function (socket) {
 
@@ -45,11 +46,9 @@ function emitConnection(SERVER) {
     
     //ON SELECT JURY
     socket.on('Login_value', function (value) {
-      socket.emit('get_jury',value);
+      socket.broadcast.emit('get_jury',value);
 
-      console.log(value);
     });
-
   });
 }
 

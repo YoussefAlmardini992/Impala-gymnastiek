@@ -65,17 +65,19 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
         input.value = 10;
       }
     }
-    let value = "<?php echo $loginID; ?>";
+
+    let value = {user:"<?php echo $loginID; ?>",status:'connected'};
+
     const socket = io.connect('http://localhost:3000');
+
+
+
     socket.emit('Login_value',value);
 
     function ClearLoginValue() {
-        x = null;
+        value.status = "disconnected";
         socket.emit('Login_value',value);
     }
-    socket.on('get_jury',function (res) {
-        console.log(res);
-    })
 
 </script>
 </html>
