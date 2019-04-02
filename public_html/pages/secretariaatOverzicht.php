@@ -16,7 +16,6 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="../styles/overzichtStyles.css">
-    <link rel="stylesheet" href="../styles/turnersoverzicht.css">
 </head>
 <body>
     <div id="mySidenav" style="display:none;z-index:5" id="mySidenav" class="sidenav">

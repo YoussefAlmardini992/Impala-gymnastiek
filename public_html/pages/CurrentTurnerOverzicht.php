@@ -56,11 +56,19 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "turner"){
     </div>
 </div>
     <script>
-        let value = "<?php echo $loginID; ?>";
+        let value = {user:"<?php echo $loginID; ?>",status:'connected'};
+        //const socket = io.connect('http://145.120.207.219:3000');
         const socket = io.connect('http://localhost:3000');
+
         socket.emit('Login_value',value);
+
+        // Als de gebruiker het tabblad sluit, inplaats van uitlogd
+        window.onbeforeunload = function() {
+            ClearLoginValue();
+        }
+
         function ClearLoginValue() {
-            value = null;
+            value.status = "disconnected";
             socket.emit('Login_value',value);
         }
     </script>
