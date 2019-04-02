@@ -83,6 +83,8 @@ include("../../../connection.php")
 <script>
     const socket = io.connect('http://localhost:3000');
 
+    const users = [];
+
     function load(box_name,label) {
           $("#"+box_name).animate({width: "400px"},1000,function(){
           $("#"+label).text("connected...");
@@ -105,7 +107,45 @@ include("../../../connection.php")
     socket.on('selected_group',function (result) {
         console.log(result);
         return result;
-    })
+    });
+
+    let firsTime = true;
+
+    socket.on('get_jury',function (res) {
+
+    console.log(res);
+
+    if(!firsTime){
+      users.forEach(function (item) {
+
+        let objectFinded = false;
+
+        console.log(item);
+
+        if(item.user == res.user && res.status == 'disconnected'){
+          users.filter(function (user) {
+            return user !== item;
+          });
+          objectFinded = true;
+        }
+        if(objectFinded){
+            users.push(res)
+        }
+      });
+    }else{
+      users.push(res);
+      firsTime = false;
+    }
+
+      console.log(users);
+    });
+
+
+
+
+
+
+
 
 
 </script>
