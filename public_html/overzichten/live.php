@@ -51,6 +51,7 @@ include("../../../connection.php")
 
 <script>
     const socket = io.connect('http://145.120.207.219:3000');
+    //const socket = io.connect('http://localhost:3000');
 
     const users = [];
 
@@ -93,7 +94,8 @@ include("../../../connection.php")
 
 
     let firsTime = true;
-    socket.on('get_jury',function (res) {
+
+    socket.on('get_user',function (res) {
 
     if(!firsTime){
 
@@ -129,9 +131,7 @@ include("../../../connection.php")
       const status =  document.getElementById('live_status');
 
       while (status.firstChild) {
-
           status.removeChild(status.firstChild);
-
       }
 
       users.forEach(function (item) {
