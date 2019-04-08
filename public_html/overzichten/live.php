@@ -14,170 +14,332 @@ include("../../../connection.php")
 
 <div class="live_container">
     <div class="live_header">
-        <p>Wedstrijd beginnen? u kunt een greop kiesn daarnaa op start clicken.</p>
-        <div class="groep_select_box">
-            <div class="header_item heading">Groep</div>
-            <div class="header_item selector">
-                <select onchange="onGroepSelect(this)">
-                    <option selected="default"></option>
-                    <!-- SQL query die alle groepen ophaalt en in OPTIONs zet -->
-                    <?php
-                    $groepenNaam = [];
-                    $sql = "SELECT naam, ID  FROM `groepen`";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            array_push($groepenNaam, $row);
-                        }
-                    }
-                    foreach($groepenNaam as $valuekey) {
-                        echo "<option value=".$valuekey['ID'].">".$valuekey['naam']."</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <div class="inputItem_Submit start">
+        <div class="header_left">
+            <p>Wedstrijd beginnen? u kunt een greop kiesn daarnaa op start clicken.</p>
+            <div class="groep_select_box">
 
-                <a onclick="startMatch()">start</a>
+                <div class="selectLine">
+                    <div class="header_item heading">Groep</div>
+                    <div class="header_item selector">
+                        <select onchange="onGroepSelect(this)" id="GroupSelect">
+                            <option selected="default"></option>
+                            <!-- SQL query die alle groepen ophaalt en in OPTIONs zet -->
+                            <?php
+                            $groepen = [];
+                            $sql_TodayGroups = "SELECT wedstrijden.groep_ID,groepen.naam,groepen.niveau  FROM `wedstrijden`
+                            JOIN `groepen` on wedstrijden.groep_ID = groepen.groep_ID
+                            WHERE wedstrijden.wedstrijddatum=CURDATE()";
+
+                            $result = $conn->query($sql_TodayGroups);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($groepen, $row);
+                                }
+                            }
+
+                            foreach ($groepen as $groep) {
+
+                                echo "<option value=" . $groep['groep_ID'] . ">" . $groep['naam'] . ' niveau : ' . $groep['niveau'] . "</option>";
+                            }
+
+                            ?>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="selectLine">
+                    <div class="header_item heading">Deelnemer</div>
+                    <div class="header_item selector">
+                        <select id='deelnemers'>
+                            <option selected="default"></option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="selectLine refresh">
+                    <div class="inputItem_Submit refresh">
+                        <input type="submit" id="start" onclick="alert()" value="STARTEN">
+                    </div>
+                </div>
+
             </div>
-            <div class="inputItem_Submit refresh">
-                <input type="submit" name="submit" onclick="refresh()" value="vernieuwen">
+        </div>
+
+        <div class="header_right">
+
+            <div class="statusTitle">
+                Status
             </div>
+
+            <div class="statusBody" id="statusBody">
+
+            </div>
+
         </div>
     </div>
 
     <div class="live_status" id="live_status">
-        <h2>live status</h2>
+        <div class="titles_Line">
+            <h2 style="width: 70%; font-size: 24px">Current turner</h2>
+            <h2 style="width: 30%; font-size: 24px">Scores</h2>
+        </div>
+        <div class="deelnemer_Info">
+
+            <div class="right_deelnamerInfo">
+
+                <div class="DN_InfoLine">
+                    <div class="DN_InfoLabel">turner naam</div>
+                    <div class="DN_InfoData" id="DnName">leeg</div>
+                </div>
+
+
+                <div class="DN_InfoLine">
+                    <div class="DN_InfoLabel">groep</div>
+                    <div class="DN_InfoData" id="DnGroep">leeg</div>
+                </div>
+
+
+                <div class="DN_InfoLine">
+                    <div class="DN_InfoLabel">niveau</div>
+                    <div class="DN_InfoData" id="DnNiveau">leeg</div>
+                </div>
+
+                <div class="DN_InfoLine">
+                    <div class="DN_InfoLabel"></div>
+                    <div class="DN_InfoData"></div>
+                </div>
+
+                <div class="DN_InfoLine">
+                    <div class="DN_InfoLabel">bijgewerkt door:</div>
+                    <div class="DN_InfoData" id="JuryNaam">leeg</div>
+                </div>
+
+                <div class="inputItem_Submit refresh">
+                    <input type="submit" id="start" onclick="OnScoreAgreement()" value="BEVESTIGING">
+                </div>
+
+
+            </div>
+
+            <div class="left_deelnamerInfo">
+                <div class="Scores">
+                    <div class="scoreLine">
+                        <div class="D_score">D:</div>
+                        <p class="number" id="D_Score">0</p>
+                    </div>
+                    <hr>
+
+                    <div class="scoreLine">
+                        <div class="E_score">E:</div>
+                        <p class="number" id="E_Score">0</p>
+                    </div>
+                    <hr>
+
+                    <div class="scoreLine">
+                        <div class="N_score">N:</div>
+                        <p class="number" id="N_Score">0</p>
+                    </div>
+                    <hr>
+
+                    <div class="scoreLine" style="margin-top: 65px">
+                        <div class="N_score" style="font-size: 30px; color: #0f2a4e">Totaal:</div>
+                        <p class="number" id="Total_Score">0</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
 <script>
 
-    //const socket = io.connect('http://145.120.207.219:3000');
-    const socket = io.connect('http://localhost:3000');
+  //Connect to SERVER.js**********************************************
+  //const socket = io.connect('http://145.120.207.219:3000');
+  const socket = io.connect('http://localhost:3000');
 
-    const users = [];
-    let groupName;
-    let TheChosenGroup;
+  //Set up variables************************************************************
+  const users = [];
+  let groupName;
+  let TheChosenGroup;
+  let current_deelnemer;
 
-    function load(box_name,label) {
-          $("#"+box_name).animate({width: "400px"},1000,function(){
-          $("#"+label).text("connected...");
-        });
-    }
+  //On select group from dropDown menu*****************************************
+  function onGroepSelect(select) {
+    //emit to server
+    socket.emit('select_group', select.value);
+  }
 
-    function refresh(){
-      load("box_secretariaat","secretariaat");
-    }
+  //Request selected group from the server**********************************************
+  socket.on('selected_group', function (result) {
 
-    function onGroepSelect(select){
-        let selectedOption = select.value;
-        groupName = select[selectedOption].innerText;
-        socket.emit('select_group',selectedOption);
-    }
+    const groep = new Groep(groupName, result[0].niveau, result);
+    TheChosenGroup = groep;
+    console.log(TheChosenGroup);
 
-     function startMatch(){
-        socket.emit('start_match',TheChosenGroup);
-        //window.location.href = '?overzicht=start';
-    }
-
-    socket.on('selected_group',function (result) {
-        const groep = new Groep(groupName,result[0].niveau,result);
-        console.log(groep);
-        TheChosenGroup = groep;
+    //fetch deelnemers in select control
+    const deelnemersSelect = document.getElementById('deelnemers');
+    ClearList(deelnemersSelect);
+    deelnemersSelect.options.add(new Option(' ', 'default'));
+    TheChosenGroup.turners.forEach(function (deelnemer) {
+      deelnemersSelect.options[deelnemersSelect.options.length] = new Option(deelnemer.voornaam, deelnemer.deelnemer_ID);
     });
 
-    Array.prototype.remove = function() {
-      let what, a = arguments, L = a.length, ax;
-      while (L && this.length) {
-        what = a[--L];
-        while ((ax = this.indexOf(what)) !== -1) {
-          this.splice(ax, 1);
+    //Request deelnemer from the chosen group
+    deelnemersSelect.addEventListener('change', function () {
+      groep.turners.forEach(function (deelnemer) {
+        if (deelnemer.deelnemer_ID == deelnemersSelect.value) {
+          UpdateTurnerInfo(deelnemer);
+
+          socket.emit('set_current_deelnemer', deelnemer);
+          current_deelnemer = deelnemer;
+          const start = document.getElementById('start');
+          start.disabled = false;
+          CheckConrolsActivity(start);
+          console.log(deelnemer);
         }
-      }
-      return this;
-    };
-
-
-    let firsTime = true;
-
-    socket.on('get_user',function (res) {
-
-    if(!firsTime){
-
-      let founded = false;
-
-      users.forEach(function (item) {
-
-        if(item.user === res.user){
-          users.remove(item);
-          founded = true;
-          removeStatusElement(item);
-        }
-
-      });
-
-      !founded && users.push(res);
-
-    }else{
-      res.status === 'connected' && users.push(res);
-      firsTime = false;
-    }
-
-      createConnectionStatus();
-      console.log(users);
-    });
-
-    function removeStatusElement(item) {
-      document.getElementById('live_status').removeChild(document.getElementById(item.user + item.user + item.user));
-    }
-
-    function createConnectionStatus() {
-
-      const status =  document.getElementById('live_status');
-
-      while (status.firstChild) {
-          status.removeChild(status.firstChild);
-      }
-
-      users.forEach(function (item) {
-        const statusContainer = document.createElement('div');
-        statusContainer.id = item.user + item.user + item.user;
-        const status_target = document.createElement('div');
-        status_target.innerText = item.user;
-        statusContainer.classList.add("status_container");
-        status_target.classList.add("status_container");
-        status_target.classList.add("side");
-        status_target.classList.add("option");
-        statusContainer.appendChild(status_target);
-        const status_loading = document.createElement('div');
-        status_loading.classList.add("option");
-        status_loading.classList.add("status_loading");
-        const progress = document.createElement('div');
-        progress.classList.add('progress');
-        const box = document.createElement('div');
-        box.classList.add('box');
-        progress.appendChild(box);
-        status_loading.appendChild(progress);
-        statusContainer.appendChild(status_loading);
-        const status_loading2 = document.createElement('div');
-        const connect_label = document.createElement('div');
-        status_loading2.classList.add('option');
-        status_loading2.classList.add('status_loading');
-        status_loading2.classList.add('side');
-        status_loading2.appendChild(connect_label);
-        statusContainer.appendChild(status_loading2);
-        box.id = item.user;
-        let Label_ID = item.user + item.user;
-        connect_label.innerText = item.user;
-        connect_label.id = Label_ID;
-
-        document.getElementById('live_status').appendChild(statusContainer);
-        load(item.user,Label_ID);
       })
-    }
-</script>
+    })
 
+  });
+
+  //On reload or close confirm*************************************************
+  window.onbeforeunload = function () {
+    return "afsluiten beindegt uw wedstrijd! weet u zeker dat u deze pagina wil verlaten?";
+    //TODO fix this message
+  };
+
+  //Update page layout with deelnemer information
+  function UpdateTurnerInfo(DN) {
+    const DN_name = document.getElementById('DnName');
+    const DN_groep = document.getElementById('DnGroep');
+    const DN_niveau = document.getElementById('DnNiveau');
+
+    DN_name.innerText = DN.voornaam + " " + DN.tussenvoegsel + " " + DN.achternaam;
+    DN_groep.innerText = DN.naam;
+    DN_niveau.innerText = DN.niveau;
+  }
+
+  //Clear select when index is changed********************************************************
+  function ClearList(select) {
+    let length = select.options.length;
+    for (let i = 0; i < length; i++) {
+      select.options[i] = null;
+    }
+  }
+
+  //UTI*****************************************************************************************
+  function CheckUsersExist(user, userExist) {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].name === user.name) {
+        let index = users.indexOf(users[i]);
+        if (index > -1) {
+          users.splice(index, 1);
+          userExist = true;
+        }
+      }
+    }
+  }
+
+  function CheckUsersConnection() {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].status === 'disconnected') {
+        let index = users.indexOf(users[i]);
+        if (index > -1) {
+          users.splice(index, 1);
+        }
+      }
+    }
+  }
+
+  //On user log in ****************************************************************************************
+  socket.on('get_user', function (user) {
+
+    let userExist = false;
+    CheckUsersExist(user, userExist);
+    !userExist && users.push(user);
+    CheckUsersConnection();
+
+    console.log(users);
+
+    const statusBody = document.getElementById("statusBody");
+    while (statusBody.firstChild) {
+      statusBody.removeChild(statusBody.firstChild);
+    }
+
+    users.forEach(function (user) {
+      CreateStatus(user);
+    })
+  });
+
+  socket.on('get_deelnemer_score', function (scores) {
+    console.log(scores);
+    current_deelnemer.scores = scores;
+    updateScores(current_deelnemer);
+  });
+
+  function updateScores(deelnemer) {
+    const DN_D = document.getElementById('D_Score');
+    const DN_N = document.getElementById('N_Score');
+    const DN_E = document.getElementById('E_Score');
+    const DN_Total = document.getElementById('Total_Score');
+    const beeordeler = document.getElementById('JuryNaam');
+
+
+    DN_Total.innerText = deelnemer.scores.Total;
+    DN_D.innerText = deelnemer.scores.D;
+    DN_E.innerText = deelnemer.scores.E;
+    DN_N.innerText = deelnemer.scores.N;
+    beeordeler.innerText = deelnemer.scores.Jury;
+  }
+
+  //On secretariaat agreed the sent score
+  function OnScoreAgreement() {
+    socket.emit('setDoneTurner', current_deelnemer);
+  }
+
+
+  function CheckConrolsActivity(control) {
+    if (control.disabled) {
+      control.style.background = "#088";
+      control.style.color = "grey";
+    } else {
+      control.style.background = "#0f2a4e";
+      control.style.color = "white";
+    }
+  }
+
+  document.body.onload = function () {
+    const GroepSelect = document.getElementById('GroupSelect');
+    document.getElementById('deelnemers').style.width = GroepSelect.offsetWidth;
+    const start = document.getElementById('start');
+    start.disabled = true;
+    CheckConrolsActivity(start);
+  };
+
+  function CreateStatus(user) {
+
+    const statusBody = document.getElementById("statusBody");
+    const StatusItem = document.createElement('div');
+    StatusItem.classList.add('statusItem');
+    const UserName = document.createElement('div');
+    UserName.classList.add('userName');
+    const statusSituation = document.createElement('div');
+    UserName.innerText = user.name;
+    statusSituation.classList.add('statusSituation');
+    statusSituation.innerText = user.status + "...";
+
+    StatusItem.appendChild(UserName);
+    StatusItem.appendChild(statusSituation);
+    statusBody.appendChild(StatusItem);
+  }
+
+</script>
 
 
 </body>

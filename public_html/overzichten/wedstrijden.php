@@ -1,12 +1,11 @@
 <?php
-$sqlwedstrijden = "SELECT wedstrijden.ID, wedstrijden.wedstrijddatum, wedstrijden.totaalScore, groepen.naam 
-FROM `wedstrijden` INNER JOIN `groepen` ON wedstrijden.groep_ID=groepen.ID";
+$sqlwedstrijden = "SELECT wedstrijden.wedstrijd_ID, wedstrijden.wedstrijddatum, groepen.naam 
+FROM `wedstrijden` INNER JOIN `groepen` ON wedstrijden.groep_ID=groepen.groep_ID";
 
 $result = mysqli_query($conn, $sqlwedstrijden) or die(mysqli_error($conn));
 $regels[] = "<table class='table'>
                 <tr class='table-head'>
                     <th>" . "wedstrijddatum" . "</th>
-                    <th>" . "totaalScore" . "</th>
                     <th>" . "groepNaam" . "</th>
                     <th style='width: 30px;'>" . "Aanpassen" . "</th>
                     <th style='width: 30px;'>" . "Verwijderen" . "</th>
@@ -16,10 +15,9 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $regels[] = "<tr>
                         <td>" . $row["wedstrijddatum"] . "</td>
-                        <td>" . $row["totaalScore"] . "</td>
                         <td>" . $row["naam"] . "</td>
-                        <td>" . "<a class='fas fa-edit' href='?target=groepen_change&id={$row["ID"]}'></a>" . "</td>
-                        <td>" . "<a class='fas fa-trash-alt' href='?target=groepen_delete&id={$row["ID"]}'></a>" . "</td>
+                        <td>" . "<a class='fas fa-edit' href='?target=groepen_change&id={$row["wedstrijd_ID"]}'></a>" . "</td>
+                        <td>" . "<a class='fas fa-trash-alt' href='?target=groepen_delete&id={$row["wedstrijd_ID"]}'></a>" . "</td>
                     </tr>";
 
     }

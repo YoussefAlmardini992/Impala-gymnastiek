@@ -5,7 +5,6 @@ class Groep{
     this.groep_naam = groep_naam;
     this.niveau = niveau;
     this.turners = turners;
-
   };
 
   getTurner = function (voornaam) {

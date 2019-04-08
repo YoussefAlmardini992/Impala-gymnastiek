@@ -36,28 +36,41 @@ input:focus{
 }
 .inputItem_Submit{
     text-align: center;
-    margin: 0 auto;
     padding-top: 4%;
     font-family: 'Open Sans', sans-serif;
 }
-.inputItem_Submit input{
+.Enabled{
     background-color:#0f2a4e;
-    color: white; 
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
-	border:1px solid #0f2a4e;
-	display:inline-block;
-	font-size:17px;
-	text-decoration:none;
+    color: white;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    border:1px solid #0f2a4e;
+    display:inline-block;
+    font-size:17px;
+    text-decoration:none;
     width: 10rem;
     height: 2.5rem;
-    font-size: 1rem;
     font-family: 'Open Sans', sans-serif;
 }
-.inputItem_Submit input:hover {
+.Enabled:hover {
+    cursor: pointer;
 	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
     border: 1px solid rgba(81, 203, 238, 1);
+}
+.Disabeld{
+    background-color:#088;
+    color: white;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    border:1px solid #0f2a4e;
+    display:inline-block;
+    font-size:17px;
+    text-decoration:none;
+    width: 10rem;
+    height: 2.5rem;
+    font-family: 'Open Sans', sans-serif;
 }
 .title{
     width: 30%;

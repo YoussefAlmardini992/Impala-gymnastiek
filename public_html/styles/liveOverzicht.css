@@ -7,14 +7,16 @@
     margin: 0 auto;
     background-color: rgb(242,234,237);
     padding: 2%;
+    display: flex;
 }
 .groep_select_box{
-    width: 1000px;
-    display: flex;
-    height: 10%;
+    width: 55%;
+}
+.Width_40{
+    width: 55%;
 }
 select{
-    height: 50%;
+    margin-top: 2.5%;
 }
 .header_item{
     width: 20%;
@@ -22,6 +24,7 @@ select{
 .heading{
     width: 10%;
     margin-top: 5px;
+    margin-right: 35px;
 }
 .start{
     margin-top: 10px;
@@ -30,7 +33,7 @@ select{
 }
 
 .live_status{
-    min-height: 500px;
+    min-height: 250px;
     background-color: rgb(242,234,237);
     width: 80%;
     margin: 1.5% auto;
@@ -38,7 +41,8 @@ select{
 }
 .live_status h2{
     width: 100%;
-    text-align: center;
+    text-align: left;
+    font-size: 18px;
 }
 .status_container{
     width:80%;
@@ -66,6 +70,98 @@ select{
     margin-top: 15px;
 }
 .refresh{
-    margin-left: 5%;
+    margin-top: 25px;
+}
+
+#deelnemers{
+    min-width: 72.5%;
+}
+.header_right{
+    width: 30%;
+}
+.header_left{
+    width: 70%;
+}
+.statusTitle{
+    width: 100%;
+    text-align: center;
+}
+.statusBody{
+    background-color: white;
+    width: 100%;
+    min-height: 25%;
     margin-top: 10px;
+    overflow-y: scroll;
+}
+.statusItem{
+    padding: 1%;
+    width: 100%;
+    background-color: #008888;
+    color: white;
+    height: 25px;
+    display: flex;
+    font-size: 12px;
+    margin-top: 1px;
+}
+.userName{
+    width: 50%;
+}
+.statusSituation{
+    width: 50%;
+    text-align: right;
+    text-shadow: 1px 1px darkgreen;
+}
+.deelnemer_Info{
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+}
+.right_deelnamerInfo{
+    width: 70%;
+}
+.left_deelnamerInfo{
+    width: 30%;
+}
+.Scores{
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    line-height:0;
+}
+.scoresTitle{
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+}
+.Scores div{
+    display: flex;
+    font-size: 26px;
+}
+.number{
+    padding: 0;
+    width:90%;
+    margin-right: 25px;
+    text-shadow: 1px 1px  #008888;
+    text-decoration: underline;
+}
+.D_score, .E_score , .n_score{
+    width: 10%;
+    margin-left: 5px;
+}
+.DN_InfoLine{
+    width: 100%;
+    display: flex;
+    padding: 1%;
+}
+.DN_InfoLabel{
+    width: 30%;
+    font-size: 18px;
+}
+.DN_InfoData{
+    width: 70%;
+    text-shadow: 1px 1px  #008888;
+    text-decoration: underline;
+}
+.titles_Line{
+    display: flex;
 }
