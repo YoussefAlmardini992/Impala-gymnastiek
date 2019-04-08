@@ -43,7 +43,7 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
             // Groep aanpassen
             if(isset($_GET["target"]) &&  $_GET["target"] == "groepen_change"){
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `groepen` WHERE id = " . $id;
+                $sql = "SELECT * FROM `groepen` WHERE groep_ID = " . $id;
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
@@ -83,9 +83,9 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                     $naam = $_POST['naam'];
                     $niveau = $_POST['niveau'];
                     $jaar = $_POST['jaar'];
-                    $sqlupdate = "UPDATE `groepen` SET naam ='$naam', niveau ='$niveau', jaar ='$jaar' WHERE id = $id";
+                    $sqlupdate = "UPDATE `groepen` SET naam ='$naam', niveau ='$niveau', jaar ='$jaar' WHERE groep_ID = $id";
                     if(mysqli_query($conn, $sqlupdate)) {
-                        header("Location: ?overzicht=" . $groepen);
+                        header("Location: ?overzicht=groepen");
                         echo mysqli_error($conn);
                         echo "<br>" . $sqlupdate;
                     }
@@ -122,23 +122,23 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                     $jaar = $_POST['jaar'];
                     $sqladd = "INSERT INTO `groepen` (naam, niveau, jaar) VALUES ('$naam', '$niveau', '$jaar')";
                     if(mysqli_query($conn, $sqladd)) {
-                        header("Location: ?overzicht=" . $groepen);
+                        header("Location: ?overzicht=groepen");
                     }
                 }
             }// end groep toevoegen
 
             // Groep verwijderen
             if(isset($_GET["target"]) &&  $_GET["target"] == "groepen_delete") {
-                $sqldelete = "DELETE FROM `groepen` WHERE ID = " . $_GET["id"];
+                $sqldelete = "DELETE FROM `groepen` WHERE groep_ID = " . $_GET["id"];
                 if(mysqli_query($conn, $sqldelete)) {
-                    header("Location: ?overzicht=" . $groepen);
+                    header("Location: ?overzicht=groepen");
                 }
             }// end groep verwijderen
 
             // Deelnemer aanpassen
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_change") {
                 $groepenNaam = [];
-                $sql = "SELECT naam, ID FROM `groepen` ";
+                $sql = "SELECT naam, groep_ID FROM `groepen` ";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
@@ -146,7 +146,7 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                     }
                 }
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `deelnemers` WHERE id = " . $id;
+                $sql = "SELECT * FROM `deelnemers` WHERE deelnemer_ID = " . $id;
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
@@ -172,7 +172,7 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                                                 <select name='groep'>";
                                                 
                                                 foreach($groepenNaam as $valuekey):
-                                                    $str .= '<option value='.$valuekey['ID'].'>'.$valuekey['naam'].'</option>';
+                                                    $str .= '<option value='.$valuekey['groep_ID'].'>'.$valuekey['naam'].'</option>';
                                                 endforeach;
                                                 
                                                 $str .= "</select>
@@ -182,6 +182,7 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                                         <td class='input' >Geslacht:</td>
                                         <td>
                                             <select name='geslacht'>
+                                                <option value='default'></option>
                                                 <option value='m'>m</option>
                                                 <option value='v'>v</option>
                                              </select>
@@ -205,20 +206,22 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                 }
 
                 if (isset($_POST['submit'])) {
-                    $voornaam = $_POST['voornaam'];
-                    $tussenvoegsel = $_POST['tussenvoegsel'];
-                    $achternaam = $_POST['achternaam'];
-                    $groep = $_POST['groep'];
-                    $geslacht = $_POST['geslacht'];
-                    //  $jaar = $_POST['jaar'];
-                    $sqlupdate = "UPDATE `deelnemers` SET voornaam ='$voornaam', tussenvoegsel = '$tussenvoegsel', 
-                    achternaam ='$achternaam', groep_ID ='$groep', geslacht = '$geslacht' WHERE id = $id";
+                    if($_POST['geslacht'] !== "default") {
+                        $voornaam = $_POST['voornaam'];
+                        $tussenvoegsel = $_POST['tussenvoegsel'];
+                        $achternaam = $_POST['achternaam'];
+                        $groep = $_POST['groep'];
+                        $geslacht = $_POST['geslacht'];
+                        //  $jaar = $_POST['jaar'];
+                        $sqlupdate = "UPDATE `deelnemers` SET voornaam ='$voornaam', tussenvoegsel = '$tussenvoegsel', 
+                        achternaam ='$achternaam', groep_ID ='$groep', geslacht = '$geslacht' WHERE deelnemer_ID = $id";
 
-                    if(mysqli_query($conn, $sqlupdate)) {
-                        header("Location: ?overzicht=" . $deelnemers);
-                        echo mysqli_error($conn);
-                        echo "<br>" . $sqlupdate;
-                    }
+                        if(mysqli_query($conn, $sqlupdate)) {
+                            header("Location: ?overzicht=deelnemers");
+                            echo mysqli_error($conn);
+                            echo "<br>" . $sqlupdate;
+                        }
+                    } else { echo "<script type='text/javascript'>alert('Vul geslacht in');</script>";}
                 }
             }// end Deelnemer aanpassen
 
@@ -288,16 +291,129 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                     $geslacht = $_POST['geslacht'];
                     $sqladd = "INSERT INTO `deelnemers` (voornaam, tussenvoegsel, achternaam, groep_ID, geslacht) VALUES ('$voornaam', '$tussenvoegsel', '$achternaam', '$groep', '$geslacht')";
                     if(mysqli_query($conn, $sqladd)) {
-                        header("Location: ?overzicht=" . $deelnemers);
+                        header("Location: ?overzicht=deelnemers");
                     }
                 }
             }// end Deelnemer toevoegen
 
             // Deelnemer verwijderen
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_delete") {
-                $sqldelete = "DELETE FROM `deelnemers` WHERE ID = " . $_GET["id"];
+                $sqldelete = "DELETE FROM `deelnemers` WHERE deelnemer_ID = " . $_GET["id"];
                 if(mysqli_query($conn, $sqldelete)) {
-                    header("Location: overzicht.php");
+                    header("Location: ?overzicht=deelnemers");
+                }
+            }
+
+            // Wedstrijd toevoegen
+            if(isset($_GET["target"]) &&  $_GET["target"] == "wedstrijden_add") {
+                $groepenNaam = [];
+                $sql = "SELECT naam, groep_ID FROM `groepen` ";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        array_push($groepenNaam, $row);
+                    }
+                }
+                $date_now = date("Y-m-d");
+                $str = "<a class='back' href='?overzicht=wedstrijden'>Back</a>
+                        <form class='form' method='post' action=''>
+                            <table class='table'>
+                            <tr>
+                                <td class='input'>Wedstrijddatum:</td>
+                                <td><input type='date' value='$date_now' name='wedstrijddatum'></td>
+                            </tr>
+                            <tr>
+                                <td class='input'>Groep:</td>
+                                <td>
+                                    <select name='groep'>";
+                                    
+                                    foreach($groepenNaam as $valuekey):
+                                        $str .= '<option value='.$valuekey['groep_ID'].'>'.$valuekey['naam'].'</option>';
+                                    endforeach;
+                                    
+                                    $str .= "</select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type='hidden' value='wedstrijden_change' name='target'></td>
+                                <td><input class='button' type='submit' name='submit' value='Verzenden'></td>
+                            </tr>
+                            </table>
+                        </form>";
+                    echo $str;
+                if (isset($_POST['submit'])) {
+                    $wedstrijddatum = $_POST['wedstrijddatum'];
+                    $groepID = $_POST['groep'];
+                    $sqladd = "INSERT INTO `wedstrijden` (wedstrijd_ID, wedstrijddatum, groep_ID) VALUES ('$naam', '$wedstrijddatum', '$groepID')";
+                    if(mysqli_query($conn, $sqladd)) {
+                        header("Location: ?overzicht=wedstrijden");
+                    }
+                }
+            }// end wedstrijd toevoegen
+
+            // Wedstrijd aanpassen
+            if(isset($_GET["target"]) &&  $_GET["target"] == "wedstrijden_change"){
+                $groepenNaam = [];
+                $sql = "SELECT naam, groep_ID FROM `groepen` ";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        array_push($groepenNaam, $row);
+                    }
+                }
+
+                $id = $_GET['id'];
+                $sql = "SELECT * FROM `wedstrijden` WHERE wedstrijd_ID = " . $id;
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+
+                        $str = "
+                            <a class='back' href='?overzicht=wedstrijden'>Back</a>
+                            <form class='form' method='post' action=''>
+                                <table class='table'>
+                                    <tr>
+                                        <td class='input'>Wedstrijddatum:</td>
+                                        <td><input type='date' name='wedstrijddatum' value='" . $row['wedstrijddatum'] . "'></td>
+                                    </tr>
+                                    <tr>
+                                        <td class='input' >Groep:</td>
+                                        <td>
+                                                <select name='groep_ID'>";
+                                                
+                                                foreach($groepenNaam as $valuekey):
+                                                    $str .= '<option value='.$valuekey['groep_ID'].'>'.$valuekey['naam'].'</option>';
+                                                endforeach;
+                                                
+                                                $str .= "</select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type='hidden' value='wedstrijden_change' name='target'></td>
+                                        <td><input class='button' type='submit' name='submit' value='Verzenden'></td>
+                                    </tr>
+                                </table>
+                            </form>";
+                    }//end while
+                }   echo $str;
+
+                if (isset($_POST['submit'])) {
+                    $wedstrijddatum = $_POST['wedstrijddatum'];
+                    $groep_ID = $_POST['groep_ID'];
+                    $sqlupdate = "UPDATE `wedstrijden` SET wedstrijddatum ='$wedstrijddatum', groep_ID ='$groep_ID' WHERE wedstrijd_ID = $id";
+                    if(mysqli_query($conn, $sqlupdate)) {
+                        header("Location: ?overzicht=wedstrijden");
+                        echo mysqli_error($conn);
+                        echo "<br>" . $sqlupdate;
+                    }
+                }
+            }// end wedstrijd aanpassen
+
+            // Wedstrijd verwijderen
+            if(isset($_GET["target"]) &&  $_GET["target"] == "wedstrijden_delete") {
+                $sqldelete = "DELETE FROM `wedstrijden` WHERE wedstrijd_ID = " . $_GET["id"];
+                if(mysqli_query($conn, $sqldelete)) {
+                    header("Location: ?overzicht=wedstrijden");
                 }
             }
 
