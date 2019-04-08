@@ -20,8 +20,8 @@
                             <td>" . $row["naam"] . "</td>
                             <td>" . $row["niveau"] . "</td>
                             <td>" . $row["jaar"] . "</td>
-                            <td>" . "<a class='fas fa-edit' href='?target=groepen_change&id={$row["ID"]}'></a>" . "</td>
-                            <td>" . "<a class='fas fa-trash-alt' href='?target=groepen_delete&id={$row["ID"]}'></a>" . "</td>
+                            <td>" . "<a class='fas fa-edit' href='?target=groepen_change&id={$row["groep_ID"]}'></a>" . "</td>
+                            <td>" . "<a class='fas fa-trash-alt' href='?target=groepen_delete&id={$row["groep_ID"]}'></a>" . "</td>
                         </tr>";
         }
         echo "</table>";

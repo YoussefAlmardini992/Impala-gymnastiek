@@ -1,11 +1,10 @@
-export default class Groep{
+class Groep{
 
   constructor(groep_naam, niveau,turners) {
 
     this.groep_naam = groep_naam;
     this.niveau = niveau;
     this.turners = turners;
-
   };
 
   getTurner = function (voornaam) {

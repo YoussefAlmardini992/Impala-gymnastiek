@@ -225,7 +225,7 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
             // Deelnemer toevoegen
             if(isset($_GET["target"]) &&  $_GET["target"] == "deelnemers_add") {
                 $groepenNaam = [];
-                $sql = "SELECT naam, ID FROM `groepen` ";
+                $sql = "SELECT naam, groep_ID FROM `groepen` ";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
@@ -253,7 +253,7 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                                     <select name='groep'>";
                                     
                                     foreach($groepenNaam as $valuekey):
-                                        $str .= '<option value='.$valuekey['ID'].'>'.$valuekey['naam'].'</option>';
+                                        $str .= '<option value='.$valuekey['groep_ID'].'>'.$valuekey['naam'].'</option>';
                                     endforeach;
                                     
                                     $str .= "</select>
@@ -310,7 +310,6 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
         </div>
     </div>
     <div class="startWedstrijdBody"></div>
-    <script src="src/index.js" type="module"></script>
 </body>
 <script>
 function openNav() {

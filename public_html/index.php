@@ -81,6 +81,5 @@ if(isset($_POST["submit"])) {
             </div>
         </form>
     </div>
-    <script src="src/collection.js" type="module"></script>
 </body>
 </html>

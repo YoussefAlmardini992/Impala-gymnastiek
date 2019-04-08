@@ -33,29 +33,31 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
         </div>
     </div>
     <form class="content">
-        <h1>Turner Naam</h1>
+        <h1 id="turner_name">Turner Naam</h1>
       <div>
-          <div>D: <input onblur="onScoreChange(this)" id="score_Input" type="number" max="10" min="0" value="10"></div>
+          <div>D: <input onblur="onScoreChange(this)" id="D_score_Input" type="number" max="10" min="0" value="10"></div>
       </div>
 
         <div>
-            <div>E: <input onblur="onScoreChange(this)" id="score_Input" type="number" max="10" min="0" value="10"></div>
+            <div>E: <input onblur="onScoreChange(this)" id="E_score_Input" type="number" max="10" min="0" value="10"></div>
         </div>
 
         <div>
-            <div>N: <input onblur="onScoreChange(this)" id="score_Input" type="number" max="10" min="0" value="10"></div>
+            <div>N: <input onblur="onScoreChange(this)" id="N_score_Input" type="number" max="10" min="0" value="10"></div>
         </div>
 
         <div>
-            <div>Totaal: 0</div>
+            <div>Totaal: <div id="total">10</div>></div>
         </div>
 
         <div style="margin-top: 5%">
-            <div class="inputItem_Submit">
-                <input type="submit" name="submit" onclick="" value="Opslaan">
-            </div>
+
         </div>
     </form>
+
+    <div class="inputItem_Submit">
+        <button type="submit" name="submit" onclick="SaveTurnerScores()" value="Opslaan">opslaan</button>
+    </div>
 </div>
 </body>
 <script>
@@ -66,16 +68,16 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
       }
     }
 
-    let value = {user:"<?php echo $loginID; ?>",status:'connected'};
+    let value = {name:"<?php echo $loginID; ?>",status:'connected'};
 
-    const socket = io.connect('http://145.120.207.219:3000');
-    //const socket = io.connect('http://localhost:3000');
+    //const socket = io.connect('http://145.120.207.219:3000');
+    const socket = io.connect('http://localhost:3000');
 
 
 
     socket.emit('Login_value',value);
 
-    // Als de gebruiker het tabblad sluit, inplaats van uitlogd
+    // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
     window.onbeforeunload = function() {
         ClearLoginValue();
     };
@@ -84,6 +86,29 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
         value.status = "disconnected";
         socket.emit('Login_value',value);
     }
+
+    function updateLayout(deelnemer){
+      document.getElementById('turner_name').innerText = deelnemer.voornaam + ' ' + deelnemer.tussenvoegsel + ' ' + deelnemer.achternaam;
+    }
+
+    function SaveTurnerScores(){
+
+      const Scores = {
+        D: document.getElementById('D_score_Input').value,
+        E: document.getElementById('E_score_Input').value,
+        N:document.getElementById('N_score_Input').value,
+        Total: document.getElementById('total').innerText,
+        Jury : value.name
+      };
+
+      socket.emit('set_deelnemer_score',Scores);
+    }
+
+    //Get huidige turner from secretariaat
+    socket.on('get_current_deelnemer',function (deelnemer) {
+      updateLayout(deelnemer);
+      console.log(deelnemer);
+    })
 
 </script>
 </html>
