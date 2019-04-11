@@ -187,6 +187,10 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                                                 <option value='v'>v</option>
                                              </select>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td class='input'>Nummer:</td>
+                                        <td><input type='number' max='999' min='0' name='nummer' value='" . $row['nummer'] . "'></td>
                                     </tr>              
                                     <tr>
                                         <td><input type='hidden' value='deelnemers_change' name='target'></td>
@@ -212,9 +216,10 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                         $achternaam = $_POST['achternaam'];
                         $groep = $_POST['groep'];
                         $geslacht = $_POST['geslacht'];
+                        $nummer = $_POST['nummer'];
                         //  $jaar = $_POST['jaar'];
                         $sqlupdate = "UPDATE `deelnemers` SET voornaam ='$voornaam', tussenvoegsel = '$tussenvoegsel', 
-                        achternaam ='$achternaam', groep_ID ='$groep', geslacht = '$geslacht' WHERE deelnemer_ID = $id";
+                        achternaam ='$achternaam', nummer ='$nummer', groep_ID ='$groep', geslacht = '$geslacht' WHERE deelnemer_ID = $id";
 
                         if(mysqli_query($conn, $sqlupdate)) {
                             header("Location: ?overzicht=deelnemers");
@@ -270,6 +275,11 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                                         <option value='v'>v</option>
                                     </select>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td class='input'>Nummer:</td>
+                                <td><input type='number' max='999' min='0' name='nummer'></td>
+                            </tr>  
                             <tr>
                                 <td><input type='hidden' value='deelnemers_change' name='target'></td>
                                 <td><input class='button' type='submit' name='submit' value='Verzenden'></td>
@@ -289,7 +299,8 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
                     $achternaam = $_POST['achternaam'];
                     $groep = $_POST['groep'];
                     $geslacht = $_POST['geslacht'];
-                    $sqladd = "INSERT INTO `deelnemers` (voornaam, tussenvoegsel, achternaam, groep_ID, geslacht) VALUES ('$voornaam', '$tussenvoegsel', '$achternaam', '$groep', '$geslacht')";
+                    $nummer = $_POST['nummer'];
+                    $sqladd = "INSERT INTO `deelnemers` (voornaam, tussenvoegsel, achternaam, nummer, groep_ID, geslacht) VALUES ('$voornaam', '$tussenvoegsel', '$achternaam', '$nummer', '$groep', '$geslacht')";
                     if(mysqli_query($conn, $sqladd)) {
                         header("Location: ?overzicht=deelnemers");
                     }

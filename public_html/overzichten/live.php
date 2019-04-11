@@ -6,6 +6,7 @@ include("../../../connection.php")
 <head>
     <link rel="stylesheet" href="../styles/liveOverzicht.css">
     <link rel="stylesheet" href="../styles/juryOverzicht.css">
+    <link rel="stylesheet" href="../styles/generalStyles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
     <script src="../src/classes/groep.js"></script>
@@ -14,58 +15,7 @@ include("../../../connection.php")
 
 <div class="live_container">
     <div class="live_header">
-        <div class="header_left">
-            <p>Wedstrijd beginnen? u kunt een greop kiesn daarnaa op start clicken.</p>
-            <div class="groep_select_box">
-
-                <div class="selectLine">
-                    <div class="header_item heading">Groep</div>
-                    <div class="header_item selector">
-                        <select onchange="onGroepSelect(this)" id="GroupSelect">
-                            <option selected="default"></option>
-                            <!-- SQL query die alle groepen ophaalt en in OPTIONs zet -->
-                            <?php
-                            $groepen = [];
-                            $sql_TodayGroups = "SELECT wedstrijden.groep_ID,groepen.naam,groepen.niveau  FROM `wedstrijden`
-                            JOIN `groepen` on wedstrijden.groep_ID = groepen.groep_ID
-                            WHERE wedstrijden.wedstrijddatum=CURDATE()";
-
-                            $result = $conn->query($sql_TodayGroups);
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    array_push($groepen, $row);
-                                }
-                            }
-
-                            foreach ($groepen as $groep) {
-
-                                echo "<option value=" . $groep['groep_ID'] . ">" . $groep['naam'] . ' niveau : ' . $groep['niveau'] . "</option>";
-                            }
-
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-
-                <div class="selectLine">
-                    <div class="header_item heading">Deelnemer</div>
-                    <div class="header_item selector">
-                        <select id='deelnemers'>
-                            <option selected="default"></option>
-                        </select>
-                    </div>
-                </div>
-
-
-                <div class="selectLine refresh">
-                    <div class="inputItem_Submit refresh">
-                        <input type="submit" id="start" onclick="alert()" value="STARTEN">
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        
 
         <div class="header_right">
 
@@ -80,78 +30,59 @@ include("../../../connection.php")
         </div>
     </div>
 
-    <div class="live_status" id="live_status">
-        <div class="titles_Line">
-            <h2 style="width: 70%; font-size: 24px">Current turner</h2>
-            <h2 style="width: 30%; font-size: 24px">Scores</h2>
+    <!-- Onderste div is van THIJMEN LOCAAL -->
+    <div class="sended_scores" id="sended_scores">
+
+     <div class="card_container">
+      <div class='Score_Card' id='Score_Card'>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="bevestigen_button"><button class="Enabled custom">BEVESTIGEN</button></div>
         </div>
-        <div class="deelnemer_Info">
+     </div>
 
-            <div class="right_deelnamerInfo">
-
-                <div class="DN_InfoLine">
-                    <div class="DN_InfoLabel">turner naam</div>
-                    <div class="DN_InfoData" id="DnName">leeg</div>
-                </div>
-
-
-                <div class="DN_InfoLine">
-                    <div class="DN_InfoLabel">groep</div>
-                    <div class="DN_InfoData" id="DnGroep">leeg</div>
-                </div>
-
-
-                <div class="DN_InfoLine">
-                    <div class="DN_InfoLabel">niveau</div>
-                    <div class="DN_InfoData" id="DnNiveau">leeg</div>
-                </div>
-
-                <div class="DN_InfoLine">
-                    <div class="DN_InfoLabel"></div>
-                    <div class="DN_InfoData"></div>
-                </div>
-
-                <div class="DN_InfoLine">
-                    <div class="DN_InfoLabel">bijgewerkt door:</div>
-                    <div class="DN_InfoData" id="JuryNaam">leeg</div>
-                </div>
-
-                <div class="inputItem_Submit refresh">
-                    <input type="submit" id="start" onclick="OnScoreAgreement()" value="BEVESTIGING">
-                </div>
-
-
-            </div>
-
-            <div class="left_deelnamerInfo">
-                <div class="Scores">
-                    <div class="scoreLine">
-                        <div class="D_score">D:</div>
-                        <p class="number" id="D_Score">0</p>
-                    </div>
-                    <hr>
-
-                    <div class="scoreLine">
-                        <div class="E_score">E:</div>
-                        <p class="number" id="E_Score">0</p>
-                    </div>
-                    <hr>
-
-                    <div class="scoreLine">
-                        <div class="N_score">N:</div>
-                        <p class="number" id="N_Score">0</p>
-                    </div>
-                    <hr>
-
-                    <div class="scoreLine" style="margin-top: 65px">
-                        <div class="N_score" style="font-size: 30px; color: #0f2a4e">Totaal:</div>
-                        <p class="number" id="Total_Score">0</p>
-                    </div>
-
-                </div>
-            </div>
-
+     
+     <div class="card_container">
+      <div class='Score_Card' id='Score_Card'>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="bevestigen_button"><button class="Enabled custom">BEVESTIGEN</button></div>
         </div>
+     </div>
+
+     
+     <div class="card_container">
+      <div class='Score_Card' id='Score_Card'>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="bevestigen_button"><button class="Enabled custom">BEVESTIGEN</button></div>
+        </div>
+     </div>
+
+     <div class="card_container">
+      <div class='Score_Card' id='Score_Card'>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="card_Line"><p>test</p></div>
+          <div class="bevestigen_button"><button class="Enabled custom">BEVESTIGEN</button></div>
+        </div>
+     </div>
+
 
     </div>
 
@@ -204,7 +135,7 @@ include("../../../connection.php")
           console.log(deelnemer);
         }
       })
-    })
+    });
 
   });
 
@@ -265,7 +196,7 @@ include("../../../connection.php")
     !userExist && users.push(user);
     CheckUsersConnection();
 
-    console.log(users);
+    //console.log(users);
 
     const statusBody = document.getElementById("statusBody");
     while (statusBody.firstChild) {
@@ -314,13 +245,6 @@ include("../../../connection.php")
     }
   }
 
-  document.body.onload = function () {
-    const GroepSelect = document.getElementById('GroupSelect');
-    document.getElementById('deelnemers').style.width = GroepSelect.offsetWidth;
-    const start = document.getElementById('start');
-    start.disabled = true;
-    CheckConrolsActivity(start);
-  };
 
   function CreateStatus(user) {
 
@@ -337,6 +261,41 @@ include("../../../connection.php")
     StatusItem.appendChild(UserName);
     StatusItem.appendChild(statusSituation);
     statusBody.appendChild(StatusItem);
+  }
+  
+  //////// EXTRA CODE VAN THIJMEN LOCAAL
+
+  // Ontvangt scores van server
+  socket.on('send_Turner_score_to_secretariaat', function (scores) {
+    console.log(scores);
+
+    // Zet alle gegevens in een div
+    $("#sended_scores").append("<div class='card_container'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'><div class='card_Line'><p>Jury: " + scores.Jury + 
+    "</p></div><div class='card_Line'><p>Nummer: " + scores.Nummer + 
+    "</p></div><div class='card_Line'><p>D: " + scores.D + 
+    "</p></div><div class='card_Line'><p>E: " + scores.E + 
+    "</p></div><div class='card_Line'><p>N: " + scores.N +
+    "</p></div><div class='card_Line'><p>Totaal: " + scores.Total + 
+    "</p></div><div class='bevestigen_button'><button class='Enabled custom' onclick='addScoreDB'>BEVESTIGEN</button></div></div>");
+  });
+
+
+
+  // Add Card Effect
+  function AddCardEffect(element) { 
+    console.log(element);
+    element.addEventListener('mouseenter',function(){
+      element.style.transform = 'scale(1.04)';
+    })
+    element.addEventListener('mouseleave',function(){
+      element.style.transform = 'scale(1)';
+    })
+    
+  }
+
+  // Voegt Score toe aan DATABASE
+  function addScoreDB() {
+    
   }
 
 </script>

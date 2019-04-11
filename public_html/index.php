@@ -7,6 +7,7 @@ if(isset($_POST["submit"])) {
     $message = "Gebruikers naam of wachtwoord is verkeerd";
 
     switch (true) {
+        
         case ($username == "secretariaat" and $password == "secretariaat");
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/secretariaatOverzicht.php?overzicht=deelnemers');
@@ -48,6 +49,7 @@ if(isset($_POST["submit"])) {
             header('Location: pages/juryOverzicht.php');
             break;
         case ($username == "rek" and $password == "rek");
+            $_SESSION["subonderdeel_id"] = 1;
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/juryOverzicht.php');
             break;

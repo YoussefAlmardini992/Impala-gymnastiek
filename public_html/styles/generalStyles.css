@@ -53,6 +53,11 @@ input:focus{
     height: 2.5rem;
     font-family: 'Open Sans', sans-serif;
 }
+
+.custom {
+    width: 8rem;
+    height: 2rem;
+}
 .Enabled:hover {
     cursor: pointer;
 	box-shadow: 0 0 5px rgba(81, 203, 238, 1);

@@ -7,8 +7,8 @@ const socket = require('socket.io'),
 
 let connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: '',
+  user: 'admin',
+  password: 'admin',
   database: 'rocole_db10'
 });
 
@@ -91,7 +91,14 @@ function emitConnection(SERVER) {
       });
 
       console.log(deelnemer);
-    })
+    });
+
+    //////// EXTRA CODE VAN THIJMEN LOCAAL
+
+    socket.on('send_Turner_score',function (scores) {
+      socket.broadcast.emit('send_Turner_score_to_secretariaat',scores);
+    });
+
   });
 }
 

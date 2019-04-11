@@ -1,7 +1,7 @@
 <?php
      $nieuweDeelnemer = "nieuweDeelnemer";
      $sqldeelnemers = "
-        SELECT deelnemers.deelnemer_ID, deelnemers.voornaam, deelnemers.tussenvoegsel, deelnemers.achternaam, groepen.naam, deelnemers.geslacht
+        SELECT deelnemers.deelnemer_ID, deelnemers.voornaam, deelnemers.tussenvoegsel, deelnemers.achternaam, groepen.naam, deelnemers.geslacht, deelnemers.nummer
         FROM `deelnemers`
         INNER JOIN `groepen` 
         ON deelnemers.groep_ID=groepen.groep_ID"
@@ -21,6 +21,7 @@
                     <th>" . "Achternaam" . "</th>
                     <th>" . "Groep" . "</th>
                     <th>" . "Geslacht" . "</th>
+                    <th>" . "Nummer" . "</th>
                     <th style='width: 30px;'>" . "Aanpassen" . "</th>
                     <th style='width: 30px;'>" . "Verwijderen" . "</th>
                 </tr>";
@@ -33,6 +34,7 @@
                         <td>" . $row["achternaam"] . "</td>
                         <td>" . $row["naam"] . "</td>
                         <td>" . $row["geslacht"] . "</td>
+                        <td>" . $row["nummer"] . "</td>
                         <td>" . "<a class='fas fa-edit' href='?target=deelnemers_change&id={$row["deelnemer_ID"]}'></a>" . "</td>
                         <td>" . "<a class='fas fa-trash-alt' href='?target=deelnemers_delete&id={$row["deelnemer_ID"]}'></a>" . "</td>
                     </tr>";
