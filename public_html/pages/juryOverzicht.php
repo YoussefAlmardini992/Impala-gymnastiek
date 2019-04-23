@@ -21,18 +21,16 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
     <script src="../src/classes/groep.js"></script>
     <script src="../src/classes/score.js"></script>
 </head>
+
 <script>
 $(document).ready(function() {
     setInterval(timestamp, 1000);
 });
 
 function timestamp() {
-    $.ajax({
-        url: 'http://localhost/Impala/public_html/uti/timestamp.php',
-        success: function(data) {
-            $('#timestamp').html(data);
-        },
-    });
+    var dt = new Date();
+    var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+    document.getElementById('timestamp').innerHTML = time;
 }
 </script>
 <body>
