@@ -1,3 +1,5 @@
+const connectionData = require('./sqlConnection.js');
+
 const socket = require('socket.io'),
   express = require('express'),
   https = require('https'),
@@ -5,12 +7,7 @@ const socket = require('socket.io'),
   logger = require('winston'),
   mysql = require('mysql');
 
-let connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'admin',
-  password: 'admin',
-  database: 'rocole_db10'
-});
+let connection = mysql.createConnection(connectionData);
 
 connection.connect(function(err) {
   if (err) {
