@@ -2,9 +2,12 @@
 * {
     font-family: 'Open Sans', sans-serif;
 }
-html {
-    min-height:100%;/* make sure it is at least as tall as the viewport */
-    background-color: rgb(242,234,237);
+.scoreBordBody{
+    /*  min-height:100%; make sure it is at least as tall as the viewport */
+    background:blue;
+    height: 97vh;
+    width: 99vw;
+    color: white;
 }
 .sidenav {
     height: 100%;
@@ -52,31 +55,28 @@ html {
     text-decoration: none;
     opacity: 0.3;
 }
+
+.score-logout:hover{
+    color: red;
+    opacity: 100 ;
+}
+.ScoreBordTitle{
+    margin: 20px 0 ;
+}
 .content {
     text-align: center;
     font-size: 200%;
 }
-.container-table {
-    font-size: 150%;
-}
+
 .table {
     margin: 0px auto;
     width: 100%;
-    border-collapse: collapse;
+    font-size: 3rem;
 }
 
 td, th {
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: center;
-}
-.table-head {
-    color:white;
-    background: #36304a;
-}
 
-tr:nth-child(even) {
-    background-color: #f5f5f5;
+    text-align: center;
 }
 
 /* Add button voor overzichten */
@@ -86,4 +86,31 @@ tr:nth-child(even) {
 .fa-plus-square:hover {
     text-decoration: none;
     color: #0050a7;
+}
+
+
+
+/* current turner page  */
+
+
+.overzicht_container{
+    margin-left: 0;
+    width: 20%;
+}
+.score{
+    width: 10%;
+}
+.header{
+    display: flex;
+    width: 100%;
+}
+.item{
+    width: 33.33333%;
+    text-align: center;
+}
+.totaal{
+    position: absolute;
+    right: 150px;
+    font-size: 3rem;
+    bottom: 100px;
 }

@@ -16,37 +16,44 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
     <link rel="stylesheet" href="../styles/overzichtStyles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 </head>
-<body>
+<body class="scoreBordBody">
 <div id="main">
     <a class="score-logout" href="../uti/logout.php" onclick="ClearLoginValue()">X</a>
     <div class="content">
-        <h1>Scores - Niveau groep</h1>
+        <h1 class="ScoreBordTitle" >Scores - Niveau groep</h1>
         <div class="container-table">
         <table class="table">
+            <thead>
             <tr>
-                <td class="table-item">1</th>
-                <td class="table-item">Naam</th>
-                <td class="table-item">Score</th>
+                <td width="30%">POSITTIE</td>
+                <td>NAAM</td>
+                <td>SCORE</td>
+            </tr>
+            </thead>
+            <tr>
+                <td>1</td>
+                <td>Naam</td>
+                <td>Score</td>
             </tr>
             <tr>
-                <td class="table-item">2</td>
-                <td class="table-item">Naam</td>
-                <td class="table-item">Score</td>
+                <td>2</td>
+                <td>Naam</td>
+                <td>Score</td>
             </tr>
             <tr>
-                <td class="table-item">3</td>
-                <td class="table-item">Naam</td>
-                <td class="table-item">Score</td>
+                <td>3</td>
+                <td>Naam</td>
+                <td>Score</td>
             </tr>
             <tr>
-                <td class="table-item">4</td>
-                <td class="table-item">Naam</td>
-                <td class="table-item">Score</td>
+                <td>4</td>
+                <td>Naam</td>
+                <td>Score</td>
             </tr>
             <tr>
-                <td class="table-item">5</td>
-                <td class="table-item">Naam</td>
-                <td class="table-item">Score</td>
+                <td>5</td>
+                <td>Naam</td>
+                <td>Score</td>
             </tr>
         </table>
         </div>
