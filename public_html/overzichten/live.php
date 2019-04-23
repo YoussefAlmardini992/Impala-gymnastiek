@@ -30,10 +30,9 @@ include("../../../connection.php")
         </div>
     </div>
 
-    <!-- Onderste div is van THIJMEN LOCAAL -->
     <div class="sended_scores" id="sended_scores">
 
-     <div class="card_container">
+     <div class="card_container" style="display: none">
       <div class='Score_Card' id='Score_Card'>
           <div class="card_Line"><p>test</p></div>
           <div class="card_Line"><p>test</p></div>
@@ -44,45 +43,6 @@ include("../../../connection.php")
           <div class="bevestigen_button"><button class="Enabled custom">BEVESTIGEN</button></div>
         </div>
      </div>
-
-     
-     <div class="card_container">
-      <div class='Score_Card' id='Score_Card'>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="bevestigen_button"><button class="Enabled custom">BEVESTIGEN</button></div>
-        </div>
-     </div>
-
-     
-     <div class="card_container">
-      <div class='Score_Card' id='Score_Card'>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="bevestigen_button"><button class="Enabled custom">BEVESTIGEN</button></div>
-        </div>
-     </div>
-
-     <div class="card_container">
-      <div class='Score_Card' id='Score_Card'>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="bevestigen_button"><button class="Enabled custom">BEVESTIGEN</button></div>
-        </div>
-     </div>
-
 
     </div>
 
