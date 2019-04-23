@@ -266,16 +266,16 @@ include("../../../connection.php")
   //////// EXTRA CODE VAN THIJMEN LOCAAL
 
   // Ontvangt scores van server
-  socket.on('send_Turner_score_to_secretariaat', function (scores) {
-    console.log(scores);
+  socket.on('send_Turner_score_to_secretariaat', function (score) {
+    console.log(score);
 
     // Zet alle gegevens in een div
-    $("#sended_scores").append("<div class='card_container'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'><div class='card_Line'><p>Jury: " + scores.Jury + 
-    "</p></div><div class='card_Line'><p>Nummer: " + scores.Nummer + 
-    "</p></div><div class='card_Line'><p>D: " + scores.D + 
-    "</p></div><div class='card_Line'><p>E: " + scores.E + 
-    "</p></div><div class='card_Line'><p>N: " + scores.N +
-    "</p></div><div class='card_Line'><p>Totaal: " + scores.Total + 
+    $("#sended_scores").append("<div class='card_container'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'><div class='card_Line'><p>Jury: " + score.Onderdeel +
+    "</p></div><div class='card_Line'><p>Nummer: " + score.Nummer +
+    "</p></div><div class='card_Line'><p>D: " + score.D +
+    "</p></div><div class='card_Line'><p>E: " + score.E +
+    "</p></div><div class='card_Line'><p>N: " + score.N +
+    "</p></div><div class='card_Line'><p>Totaal: " + score.Total +
     "</p></div><div class='bevestigen_button'><button class='Enabled custom' onclick='addScoreDB'>BEVESTIGEN</button></div></div>");
   });
 
