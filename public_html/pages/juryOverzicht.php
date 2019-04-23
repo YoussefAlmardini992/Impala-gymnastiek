@@ -220,11 +220,11 @@ var id = "<?php echo $loginID ?>";
             Total: document.getElementById('total').innerText,
             Nummer: document.getElementById('DnNummer').innerText,
             Jury: value.name,
-            wedstrijd_ID: "SELECT wedstrijd_ID FROM wedstrijden WHERE wedstrijddatum = CURDATE() AND groep_ID = " + group_ID,
-            deelnemer_ID: //HIER MOET DEELNEMER ID VAN DEELNEMER KOMEN,
-            onderdeel_id: //HIER MOET ONDERDEEL ID VAN ONDERDEEL KOMEN,
-            subonderdeel_id: //HIER MOET SUBONDERDEEL ID VAN SUBONDERDEEL KOMEN
-            }
+              //TODO wedstrijd_ID: "SELECT wedstrijd_ID FROM wedstrijden WHERE wedstrijddatum = CURDATE() AND groep_ID = " + group_ID,
+             //TODO deelnemer_ID: //HIER MOET DEELNEMER ID VAN DEELNEMER KOMEN,
+            // TODO onderdeel_id: //HIER MOET ONDERDEEL ID VAN ONDERDEEL KOMEN,
+           // TODO subonderdeel_id: //HIER MOET SUBONDERDEEL ID VAN SUBONDERDEEL KOMEN
+            };
 
             socket.emit('send_Turner_score',Scores);
             ResetJury();
