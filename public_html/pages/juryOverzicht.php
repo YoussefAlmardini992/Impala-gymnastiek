@@ -21,6 +21,20 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
     <script src="../src/classes/groep.js"></script>
     <script src="../src/classes/score.js"></script>
 </head>
+<script>
+$(document).ready(function() {
+    setInterval(timestamp, 1000);
+});
+
+function timestamp() {
+    $.ajax({
+        url: 'http://localhost/Impala/public_html/uti/timestamp.php',
+        success: function(data) {
+            $('#timestamp').html(data);
+        },
+    });
+}
+</script>
 <body>
 <div id="main">
     <a class="score-logout" href="../uti/logout.php" onclick="ClearLoginValue();">X</a>
@@ -33,7 +47,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
             <h1><?php echo($loginID)?></h1>
         </div>
         <div class="item" style="text-align: right">
-            <h1>00:00</h1>
+            <div id="timestamp"></div>
         </div>
     </div>
 
