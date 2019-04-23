@@ -19,7 +19,22 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
     <script src="../src/classes/groep.js"></script>
+    <script src="../src/classes/score.js"></script>
 </head>
+<script>
+$(document).ready(function() {
+    setInterval(timestamp, 1000);
+});
+
+function timestamp() {
+    $.ajax({
+        url: 'http://localhost/Impala/public_html/uti/timestamp.php',
+        success: function(data) {
+            $('#timestamp').html(data);
+        },
+    });
+}
+</script>
 <body>
 <div id="main">
     <a class="score-logout" href="../uti/logout.php" onclick="ClearLoginValue();">X</a>
@@ -32,7 +47,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
             <h1><?php echo($loginID)?></h1>
         </div>
         <div class="item" style="text-align: right">
-            <h1>00:00</h1>
+            <div id="timestamp"></div>
         </div>
     </div>
 
@@ -211,22 +226,21 @@ var id = "<?php echo $loginID ?>";
         N_score = parseFloat(document.getElementById('N_score_Input').value);
 
         if(D_score !== 0 && E_score !== 0) {
-            var e = document.getElementById('GroupSelect');
-            var group_ID = e.options[e.selectedIndex].value;
-            const Scores = {
-            D: document.getElementById('D_score_Input').value,
-            E: document.getElementById('E_score_Input').value,
-            N:document.getElementById('N_score_Input').value,
-            Total: document.getElementById('total').innerText,
-            Nummer: document.getElementById('DnNummer').innerText,
-            Jury: value.name,
-              //TODO wedstrijd_ID: "SELECT wedstrijd_ID FROM wedstrijden WHERE wedstrijddatum = CURDATE() AND groep_ID = " + group_ID,
-             //TODO deelnemer_ID: //HIER MOET DEELNEMER ID VAN DEELNEMER KOMEN,
-            // TODO onderdeel_id: //HIER MOET ONDERDEEL ID VAN ONDERDEEL KOMEN,
-           // TODO subonderdeel_id: //HIER MOET SUBONDERDEEL ID VAN SUBONDERDEEL KOMEN
-            };
 
-            socket.emit('send_Turner_score',Scores);
+            let D = document.getElementById('D_score_Input').value;
+            let E = document.getElementById('E_score_Input').value;
+            let N = document.getElementById('N_score_Input').value;
+            let Total = document.getElementById('total').innerText;
+            let Nummer = document.getElementById('DnNummer').innerText;
+            let Onderdeel = value.name;
+            //TODO wedstrijd_ID: "SELECT wedstrijd_ID FROM wedstrijden WHERE wedstrijddatum = CURDATE() AND groep_ID = " + group_ID,
+            //TODO deelnemer_ID: //HIER MOET DEELNEMER ID VAN DEELNEMER KOMEN,
+            // TODO onderdeel_id: //HIER MOET ONDERDEEL ID VAN ONDERDEEL KOMEN,
+            // TODO subonderdeel_id: //HIER MOET SUBONDERDEEL ID VAN SUBONDERDEEL KOMEN
+
+            const scores = new Score(D,E,N,Onderdeel,Nummer,Total);
+
+            socket.emit('send_Turner_score',scores);
             ResetJury();
             alert('Verzonden!')
         } else {
