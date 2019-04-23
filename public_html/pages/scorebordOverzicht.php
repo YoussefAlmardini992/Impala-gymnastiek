@@ -85,6 +85,19 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
             value.status = "disconnected";
             socket.emit('Login_value',value);
         }
+
+        function openFullscreen() {
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.mozRequestFullScreen) { /* Firefox */
+            elem.mozRequestFullScreen();
+          } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) { /* IE/Edge */
+            elem.msRequestFullscreen();
+          }
+        }
+
     </script>
 </body>
 <script>
