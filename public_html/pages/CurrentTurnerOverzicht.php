@@ -14,16 +14,15 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "turner"){
     </title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="../styles/overzichtStyles.css">
-    <link rel="stylesheet" href="../styles/currentTurnerOverzicht.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 </head>
-<body>
+<body class="scoreBordBody">
 <div id="main">
     <a class="score-logout" href="../uti/logout.php" onclick="ClearLoginValue()">X</a>
     <div class="header">
-
-        <div class="item" style="text-align: left">
-            <h1>t_nummer</h1>
+        <div class="item" style="text-align: left; display: flex">
+            <h1>t_nummer : &nbsp;&nbsp; </h1>
+            <h1>3000</h1>
         </div>
         <div class="item">
             <h1>Sprong</h1>
@@ -50,7 +49,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "turner"){
                 </tr>
             </table>
             <div class="totaal">
-                10
+               totaal : 10
             </div>
         </div>
     </div>
