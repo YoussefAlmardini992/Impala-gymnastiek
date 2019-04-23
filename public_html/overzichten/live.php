@@ -99,6 +99,7 @@ include("../../../connection.php")
   let groupName;
   let TheChosenGroup;
   let current_deelnemer;
+  const Scores = [];
 
   //On select group from dropDown menu*****************************************
   function onGroepSelect(select) {
@@ -268,17 +269,30 @@ include("../../../connection.php")
   // Ontvangt scores van server
   socket.on('send_Turner_score_to_secretariaat', function (score) {
     console.log(score);
-
-    // Zet alle gegevens in een div
-    $("#sended_scores").append("<div class='card_container'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'><div class='card_Line'><p>Jury: " + score.Onderdeel +
-    "</p></div><div class='card_Line'><p>Nummer: " + score.Nummer +
-    "</p></div><div class='card_Line'><p>D: " + score.D +
-    "</p></div><div class='card_Line'><p>E: " + score.E +
-    "</p></div><div class='card_Line'><p>N: " + score.N +
-    "</p></div><div class='card_Line'><p>Totaal: " + score.Total +
-    "</p></div><div class='bevestigen_button'><button class='Enabled custom' onclick='addScoreDB'>BEVESTIGEN</button></div></div>");
+    Scores.push(score);
+    updateInterFace();
   });
 
+  function updateInterFace() {
+    $("#sended_scores").empty();
+
+    let index = 0;
+
+    Scores.forEach(function (score) {
+      createCard(score , index);
+      index++;
+    })
+  }
+
+  function createCard(score , id) {
+    $("#sended_scores").append("<div class='card_container' id='"+ id + "'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'><div class='card_Line'><p>Jury: " + score.Onderdeel +
+      "</p></div><div class='card_Line'><p>Nummer: " + score.Nummer +
+      "</p></div><div class='card_Line'><p>D: " + score.D +
+      "</p></div><div class='card_Line'><p>E: " + score.E +
+      "</p></div><div class='card_Line'><p>N: " + score.N +
+      "</p></div><div class='card_Line'><p>Totaal: " + score.Total +
+      "</p></div><div class='bevestigen_button'><button class='Enabled custom' onclick='addScoreDB(this)'>BEVESTIGEN</button></div></div>");
+  }
 
 
   // Add Card Effect
@@ -286,16 +300,17 @@ include("../../../connection.php")
     console.log(element);
     element.addEventListener('mouseenter',function(){
       element.style.transform = 'scale(1.04)';
-    })
+    });
     element.addEventListener('mouseleave',function(){
       element.style.transform = 'scale(1)';
     })
-    
   }
 
   // Voegt Score toe aan DATABASE
-  function addScoreDB() {
-    
+  function addScoreDB(control) {
+    const ID = control.parentElement.parentElement.parentElement.id;
+    const clickedCard = Scores[ID];
+    console.log(clickedCard);
   }
 
 </script>
