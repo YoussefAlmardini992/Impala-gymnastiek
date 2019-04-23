@@ -1,5 +1,6 @@
 <?php
-include("../uti/connection.php");
+//include("../uti/connection.php");
+include("../../../connection.php");
 session_start();
 if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
     header('Location: ../index.php');
@@ -15,6 +16,14 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="../styles/overzichtStyles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+    <style>
+        tr:nth-child(even) {
+            Background-color: blue;
+        }
+        .table{
+            font-size: 3rem;
+        }
+    </style>
 </head>
 <body class="scoreBordBody">
 <div id="main">
