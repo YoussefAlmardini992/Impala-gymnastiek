@@ -42,7 +42,7 @@ function timestamp() {
             <h1 id="DnNummer">turner_nummer</h1>
         </div>
         <div class="item">
-            <h1><?php echo($loginID)?></h1>
+            <img width="80px" src="../assets/<?php echo($loginID)?>.png">
         </div>
         <div class="item" style="text-align: right">
             <div id="timestamp"></div>
