@@ -9,13 +9,15 @@ if(isset($_POST["submit"])) {
     switch (true) {
         
         case ($username == "secretariaat" and $password == "secretariaat");
-            $_SESSION["id"] = $_POST["userName"];
-            header('Location: pages/secretariaatOverzicht.php?overzicht=deelnemers');
+
+            logIn_Once('secretariaat','Location: pages/secretariaatOverzicht.php?overzicht=deelnemers');
             break;
+
         case ($username == "scorebord" and $password == "scorebord");
-            $_SESSION["id"] = $_POST["userName"];
-            header('Location: pages/scorebordOverzicht.php');
+
+            logIn_Once('scorebord','Location: pages/scorebordOverzicht.php');
             break;
+
         case ($username == "turnerbord" and $password == "turnerbord");
             $_SESSION["id"] = $_POST["userName"];
             header('Location: pages/CurrentTurnerOverzicht.php');
@@ -57,6 +59,17 @@ if(isset($_POST["submit"])) {
             echo "<script type='text/javascript'>alert('$message');</script>";
     };
 }
+
+function logIn_Once($user,$href){
+    $_SESSION["id"] = $_POST["userName"];
+    if(isset($_COOKIE[$user])){
+        echo "<script type='text/javascript'>alert('doubbel inloggin mag niet');</script>";
+    }else{
+        setcookie($user, 'logged_In', time() + (86400), "/");
+        header($href);
+    }
+}
+
 ?>
 <html>
 <head>

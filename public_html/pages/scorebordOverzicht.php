@@ -27,7 +27,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
 </head>
 <body class="scoreBordBody">
 <div id="main">
-    <a class="score-logout" href="../uti/logout.php" onclick="ClearLoginValue()">X</a>
+    <a class="score-logout" href="../uti/logout.php" onclick="<?php logOut()?>">X</a>
     <div class="content">
         <h1 class="ScoreBordTitle" >Scores - Niveau groep</h1>
         <div class="container-table">
@@ -99,9 +99,20 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
         }
 
     </script>
+
+        <?php
+
+            function logOut(){
+                var_dump($_SESSION["id"]);
+                include '../uti/logoutWatcher.php';
+                logOut('scorebord');
+            }
+
+        ?>
 </body>
 <script>
 
 </script>
 </html>
+
 
