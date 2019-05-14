@@ -265,9 +265,9 @@ include("../../../connection.php")
   function addScoreDB(control) {
     const ID = control.parentElement.parentElement.parentElement.id;
     const clickedCard = Scores[ID];
-
+    
     socket.emit('send_Turner_card',clickedCard);
-
+    control.parentElement.parentElement.parentElement.remove();
     console.log(clickedCard);
   }
 
