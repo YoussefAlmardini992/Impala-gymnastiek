@@ -9,13 +9,12 @@ if(isset($_POST["submit"])) {
     switch (true) {
         
         case ($username == "secretariaat" and $password == "secretariaat");
-
             logIn_Once('secretariaat','Location: pages/secretariaatOverzicht.php?overzicht=deelnemers');
             break;
 
         case ($username == "scorebord" and $password == "scorebord");
-
-            logIn_Once('scorebord','Location: pages/scorebordOverzicht.php');
+            $_SESSION["id"] = $_POST["userName"];
+            header('Location: pages/scorebordOverzicht.php');
             break;
 
         case ($username == "turnerbord" and $password == "turnerbord");

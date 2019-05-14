@@ -27,11 +27,12 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
 </head>
 <body class="scoreBordBody">
 <div id="main">
-    <a class="score-logout" href="../uti/logout.php" onclick="<?php logOut()?>">X</a>
+    <a class="score-logout" href="../uti/logout.php" onclick="">X</a>
+    <a class="score-logout" onclick="openFullscreen()">full screen</a>
     <div class="content">
         <h1 class="ScoreBordTitle" >Scores - Niveau groep</h1>
         <div class="container-table">
-        <table class="table">
+        <table class="table" id="scoreTable">
             <thead>
             <tr>
                 <td width="30%">POSITTIE</td>
@@ -39,31 +40,6 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
                 <td>SCORE</td>
             </tr>
             </thead>
-            <tr>
-                <td>1</td>
-                <td>Naam</td>
-                <td>Score</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Naam</td>
-                <td>Score</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Naam</td>
-                <td>Score</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Naam</td>
-                <td>Score</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Naam</td>
-                <td>Score</td>
-            </tr>
         </table>
         </div>
     </div>
@@ -71,10 +47,15 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
     <script>
         let value = {user:"<?php echo $loginID; ?>",status:'connected'};
 
-        const socket = io.connect('http://145.120.207.219:3000');
-        //const socket = io.connect('http://localhost:3000');
+        //const socket = io.connect('http://145.120.207.219:3000');
+        const socket = io.connect('http://localhost:3000');
 
         socket.emit('Login_value',value);
+
+        socket.on('get_Turner_card',function (card) {
+          createScoreLine(card);
+          console.log(card);
+        });
 
         // Als de gebruiker het tabblad sluit, inplaats van uitlogd
         window.onbeforeunload = function() {
@@ -86,27 +67,31 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord"){
             socket.emit('Login_value',value);
         }
 
+
+
+        function createScoreLine(card) {
+          const newScoreLine = document.createElement('tr');
+          const positie = document.createElement('td');
+          const naam = document.createElement('td');
+          const score = document.createElement('td');
+          newScoreLine.appendChild(positie);
+          newScoreLine.appendChild(naam);
+          newScoreLine.appendChild(score);
+          naam.innerText = card.Name;
+          score.innerText = card.Total;
+          newScoreLine.id = score.innerText;
+          document.getElementById('scoreTable').appendChild(newScoreLine);
+        }
+
         function openFullscreen() {
-          if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-          } else if (elem.mozRequestFullScreen) { /* Firefox */
-            elem.mozRequestFullScreen();
-          } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-            elem.webkitRequestFullscreen();
-          } else if (elem.msRequestFullscreen) { /* IE/Edge */
-            elem.msRequestFullscreen();
-          }
+
         }
 
     </script>
 
         <?php
 
-            function logOut(){
-                var_dump($_SESSION["id"]);
-                include '../uti/logoutWatcher.php';
-                logOut('scorebord');
-            }
+
 
         ?>
 </body>
