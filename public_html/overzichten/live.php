@@ -239,13 +239,15 @@ include("../../../connection.php")
   }
 
   function createCard(score , id) {
-    $("#sended_scores").append("<div class='card_container' id='"+ id + "'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'><div class='card_Line'><p>Jury: " + score.Onderdeel +
-      "</p></div><div class='card_Line'><p>Nummer: " + score.Nummer +
-      "</p></div><div class='card_Line'><p>D: " + score.D +
-      "</p></div><div class='card_Line'><p>E: " + score.E +
-      "</p></div><div class='card_Line'><p>N: " + score.N +
-      "</p></div><div class='card_Line'><p>Totaal: " + score.Total +
-      "</p></div><div class='bevestigen_button'><button class='Enabled custom' onclick='addScoreDB(this)'>BEVESTIGEN</button></div></div>");
+    $("#sended_scores").append("<div class='card_container' id='"+ id + "'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'>" +
+      "<form class='score_card_form'>" +
+          "<input readonly type='text' name='jury' value='"+ score.Onderdeel +"'><br>" + 
+          "<input readonly type='number' name='nummer' value='"+score.Nummer+"' min='1' max='999'><br>" +
+          "<input type='number' name='D' value='"+score.D+"' min='0' max='10'><br>" +
+          "<input type='number' name='E' value='"+score.E+"' min='0' max='10'><br>" +
+          "<input type='number' name='N' value='"+score.N+"' min='0' max='10'><br>" +
+          "<input type='number' name='totaal' value='"+score.Total+"' min='0' max='10' step='0.001'><br>" +
+        "</form><div class='bevestigen_button'><button class='Enabled custom' onclick='addScoreDB(this)'>BEVESTIGEN</button></div></div>");
   }
 
 
