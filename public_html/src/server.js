@@ -91,9 +91,14 @@ function emitConnection(SERVER) {
     });
 
     //////// EXTRA CODE VAN THIJMEN LOCAAL
-
     socket.on('send_Turner_score',function (scores) {
       socket.broadcast.emit('send_Turner_score_to_secretariaat',scores);
+    });
+
+    //ON RECIEVE CARD
+    socket.on('send_Turner_card',function (card) {
+      console.log(card)
+      socket.broadcast.emit('get_Turner_card',card);
     });
 
   });

@@ -83,7 +83,6 @@ function timestamp() {
             <div class="header_item selector">
                 <select id='deelnemers'>
                     <option selected="default"></option>
-                    
                 </select>
             </div>
         </div>
@@ -231,12 +230,14 @@ var id = "<?php echo $loginID ?>";
             let Total = document.getElementById('total').innerText;
             let Nummer = document.getElementById('DnNummer').innerText;
             let Onderdeel = value.name;
+            let name = document.getElementById('DnNaam').innerHTML;
+            console.log(name);
             //TODO wedstrijd_ID: "SELECT wedstrijd_ID FROM wedstrijden WHERE wedstrijddatum = CURDATE() AND groep_ID = " + group_ID,
             //TODO deelnemer_ID: //HIER MOET DEELNEMER ID VAN DEELNEMER KOMEN,
             // TODO onderdeel_id: //HIER MOET ONDERDEEL ID VAN ONDERDEEL KOMEN,
             // TODO subonderdeel_id: //HIER MOET SUBONDERDEEL ID VAN SUBONDERDEEL KOMEN
 
-            const scores = new Score(D,E,N,Onderdeel,Nummer,Total);
+            const scores = new Score(D,E,N,Onderdeel,Nummer,Total,name);
 
             socket.emit('send_Turner_score',scores);
             ResetJury();
