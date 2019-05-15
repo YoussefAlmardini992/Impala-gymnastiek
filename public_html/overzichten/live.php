@@ -269,6 +269,7 @@ include("../../../connection.php")
     socket.emit('send_Turner_card',clickedCard);
     control.parentElement.parentElement.parentElement.remove();
     console.log(clickedCard);
+    socket.emit('getCardData',clickedCard);
   }
 
 </script>
