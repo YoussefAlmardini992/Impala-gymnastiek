@@ -16,9 +16,6 @@ connection.connect(function(err) {
   console.log('Connected to the MySQL server.');
 });
 
-
-
-
 const app = express();
 const http_server = http.createServer(app).listen(3000);
 
@@ -53,6 +50,20 @@ function emitConnection(SERVER) {
         console.log(results);
       });
 
+    });
+
+    socket.on('getCardData',function (card) {
+
+      connection.query('SELECT deelnemer_ID, groepen.groep_ID\n' +
+        'FROM wedstrijden\n' +
+        'JOIN groepen ON wedstrijden.groep_ID = groepen.groep_ID\n' +
+        'JOIN deelnemers ON deelnemers.groep_ID = groepen.groep_ID\n' +
+        'WHERE deelnemers.nummer ="' + card.Nummer + '" INTERSECT SELECT subonderdeel.onderdeel_id, subonderdeel.subonderdeel_id FROM subonderdeel WHERE subonderdeel.subonderdeel ="' + card.Onderdeel + '"', function (error, results, fields) {
+        if (error) throw error;
+        console.log(results);
+
+
+      });
     });
 
     //ON SELECT USER
