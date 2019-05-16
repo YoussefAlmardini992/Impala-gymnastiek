@@ -190,8 +190,11 @@ var id = "<?php echo $loginID ?>";
 
     //On select group from dropDown menu*****************************************
     function onGroepSelect(select) {
-        //emit to server
-        socket.emit('select_group', select.value);
+        const deelnemersSelect = document.getElementById('deelnemers');
+        $.when(ClearList(deelnemersSelect)).done(function() {
+            //emit to server
+            socket.emit('select_group', select.value);
+        });
     }
 
     //Clear select when index is changed********************************************************
@@ -231,11 +234,7 @@ var id = "<?php echo $loginID ?>";
             let Nummer = document.getElementById('DnNummer').innerText;
             let Onderdeel = value.name;
             let name = document.getElementById('DnNaam').innerHTML;
-            //TODO wedstrijd_ID: ,
-            //TODO deelnemer_ID: //HIER MOET DEELNEMER ID VAN DEELNEMER KOMEN,
-            // TODO onderdeel_id: //HIER MOET ONDERDEEL ID VAN ONDERDEEL KOMEN,
-            // TODO subonderdeel_id: //HIER MOET SUBONDERDEEL ID VAN SUBONDERDEEL KOMEN
-
+            
             const scores = new Score(D,E,N,Onderdeel,Nummer,Total,name);
 
             socket.emit('send_Turner_score',scores);
