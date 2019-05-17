@@ -53,10 +53,10 @@ function emitConnection(SERVER) {
     });
 
     socket.on('getCardData',function (card) {
-<<<<<<< HEAD
 
 
-=======
+
+
       // LAST QUERY FOR ALL DATA
       connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
       'FROM wedstrijden ' +
@@ -73,7 +73,7 @@ function emitConnection(SERVER) {
           console.log('insert is done');
       });
       });
->>>>>>> master
+
     });
 
 
