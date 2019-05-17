@@ -1,11 +1,5 @@
 <?php
 //include("uti/connection.php");
-session_start();
-if(!isset($_SESSION["id"]) && $_SESSION["id"] != "turner"){
-    header('Location: ../index.php');
-} else {
-    $loginID = $_SESSION["id"];
-}
 ?>
 <html>
 <head>
@@ -26,7 +20,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "turner"){
 </head>
 <body class="scoreBordBody">
 <div id="main">
-    <a class="score-logout" href="../uti/logout.php" onclick="ClearLoginValue()">X</a>
+    <a class="score-logout"  onclick="logout()">X</a>
     <div class="header">
         <div class="item" style="text-align: left; display: flex">
             <h1>t_nummer : &nbsp;&nbsp; </h1>
@@ -63,9 +57,33 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "turner"){
     </div>
 </div>
     <script>
-        let value = {user:"<?php echo $loginID; ?>",status:'connected'};
         //const socket = io.connect('http://145.120.207.219:3000');
         const socket = io.connect('http://localhost:3000');
+        var user;
+        if(localStorage.getItem("turnerboard") != "turnerboard"){
+            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+        }else{
+            user = "turnerboard";
+        }
+
+
+
+        function logout(){
+
+            var test =   confirm("Are you sure you want to logout?");
+            if (test) {
+                localStorage.removeItem("turnerboard");
+                ClearLoginValue();
+                this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+            }else{
+                return false;
+            }
+        }
+
+
+        let value = {name:user,status:'connected'};
+
+
 
         socket.emit('Login_value',value);
 
@@ -75,8 +93,7 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "turner"){
         };
 
         function ClearLoginValue() {
-            value.status = "disconnected";
-            socket.emit('Login_value',value);
+            socket.emit('Logout_value', value["name"]);
         }
     </script>
 </body>
