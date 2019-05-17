@@ -8,7 +8,7 @@ const socket = require('socket.io'),
   mysql = require('mysql');
 
 let connection = mysql.createConnection(connectionData);
-
+var users = [];
 connection.connect(function(err) {
   if (err) {
     return console.error('error: ' + err.message);
@@ -53,6 +53,10 @@ function emitConnection(SERVER) {
     });
 
     socket.on('getCardData',function (card) {
+
+
+
+
       // LAST QUERY FOR ALL DATA
       connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
       'FROM wedstrijden ' +
@@ -69,14 +73,33 @@ function emitConnection(SERVER) {
           console.log('insert is done');
       });
       });
+
     });
 
-    //ON SELECT USER
+
+
+      //ON SELECT USER
     socket.on('Login_value', function (value) {
       socket.broadcast.emit('get_user',value);
+        users.push(value);
+        socket.broadcast.emit('get_user',users);
+        console.log(users);
     });
 
-    //ON START MATCH
+      socket.on('Logout_value', function (value) {
+
+          for (user in users ){
+                    if(users[user]["name"] == value){
+                        users[user]["status"] = "disconnected";
+                    }
+          }
+          socket.broadcast.emit('get_user',users);
+          console.log(users);
+      });
+
+
+
+      //ON START MATCH
     // 3. Make sure all the screens receive the group. There can be multiple connections. - Jarrin
     socket.on('start_match',function (group) {
       // Loop al screen connection and emit the event.
