@@ -2,10 +2,7 @@
 //include("../uti/connection.php"); // Voor online
 include("../../../connection.php"); // Voor localhost
 
-//session_start();
-//if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
-  //  header('Location: ../index.php');
-//}
+
 ?>
 <html>
 <head>
@@ -16,6 +13,8 @@ include("../../../connection.php"); // Voor localhost
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="../styles/overzichtStyles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+
 
 </head>
 <body>
@@ -443,36 +442,34 @@ include("../../../connection.php"); // Voor localhost
 
 
 
-    if(localStorage.getItem("secretariaat") != "secretariaat"){
-        this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
-    }
 
     window.onbeforeunload = function () {
         logout()
     };
 
+    //const socket = io.connect('http://145.120.207.219:3000');
+    const socket = io.connect('http://localhost:3000');
+
+
     function logout(){
 
         var test =   confirm("Are you sure you want to logout?");
         if (test) {
-            localStorage.removeItem("secretariaat");
-            ClearLoginValue();
-            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+            socket.emit('logOut','secretariaat');
+            socket.on('logOutConfirm',function () {
+                window.location = 'http://localhost/jaar2/p3/projecten/impala/public_html/index.php'
+            })
         }else{
             return false;
         }
     }
 
 
-    window.onbeforeunload = function() {
-        ClearLoginValue();
-    };
 
-    function ClearLoginValue() {
-        value.status = "disconnected";
-        socket.emit('Login_value',value);
-        localStorage.removeItem("secretariaat");
-    }
+    // window.onbeforeunload = function() {
+    //     ClearLoginValue();
+    // };
+
 
 
     function openNav() {

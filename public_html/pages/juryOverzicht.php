@@ -79,6 +79,7 @@ include("../../../connection.php");
             </div>
         </div>
         <div class="selectLine">
+            <div id="jury">null</div>
             <div class="header_item heading">Deelnemer</div>
             <div class="header_item selector">
                 <select id='deelnemers'>
@@ -134,87 +135,83 @@ include("../../../connection.php");
 
     //const socket = io.connect('http://145.120.207.219:3000');
     const socket = io.connect('http://localhost:3000');
-    let value;
-
-    window.onbeforeunload = closingCode;
-    function closingCode(){
-        logout();
-    }
-
-
-    var juryNaam;
-    switch (true){
-        case (localStorage.getItem("rek") == "rek"):
-            juryNaam = "rek";
-             value = {name:juryNaam,status:'connected'};
-            break;
-
-        case (localStorage.getItem("vloer") == "vloer"):
-            juryNaam = "vloer";
-             value = {name:juryNaam,status:'connected'};
-            break;
-
-        case (localStorage.getItem("balk") == "balk"):
-            juryNaam = "balk";
-            value = {name:juryNaam,status:'connected'};
-            break;
-
-        case (localStorage.getItem("ringen") == "ringen"):
-            juryNaam = "ringen";
-            value = {name:juryNaam,status:'connected'};
-            break;
-
-        case (localStorage.getItem("sprong") == "sprong"):
-            juryNaam = "sprong";
-            value = {name:juryNaam,status:'connected'};
-            break;
-
-        case (localStorage.getItem("brug gelijk") == "brug gelijk"):
-            juryNaam = "brug gelijk";
-            value = {name:juryNaam,status:'connected'};
-            break;
-
-        case (localStorage.getItem("brug ongelijk") == "brug ongelijk"):
-            juryNaam = "brug ongelijk";
-            value = {name:juryNaam,status:'connected'};
-            break;
-
-        case (localStorage.getItem("voltige") == "voltige"):
-            juryNaam = "voltige";
-            value = {name:juryNaam,status:'connected'};
-            break;
-        default:
-            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
-    }
-
-
-    console.log(juryNaam);
-
+    // let value;
+    //
+    // window.onbeforeunload = closingCode;
+    // function closingCode(){
+    //     logout();
+    // }
+    //
+    //
+    // var juryNaam;
+    // switch (true){
+    //     case (localStorage.getItem("rek") == "rek"):
+    //         juryNaam = "rek";
+    //          value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("vloer") == "vloer"):
+    //         juryNaam = "vloer";
+    //          value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("balk") == "balk"):
+    //         juryNaam = "balk";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("ringen") == "ringen"):
+    //         juryNaam = "ringen";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("sprong") == "sprong"):
+    //         juryNaam = "sprong";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("brug gelijk") == "brug gelijk"):
+    //         juryNaam = "brug gelijk";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("brug ongelijk") == "brug ongelijk"):
+    //         juryNaam = "brug ongelijk";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("voltige") == "voltige"):
+    //         juryNaam = "voltige";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //     default:
+    //         this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+    // }
+    //
+    //
+    // console.log(juryNaam);
+    //
     function logout(){
 
 
         var test =   confirm("Are you sure you want to logout?");
         if (test) {
-            localStorage.removeItem(juryNaam);
-            ClearLoginValue();
+            const juryname = document.getElementById('jury').innerHTML;
+            socket.emit('logOut',juryname);
             this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
         }else{
             return false;
         }
     }
-
-
-    socket.emit('Login_value',value);
+    //
+    //
+    // socket.emit('Login_value',value);
 
     // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
     window.onbeforeunload = function() {
         logout();
     };
 
-    function ClearLoginValue() {
-        socket.emit('Logout_value',juryNaam);
-        localStorage.removeItem(juryNaam);
-    }
 
 
 
@@ -305,7 +302,7 @@ include("../../../connection.php");
             let N = document.getElementById('N_score_Input').value;
             let Total = document.getElementById('total').innerText;
             let Nummer = document.getElementById('DnNummer').innerText;
-            let Onderdeel = value.name;
+            let Onderdeel = document.getElementById("jury").innerHTML;
             let name = document.getElementById('DnNaam').innerHTML;
             
             const scores = new Score(D,E,N,Onderdeel,Nummer,Total,name);
@@ -351,6 +348,13 @@ include("../../../connection.php");
             })
         });
     });
+
+    document.body.onload = function () {
+        socket.emit('requestUser',{name:'juryOverzicht',status:'connected'});
+        socket.on("sendUrl" , function (data) {
+            document.getElementById('jury').innerHTML = data.user.name;
+        })
+    }
 
 
 </script>
