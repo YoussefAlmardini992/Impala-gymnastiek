@@ -53,11 +53,6 @@ include("../../../connection.php");
 
 
     var user;
-    if(localStorage.getItem("scoreboard") != "scoreboard"){
-        this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
-    }else{
-        user = "scoreboard";
-    }
 
     function logout(){
 

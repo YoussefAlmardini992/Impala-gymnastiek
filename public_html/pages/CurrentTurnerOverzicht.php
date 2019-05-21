@@ -59,13 +59,6 @@
         //const socket = io.connect('http://145.120.207.219:3000');
         const socket = io.connect('http://localhost:3000');
         var user;
-        if(localStorage.getItem("turnerboard") != "turnerboard"){
-            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
-        }else{
-            user = "turnerboard";
-        }
-
-
 
         function logout(){
 
