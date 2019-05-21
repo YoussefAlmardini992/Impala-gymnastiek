@@ -55,27 +55,27 @@ function emitConnection(SERVER) {
 
         socket.on('getCardData', function (card) {
             // LAST QUERY FOR ALL DATA
-            try{
-                connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
-                    'FROM wedstrijden ' +
-                    'JOIN groepen ON wedstrijden.groep_ID = groepen.groep_ID ' +
-                    'JOIN deelnemers ON deelnemers.groep_ID = groepen.groep_ID ' +
-                    'CROSS JOIN subonderdeel ' +
-                    'WHERE deelnemers.nummer=' + card.Nummer + ' ' +
-                    'AND subonderdeel.subonderdeel = ' + '"' + card.Onderdeel + '"', function (error, results, fields) {
-                    if (error) throw error;
-                    // INSERT QUERY
-                    connection.query("INSERT INTO `scores` (`deelnemer_ID`, `wedstrijd_ID`, `onderdeel_id`, `subonderdeel_id`, `D_score`, `E_score`, `N_score`)" +
-                        "VALUES (" + results[0].deelnemer_ID + ", " + results[0].wedstrijd_ID + ", " + results[0].onderdeel_id + ", " + results[0].subonderdeel_id + ", " + card.D + ", " + card.E + ", " + card.N + ")", function (error, results, fields) {
-                        if (error) throw error;
-                        console.log('insert is done');
-                    });
-                });
-            }catch (e) {
-                console.error(e.message);
-            }finally {
-
-            }
+            // try{
+            //     connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
+            //         'FROM wedstrijden ' +
+            //         'JOIN groepen ON wedstrijden.groep_ID = groepen.groep_ID ' +
+            //         'JOIN deelnemers ON deelnemers.groep_ID = groepen.groep_ID ' +
+            //         'CROSS JOIN subonderdeel ' +
+            //         'WHERE deelnemers.nummer=' + card.Nummer + ' ' +
+            //         'AND subonderdeel.subonderdeel = ' + '"' + card.Onderdeel + '"', function (error, results, fields) {
+            //         if (error) throw error;
+            //         // INSERT QUERY
+            //         connection.query("INSERT INTO `scores` (`deelnemer_ID`, `wedstrijd_ID`, `onderdeel_id`, `subonderdeel_id`, `D_score`, `E_score`, `N_score`)" +
+            //             "VALUES (" + results[0].deelnemer_ID + ", " + results[0].wedstrijd_ID + ", " + results[0].onderdeel_id + ", " + results[0].subonderdeel_id + ", " + card.D + ", " + card.E + ", " + card.N + ")", function (error, results, fields) {
+            //             if (error) throw error;
+            //             console.log('insert is done');
+            //         });
+            //     });
+            // }catch (e) {
+            //     console.error(e.message);
+            // }finally {
+            //
+            // }
 
         });
 
@@ -178,7 +178,7 @@ function emitConnection(SERVER) {
 
         //ON RECIEVE CARD
         socket.on('send_Turner_card', function (card) {
-            console.log(card)
+            console.log(card);
             socket.broadcast.emit('get_Turner_card', card);
         });
 
