@@ -212,9 +212,9 @@ var id = "<?php echo $loginID ?>";
     function UpdateTurnerInfo(deelnemer) {
         const deelnemer_name = document.getElementById('DnNaam');
         const deelnemer_nummer = document.getElementById('DnNummer');
-
         deelnemer_name.innerText = deelnemer.voornaam + " " + deelnemer.tussenvoegsel + " " + deelnemer.achternaam;
         deelnemer_nummer.innerText = deelnemer.nummer;
+        current_deelnemer = deelnemer;
     }
 
     function SendTurnerScores() {
@@ -237,8 +237,11 @@ var id = "<?php echo $loginID ?>";
             // TODO subonderdeel_id: //HIER MOET SUBONDERDEEL ID VAN SUBONDERDEEL KOMEN
 
             const scores = new Score(D,E,N,Onderdeel,Nummer,Total,name);
+            current_deelnemer.scores = scores;
 
             socket.emit('send_Turner_score',scores);
+            socket.emit('send_current_turner',current_deelnemer);
+
             ResetJury();
             alert('Verzonden!')
         } else {
@@ -273,7 +276,6 @@ var id = "<?php echo $loginID ?>";
             groep.turners.forEach(function (deelnemer) {
                 if (deelnemer.deelnemer_ID == deelnemersSelect.value) {
                     UpdateTurnerInfo(deelnemer);
-                    
                     console.log(deelnemer);
                 }
             })

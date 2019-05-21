@@ -59,6 +59,7 @@
 .score-logout:hover{
     color: red;
     opacity: 100 ;
+    cursor: pointer;
 }
 .ScoreBordTitle{
     margin: 20px 0 ;
