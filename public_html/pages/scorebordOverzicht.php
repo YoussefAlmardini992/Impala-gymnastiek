@@ -29,7 +29,7 @@ include("../../../connection.php");
 <body class="scoreBordBody">
 <div id="main">
     <button class="score-logout"  onclick="logout()">X</button>
-    <a class="score-logout" id="fullScreen">full screen</a>
+    <a class="score-logout" id="fullScreen">[]</a>
     <div class="content">
         <h1 class="ScoreBordTitle">Scores - Niveau groep</h1>
         <div class="container-table">
@@ -127,7 +127,7 @@ include("../../../connection.php");
     if (evt.keyCode == 27)
       {
         fullScreen = false;
-        document.getElementById('fullScreen').innerText = 'full screen';
+        document.getElementById('fullScreen').innerText = ' []';
       }
     };
 
