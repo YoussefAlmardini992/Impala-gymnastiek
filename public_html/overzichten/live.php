@@ -11,7 +11,8 @@ include("../../../connection.php")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
     <script src="../src/classes/groep.js"></script>
 </head>
-<body onunload="getUsers()">
+
+<body  onunload="return false">
 
 <div class="live_container">
     <div class="live_header">
@@ -49,6 +50,7 @@ include("../../../connection.php")
 </div>
 
 <script>
+
 
   //Connect to SERVER.js**********************************************
   //const socket = io.connect('http://145.120.207.219:3000');
@@ -156,31 +158,46 @@ include("../../../connection.php")
 
   //On user log in ****************************************************************************************
 
-     socket.on('get_user', function (user) {
 
-    // let userExist = false;
-    // CheckUsersExist(user, userExist);
-    // !userExist && users.push(user);
-    // CheckUsersConnection();
+      function CreateStatus(user) {
 
-    //console.log(users);
+          const statusBody = document.getElementById("statusBody");
+          const StatusItem = document.createElement('div');
+          StatusItem.classList.add('statusItem');
+          const UserName = document.createElement('div');
+          UserName.classList.add('userName');
+          const statusSituation = document.createElement('div');
+          UserName.innerText = user.name;
+          statusSituation.classList.add('statusSituation');
+          statusSituation.innerText = user.status + "...";
 
-        const statusBody = document.getElementById("statusBody");
-        while (statusBody.firstChild) {
-            statusBody.removeChild(statusBody.firstChild);
-        }
-        if(user.length > 0){
-            user.forEach(function (value) {
-                if(value["status"] == "connected")
-                    CreateStatus(value);
-            });
-        }
-        console.log(user);
+          StatusItem.appendChild(UserName);
+          StatusItem.appendChild(statusSituation);
+          statusBody.appendChild(StatusItem);
+      }
+      socket.on('get_user', function (user) {
+
+          // let userExist = false;
+          // CheckUsersExist(user, userExist);
+          // !userExist && users.push(user);
+          // CheckUsersConnection();
+
+          //console.log(users);
+
+          const statusBody = document.getElementById("statusBody");
+          while (statusBody.firstChild) {
+              statusBody.removeChild(statusBody.firstChild);
+          }
+          if(user.length > 0){
+              user.forEach(function (value) {
+                  if(value["status"] == "connected")
+                      CreateStatus(value);
+              });
+          }
+          console.log(user);
 
 
       });
-
-
 
   socket.on('get_deelnemer_score', function (scores) {
     console.log(scores);
@@ -214,22 +231,7 @@ include("../../../connection.php")
   }
 
 
-  function CreateStatus(user) {
 
-    const statusBody = document.getElementById("statusBody");
-    const StatusItem = document.createElement('div');
-    StatusItem.classList.add('statusItem');
-    const UserName = document.createElement('div');
-    UserName.classList.add('userName');
-    const statusSituation = document.createElement('div');
-    UserName.innerText = user.name;
-    statusSituation.classList.add('statusSituation');
-    statusSituation.innerText = user.status + "...";
-
-    StatusItem.appendChild(UserName);
-    StatusItem.appendChild(statusSituation);
-    statusBody.appendChild(StatusItem);
-  }
   
   //////// EXTRA CODE VAN THIJMEN LOCAAL
 
