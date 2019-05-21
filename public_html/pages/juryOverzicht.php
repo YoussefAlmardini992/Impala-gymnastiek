@@ -1,17 +1,11 @@
 <?php
 //include("../uti/connection.php");
 include("../../../connection.php");
-session_start();
-if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
-    header('Location: ../index.php');
-} else {
-        $loginID = $_SESSION["id"];
-}
 ?>
 <html>
 <head>
     <title>
-        Impala - Jury <?php echo($loginID)?>
+        Impala - Jury
     </title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="../styles/overzichtStyles.css">
@@ -23,19 +17,25 @@ if(!isset($_SESSION["id"]) && $_SESSION["id"] != "jury"){
 </head>
 
 <script>
-$(document).ready(function() {
-    setInterval(timestamp, 1000);
-});
+    $(document).ready(function() {
+        setInterval(timestamp, 1000);
+    });
 
-function timestamp() {
-    var dt = new Date();
-    var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-    document.getElementById('timestamp').innerHTML = time;
-}
+    function timestamp() {
+        var dt = new Date();
+        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        document.getElementById('timestamp').innerHTML = time;
+    }
+
+    //login loguit systeem
+
+    //On reload or close confirm*************************************************
+
+
 </script>
 <body>
 <div id="main">
-    <a class="score-logout" href="../uti/logout.php" onclick="ClearLoginValue();">X</a>
+    <button class="score-logout"  onclick="logout()" > X </button>
     <div class="header">
 
         <div class="item" style="text-align: left">
@@ -118,7 +118,9 @@ function timestamp() {
 </div>
 </body>
 <script>
-var id = "<?php echo $loginID ?>";
+
+    //var id = localStorage.getItem("rek");
+
     function onScoreChange(input) {
       if(input.value > 10 || input.value < 0){
         alert("ongeldige waarde!... U kunt een nummer invoeren tussen 0 en 10.");
@@ -128,24 +130,95 @@ var id = "<?php echo $loginID ?>";
       telTotaalScore();
     }
 
-    let value = {name:"<?php echo $loginID; ?>",status:'connected'};
+
 
     //const socket = io.connect('http://145.120.207.219:3000');
     const socket = io.connect('http://localhost:3000');
+    let value;
 
+    window.onbeforeunload = closingCode;
+    function closingCode(){
+        logout();
+    }
+
+
+    var juryNaam;
+    switch (true){
+        case (localStorage.getItem("rek") == "rek"):
+            juryNaam = "rek";
+             value = {name:juryNaam,status:'connected'};
+            break;
+
+        case (localStorage.getItem("vloer") == "vloer"):
+            juryNaam = "vloer";
+             value = {name:juryNaam,status:'connected'};
+            break;
+
+        case (localStorage.getItem("balk") == "balk"):
+            juryNaam = "balk";
+            value = {name:juryNaam,status:'connected'};
+            break;
+
+        case (localStorage.getItem("ringen") == "ringen"):
+            juryNaam = "ringen";
+            value = {name:juryNaam,status:'connected'};
+            break;
+
+        case (localStorage.getItem("sprong") == "sprong"):
+            juryNaam = "sprong";
+            value = {name:juryNaam,status:'connected'};
+            break;
+
+        case (localStorage.getItem("brug gelijk") == "brug gelijk"):
+            juryNaam = "brug gelijk";
+            value = {name:juryNaam,status:'connected'};
+            break;
+
+        case (localStorage.getItem("brug ongelijk") == "brug ongelijk"):
+            juryNaam = "brug ongelijk";
+            value = {name:juryNaam,status:'connected'};
+            break;
+
+        case (localStorage.getItem("voltige") == "voltige"):
+            juryNaam = "voltige";
+            value = {name:juryNaam,status:'connected'};
+            break;
+        default:
+            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+    }
+
+
+    console.log(juryNaam);
+
+    function logout(){
+
+
+        var test =   confirm("Are you sure you want to logout?");
+        if (test) {
+            localStorage.removeItem(juryNaam);
+            ClearLoginValue();
+            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+        }else{
+            return false;
+        }
+    }
 
 
     socket.emit('Login_value',value);
 
     // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
     window.onbeforeunload = function() {
-        ClearLoginValue();
+        logout();
     };
 
     function ClearLoginValue() {
-        value.status = "disconnected";
-        socket.emit('Login_value',value);
+        socket.emit('Logout_value',juryNaam);
+        localStorage.removeItem(juryNaam);
     }
+
+
+
+
 
     function updateLayout(deelnemer){
       document.getElementById('turner_name').innerText = deelnemer.voornaam + ' ' + deelnemer.tussenvoegsel + ' ' + deelnemer.achternaam;
@@ -190,8 +263,11 @@ var id = "<?php echo $loginID ?>";
 
     //On select group from dropDown menu*****************************************
     function onGroepSelect(select) {
-        //emit to server
-        socket.emit('select_group', select.value);
+        const deelnemersSelect = document.getElementById('deelnemers');
+        $.when(ClearList(deelnemersSelect)).done(function() {
+            //emit to server
+            socket.emit('select_group', select.value);
+        });
     }
 
     //Clear select when index is changed********************************************************
@@ -231,11 +307,7 @@ var id = "<?php echo $loginID ?>";
             let Nummer = document.getElementById('DnNummer').innerText;
             let Onderdeel = value.name;
             let name = document.getElementById('DnNaam').innerHTML;
-            //TODO wedstrijd_ID: ,
-            //TODO deelnemer_ID: //HIER MOET DEELNEMER ID VAN DEELNEMER KOMEN,
-            // TODO onderdeel_id: //HIER MOET ONDERDEEL ID VAN ONDERDEEL KOMEN,
-            // TODO subonderdeel_id: //HIER MOET SUBONDERDEEL ID VAN SUBONDERDEEL KOMEN
-
+            
             const scores = new Score(D,E,N,Onderdeel,Nummer,Total,name);
             current_deelnemer.scores = scores;
 

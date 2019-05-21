@@ -1,12 +1,12 @@
 <?php
 //include("../uti/connection.php");
 include("../../../connection.php");
-session_start();
-if (!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord") {
-    header('Location: ../index.php');
-} else {
-    $loginID = $_SESSION["id"];
-}
+//session_start();
+//if (!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord") {
+//    header('Location: ../index.php');
+//} else {
+//    $loginID = $_SESSION["id"];
+//}
 ?>
 <html>
 <head>
@@ -28,7 +28,7 @@ if (!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord") {
 </head>
 <body class="scoreBordBody">
 <div id="main">
-    <a class="score-logout" href="../uti/logout.php" onclick="">X</a>
+    <button class="score-logout"  onclick="logout()">X</button>
     <a class="score-logout" id="fullScreen">full screen</a>
     <div class="content">
         <h1 class="ScoreBordTitle">Scores - Niveau groep</h1>
@@ -46,12 +46,41 @@ if (!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord") {
     </div>
 </div>
 <script>
-  let value = {user: "<?php echo $loginID; ?>", status: 'connected'};
-  const cards = [];
-  //const socket = io.connect('http://145.120.207.219:3000');
-  const socket = io.connect('http://localhost:3000');
 
+    const cards = [];
+    //const socket = io.connect('http://145.120.207.219:3000');
+    const socket = io.connect('http://localhost:3000');
+
+
+    var user;
+    if(localStorage.getItem("scoreboard") != "scoreboard"){
+        this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+    }else{
+        user = "scoreboard";
+    }
+
+    function logout(){
+
+        var test =   confirm("Are you sure you want to logout?");
+        if (test) {
+            localStorage.removeItem("scoreboard");
+            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+            ClearLoginValue();
+        }else{
+            return false;
+        }
+    }
+
+  let value = {name: user, status: 'connected'};
   socket.emit('Login_value', value);
+
+    window.onbeforeunload = function () {
+        ClearLoginValue();
+    };
+
+    function ClearLoginValue() {
+        socket.emit('Logout_value', value["name"]);
+    }
 
   socket.on('get_Turner_card', function (card) {
     cards.push(card);
@@ -59,15 +88,9 @@ if (!isset($_SESSION["id"]) && $_SESSION["id"] != "scorebord") {
     console.log(card);
   });
 
-  // Als de gebruiker het tabblad sluit, inplaats van uitlogd
-  window.onbeforeunload = function () {
-    ClearLoginValue();
-  };
 
-  function ClearLoginValue() {
-    value.status = "disconnected";
-    socket.emit('Login_value', value);
-  }
+  // Als de gebruiker het tabblad sluit, inplaats van uitlogd
+
 
 
   function createScoreLine(card) {

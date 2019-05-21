@@ -11,7 +11,7 @@ include("../../../connection.php")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
     <script src="../src/classes/groep.js"></script>
 </head>
-<body>
+<body onunload="getUsers()">
 
 <div class="live_container">
     <div class="live_header">
@@ -56,6 +56,9 @@ include("../../../connection.php")
 
   //Set up variables************************************************************
   const users = [];
+  // $( document ).ready(function() {
+  //     console.log( "ready!" );
+  // });
   let groupName;
   let TheChosenGroup;
   let current_deelnemer;
@@ -126,48 +129,58 @@ include("../../../connection.php")
   }
 
   //UTI*****************************************************************************************
-  function CheckUsersExist(user, userExist) {
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].name === user.name) {
-        let index = users.indexOf(users[i]);
-        if (index > -1) {
-          users.splice(index, 1);
-          userExist = true;
-        }
-      }
-    }
-  }
 
-  function CheckUsersConnection() {
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].status === 'disconnected') {
-        let index = users.indexOf(users[i]);
-        if (index > -1) {
-          users.splice(index, 1);
-        }
-      }
-    }
-  }
+  //
+  // function CheckUsersExist(user, userExist) {
+  //   for (let i = 0; i < users.length; i++) {
+  //     if (users[i].name === user.name) {
+  //       let index = users.indexOf(users[i]);
+  //       if (index > -1) {
+  //         users.splice(index, 1);
+  //         userExist = true;
+  //       }
+  //     }
+  //   }
+  // }
+
+  // function CheckUsersConnection() {
+  //   for (let i = 0; i < users.length; i++) {
+  //     if (users[i].status === 'disconnected') {
+  //       let index = users.indexOf(users[i]);
+  //       if (index > -1) {
+  //         users.splice(index, 1);
+  //       }
+  //     }
+  //   }
+  // }
 
   //On user log in ****************************************************************************************
-  socket.on('get_user', function (user) {
 
-    let userExist = false;
-    CheckUsersExist(user, userExist);
-    !userExist && users.push(user);
-    CheckUsersConnection();
+     socket.on('get_user', function (user) {
+
+    // let userExist = false;
+    // CheckUsersExist(user, userExist);
+    // !userExist && users.push(user);
+    // CheckUsersConnection();
 
     //console.log(users);
 
-    const statusBody = document.getElementById("statusBody");
-    while (statusBody.firstChild) {
-      statusBody.removeChild(statusBody.firstChild);
-    }
+        const statusBody = document.getElementById("statusBody");
+        while (statusBody.firstChild) {
+            statusBody.removeChild(statusBody.firstChild);
+        }
+        if(user.length > 0){
+            user.forEach(function (value) {
+                if(value["status"] == "connected")
+                    CreateStatus(value);
+            });
+        }
+        console.log(user);
 
-    users.forEach(function (user) {
-      CreateStatus(user);
-    })
-  });
+
+      });
+
+
 
   socket.on('get_deelnemer_score', function (scores) {
     console.log(scores);

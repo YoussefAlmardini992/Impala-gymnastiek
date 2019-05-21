@@ -2,10 +2,10 @@
 //include("../uti/connection.php"); // Voor online
 include("../../../connection.php"); // Voor localhost
 
-session_start();
-if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
-    header('Location: ../index.php');
-}
+//session_start();
+//if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
+  //  header('Location: ../index.php');
+//}
 ?>
 <html>
 <head>
@@ -25,14 +25,14 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
         <a class='nav-item' href='?overzicht=groepen'>Groepen</a>
         <a class='nav-item' href='?overzicht=wedstrijden'>Wedstrijden</a>
         <a class='nav-item' href='?overzicht=live'>LIVE</a>
-        <a class='nav-item' href="../uti/logout.php">Log uit</a>
+        <a class='nav-item' onclick="logout()" href="../index.php">Log uit</a>
 
     </div>
 
     <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
         <?php 
-        echo '<h5>Ingelogd als: ' . $_SESSION["id"] . '</h5>';  
+       // echo '<h5>Ingelogd als: ' . $_SESSION["id"] . '</h5>';
         ?>
         <div class="overzichtContainer" id="">
             <?php
@@ -440,7 +440,42 @@ if(!isset($_SESSION["id"]) || $_SESSION["id"] != "secretariaat"){
     <div class="startWedstrijdBody"></div>
 </body>
 <script>
-function openNav() {
+
+
+
+    if(localStorage.getItem("secretariaat") != "secretariaat"){
+        this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+    }
+
+    window.onbeforeunload = function () {
+        logout()
+    };
+
+    function logout(){
+
+        var test =   confirm("Are you sure you want to logout?");
+        if (test) {
+            localStorage.removeItem("secretariaat");
+            ClearLoginValue();
+            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+        }else{
+            return false;
+        }
+    }
+
+
+    window.onbeforeunload = function() {
+        ClearLoginValue();
+    };
+
+    function ClearLoginValue() {
+        value.status = "disconnected";
+        socket.emit('Login_value',value);
+        localStorage.removeItem("secretariaat");
+    }
+
+
+    function openNav() {
     document.getElementById("mySidenav").style.display = "block";
     //document.getElementById("mySidenav").style.width = "250px";
     //document.getElementById("main").style.marginLeft = "250px";
