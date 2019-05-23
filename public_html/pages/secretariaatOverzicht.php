@@ -26,6 +26,7 @@ include("../../../connection.php"); // Voor localhost
     <a class='nav-item' href='?overzicht=groepen'>Groepen</a>
     <a class='nav-item' href='?overzicht=wedstrijden'>Wedstrijden</a>
     <a class='nav-item' href='?overzicht=live'>LIVE</a>
+    <a class='nav-item' href='?overzicht=uitslagen'>Uitslagen</a>
     <a class='nav-item' onclick="logout()" href="../index.php">Log uit</a>
 
 </div>
