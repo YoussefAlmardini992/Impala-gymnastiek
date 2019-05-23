@@ -62,6 +62,7 @@
     const socket = io.connect('http://localhost:3000');
     var user;
 
+
     function logout() {
 
         var test = confirm("Are you sure you want to logout?");
@@ -76,7 +77,6 @@
 
 
     let value = {name: user, status: 'connected'};
-
 
     socket.emit('Login_value', value);
 
@@ -115,8 +115,7 @@
             fullScreen = false;
             document.getElementById('fullScreen').innerText = ' []';
         }
-    };
-
+    }
     document.getElementById('fullScreen').addEventListener("click", function () {
 
         var

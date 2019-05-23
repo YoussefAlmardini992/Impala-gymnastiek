@@ -12,11 +12,11 @@ include("../../../connection.php")
     <script src="../src/classes/groep.js"></script>
 </head>
 
-<body  onunload="return false">
+<body onunload="return false">
 
 <div class="live_container">
     <div class="live_header">
-        
+
 
         <div class="header_right">
 
@@ -33,17 +33,19 @@ include("../../../connection.php")
 
     <div class="sended_scores" id="sended_scores">
 
-     <div class="card_container" style="display: none">
-      <div class='Score_Card' id='Score_Card'>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="card_Line"><p>test</p></div>
-          <div class="bevestigen_button"><button class="Enabled custom">BEVESTIGEN</button></div>
+        <div class="card_container" style="display: none">
+            <div class='Score_Card' id='Score_Card'>
+                <div class="card_Line"><p>test</p></div>
+                <div class="card_Line"><p>test</p></div>
+                <div class="card_Line"><p>test</p></div>
+                <div class="card_Line"><p>test</p></div>
+                <div class="card_Line"><p>test</p></div>
+                <div class="card_Line"><p>test</p></div>
+                <div class="bevestigen_button">
+                    <button class="Enabled custom">BEVESTIGEN</button>
+                </div>
+            </div>
         </div>
-     </div>
 
     </div>
 
@@ -57,53 +59,18 @@ include("../../../connection.php")
      const socket = io.connect('http://localhost:3000');
 
   //Set up variables************************************************************
+<<<<<<< HEAD
   //const users = [];
   // $( document ).ready(function() {
   //     console.log( "ready!" );
   // });
+=======
+>>>>>>> master
   let groupName;
   let TheChosenGroup;
   let current_deelnemer;
   const Scores = [];
 
-  //On select group from dropDown menu*****************************************
-  function onGroepSelect(select) {
-    //emit to server
-    socket.emit('select_group', select.value);
-  }
-
-  //Request selected group from the server**********************************************
-  socket.on('selected_group', function (result) {
-
-    const groep = new Groep(groupName, result[0].niveau, result);
-    TheChosenGroup = groep;
-    console.log(TheChosenGroup);
-
-    //fetch deelnemers in select control
-    const deelnemersSelect = document.getElementById('deelnemers');
-    ClearList(deelnemersSelect);
-    deelnemersSelect.options.add(new Option(' ', 'default'));
-    TheChosenGroup.turners.forEach(function (deelnemer) {
-      deelnemersSelect.options[deelnemersSelect.options.length] = new Option(deelnemer.voornaam, deelnemer.deelnemer_ID);
-    });
-
-    //Request deelnemer from the chosen group
-    deelnemersSelect.addEventListener('change', function () {
-      groep.turners.forEach(function (deelnemer) {
-        if (deelnemer.deelnemer_ID == deelnemersSelect.value) {
-          UpdateTurnerInfo(deelnemer);
-
-          socket.emit('set_current_deelnemer', deelnemer);
-          current_deelnemer = deelnemer;
-          const start = document.getElementById('start');
-          start.disabled = false;
-          CheckConrolsActivity(start);
-          console.log(deelnemer);
-        }
-      })
-    });
-
-  });
 
   //On reload or close confirm*************************************************
   window.onbeforeunload = function () {
@@ -111,52 +78,8 @@ include("../../../connection.php")
     //TODO fix this message
   };
 
-  //Update page layout with deelnemer information
-  function UpdateTurnerInfo(DN) {
-    const DN_name = document.getElementById('DnName');
-    const DN_groep = document.getElementById('DnGroep');
-    const DN_niveau = document.getElementById('DnNiveau');
-
-    DN_name.innerText = DN.voornaam + " " + DN.tussenvoegsel + " " + DN.achternaam;
-    DN_groep.innerText = DN.naam;
-    DN_niveau.innerText = DN.niveau;
-  }
-
-  //Clear select when index is changed********************************************************
-  function ClearList(select) {
-    let length = select.options.length;
-    for (let i = 0; i < length; i++) {
-      select.options[i] = null;
-    }
-  }
-
-  //UTI*****************************************************************************************
-
-  //
-  // function CheckUsersExist(user, userExist) {
-  //   for (let i = 0; i < users.length; i++) {
-  //     if (users[i].name === user.name) {
-  //       let index = users.indexOf(users[i]);
-  //       if (index > -1) {
-  //         users.splice(index, 1);
-  //         userExist = true;
-  //       }
-  //     }
-  //   }
-  // }
-
-  // function CheckUsersConnection() {
-  //   for (let i = 0; i < users.length; i++) {
-  //     if (users[i].status === 'disconnected') {
-  //       let index = users.indexOf(users[i]);
-  //       if (index > -1) {
-  //         users.splice(index, 1);
-  //       }
-  //     }
-  //   }
-  // }
-
   //On user log in ****************************************************************************************
+<<<<<<< HEAD
 
 
       function CreateStatus(user) {
@@ -216,21 +139,26 @@ include("../../../connection.php")
     DN_E.innerText = deelnemer.scores.E;
     DN_N.innerText = deelnemer.scores.N;
     beeordeler.innerText = deelnemer.scores.Jury;
+=======
+  function CreateStatus(user) {
+
+    const statusBody = document.getElementById("statusBody");
+    const StatusItem = document.createElement('div');
+    StatusItem.classList.add('statusItem');
+    const UserName = document.createElement('div');
+    UserName.classList.add('userName');
+    const statusSituation = document.createElement('div');
+    UserName.innerText = user.name;
+    statusSituation.classList.add('statusSituation');
+    statusSituation.innerText = user.status + "...";
+
+    StatusItem.appendChild(UserName);
+    StatusItem.appendChild(statusSituation);
+    statusBody.appendChild(StatusItem);
+>>>>>>> master
   }
 
-  function CheckConrolsActivity(control) {
-    if (control.disabled) {
-      control.style.background = "#088";
-      control.style.color = "grey";
-    } else {
-      control.style.background = "#0f2a4e";
-      control.style.color = "white";
-    }
-  }
 
-
-
-  
   //////// EXTRA CODE VAN THIJMEN LOCAAL
 
   // Ontvangt scores van server
@@ -246,30 +174,30 @@ include("../../../connection.php")
     let index = 0;
 
     Scores.forEach(function (score) {
-      createCard(score , index);
+      createCard(score, index);
       index++;
     })
   }
 
-  function createCard(score , id) {
-    $("#sended_scores").append("<div class='card_container' id='"+ id + "'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'>" +
+  function createCard(score, id) {
+    $("#sended_scores").append("<div class='card_container' id='" + id + "'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'>" +
       "<form class='score_card_form'>" +
-          "<input readonly type='text' name='jury' value='"+ score.Onderdeel +"'><br>" + 
-          "<input readonly type='number' name='nummer' value='"+score.Nummer+"' min='1' max='999'><br>" +
-          "<input type='number' name='D' value='"+score.D+"' min='0' max='10'><br>" +
-          "<input type='number' name='E' value='"+score.E+"' min='0' max='10'><br>" +
-          "<input type='number' name='N' value='"+score.N+"' min='0' max='10'><br>" +
-          "<input type='number' name='totaal' value='"+score.Total+"' min='0' max='10' step='0.001'><br>" +
-        "</form><div class='bevestigen_button'><button class='Enabled custom' onclick='addScoreDB(this)'>BEVESTIGEN</button></div></div>");
+      "<input readonly type='text' name='jury' value='" + score.Onderdeel + "'><br>" +
+      "<input readonly type='number' name='nummer' value='" + score.Nummer + "' min='1' max='999'><br>" +
+      "<input type='number' name='D' value='" + score.D + "' min='0' max='10'><br>" +
+      "<input type='number' name='E' value='" + score.E + "' min='0' max='10'><br>" +
+      "<input type='number' name='N' value='" + score.N + "' min='0' max='10'><br>" +
+      "<input type='number' name='totaal' value='" + score.Total + "' min='0' max='10' step='0.001'><br>" +
+      "</form><div class='bevestigen_button'><button class='Enabled custom' onclick='addScoreDB(this)'>BEVESTIGEN</button></div></div>");
   }
 
 
   // Add Card Effect
   function AddCardEffect(element) {
-    element.addEventListener('mouseenter',function(){
+    element.addEventListener('mouseenter', function () {
       element.style.transform = 'scale(1.04)';
     });
-    element.addEventListener('mouseleave',function(){
+    element.addEventListener('mouseleave', function () {
       element.style.transform = 'scale(1)';
     })
   }
@@ -278,11 +206,10 @@ include("../../../connection.php")
   function addScoreDB(control) {
     const ID = control.parentElement.parentElement.parentElement.id;
     const clickedCard = Scores[ID];
-    
-    socket.emit('send_Turner_card',clickedCard);
+    socket.emit('send_Turner_card', clickedCard);
     control.parentElement.parentElement.parentElement.remove();
     console.log(clickedCard);
-    socket.emit('getCardData',clickedCard);
+    socket.emit('getCardData', clickedCard);
   }
 
 </script>

@@ -51,14 +51,16 @@
 }
 
 .score-logout{
-    font-size: 2em;
+    font-size: 1em;
     text-decoration: none;
-    opacity: 0.3;
+    background-color: #0563af;
+    color: white;
+    border: none;
+    height: 30px;
 }
 
 .score-logout:hover{
-    color: red;
-    opacity: 100 ;
+    cursor: pointer;
 }
 .ScoreBordTitle{
     margin: 20px 0 ;
@@ -66,14 +68,22 @@
 .content {
     text-align: center;
     font-size: 200%;
+    margin-top: -150px;
 }
 
 .table {
     margin: 0px auto;
     width: 100%;
-
 }
-
+.OPSLAAN{
+    font-size: 1em;
+    text-decoration: none;
+    background-color: blue;
+    color: white;
+    border: none;
+    height: 50px;
+    width: 20%;
+}
 td, th {
 
     text-align: center;

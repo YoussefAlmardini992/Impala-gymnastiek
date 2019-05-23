@@ -1,10 +1,8 @@
-export default class Turner {
+class Turner {
 
-  constructor(voornaam, tussenvoegsel, achternaam, geslacht) {
+  constructor(naam, geslacht,scores) {
 
-    this.voornaam = voornaam;
-    this.tussenvoegsel = tussenvoegsel;
-    this.achternaam = achternaam;
+    this.Naam = naam;
     this.geslacht = geslacht === 'man' ? 'man' : 'vrouw';
     this.oefeningen = function () {
 
@@ -28,10 +26,7 @@ export default class Turner {
       }
     };
 
-    this.D_score = 10;
-    this.E_score = 10;
-    this.N_score = 0;
-    this.totaalScore = 0;
+    this.Scores = scores;
   }
 }
 
