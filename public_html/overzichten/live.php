@@ -54,10 +54,10 @@ include("../../../connection.php")
 
   //Connect to SERVER.js**********************************************
   //const socket = io.connect('http://145.120.207.219:3000');
-  const socket = io.connect('http://localhost:3000');
+     const socket = io.connect('http://localhost:3000');
 
   //Set up variables************************************************************
-  const users = [];
+  //const users = [];
   // $( document ).ready(function() {
   //     console.log( "ready!" );
   // });
@@ -169,14 +169,15 @@ include("../../../connection.php")
           const statusSituation = document.createElement('div');
           UserName.innerText = user.name;
           statusSituation.classList.add('statusSituation');
-          statusSituation.innerText = user.status + "...";
+         // statusSituation.innerText = user.status + "...";
 
           StatusItem.appendChild(UserName);
           StatusItem.appendChild(statusSituation);
           statusBody.appendChild(StatusItem);
       }
-      socket.on('get_user', function (user) {
 
+      socket.on('all_users', function (users) {
+          console.log(users);
           // let userExist = false;
           // CheckUsersExist(user, userExist);
           // !userExist && users.push(user);
@@ -188,15 +189,12 @@ include("../../../connection.php")
           while (statusBody.firstChild) {
               statusBody.removeChild(statusBody.firstChild);
           }
-          if(user.length > 0){
-              user.forEach(function (value) {
-                  if(value["status"] == "connected")
+          if(users.length > 0){
+              users.forEach(function (value) {
+                  if(value.name)
                       CreateStatus(value);
               });
           }
-          console.log(user);
-
-
       });
 
   socket.on('get_deelnemer_score', function (scores) {

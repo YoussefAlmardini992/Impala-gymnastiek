@@ -27,6 +27,7 @@ const screenConnections = [];
 
 function emitConnection(SERVER) {
 
+
     const io = socket.listen(SERVER);
 
     io.sockets.on('connection', function (socket) {
@@ -99,7 +100,7 @@ function emitConnection(SERVER) {
                 }
             }
             pushed ? lastUser = users[users.length - 1] : null;
-            console.log(users);
+               socket.broadcast.emit("all_users" , users);
         });
 
 
@@ -138,8 +139,6 @@ function emitConnection(SERVER) {
                 }
             });
         });
-
-
 
         //ON START MATCH
         // 3. Make sure all the screens receive the group. There can be multiple connections. - Jarrin
@@ -183,6 +182,8 @@ function emitConnection(SERVER) {
         });
 
     });
+
+
 }
 
 emitConnection(http_server);

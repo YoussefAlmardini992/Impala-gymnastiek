@@ -122,6 +122,9 @@ include("../../../connection.php");
 
     //var id = localStorage.getItem("rek");
 
+    var loginhash =  localStorage.getItem("loginHash");
+    console.log(loginhash);
+
     function onScoreChange(input) {
       if(input.value > 10 || input.value < 0){
         alert("ongeldige waarde!... U kunt een nummer invoeren tussen 0 en 10.");
@@ -196,9 +199,12 @@ include("../../../connection.php");
 
         var test =   confirm("Are you sure you want to logout?");
         if (test) {
+            localStorage.removeItem("loginHash");
             const juryname = document.getElementById('jury').innerHTML;
             socket.emit('logOut',juryname);
-            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+          //  this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+            window.location = "../";
+
         }else{
             return false;
         }
@@ -208,14 +214,26 @@ include("../../../connection.php");
     // socket.emit('Login_value',value);
 
     // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
-    window.onbeforeunload = function() {
-        logout();
+
+    window.onbeforeunload = function (event) {
+        var message = 'Important: Please click on \'Save\' button to leave this page.';
+        if (typeof event == 'undefined') {
+            event = window.event;
+        }
+        if (event) {
+            event.returnValue = message;
+        }
+        return message;
     };
 
-
-
-
-
+    // $(function () {
+    //     $("a").not('#lnkLogOut').click(function () {
+    //         window.onbeforeunload = null;
+    //     });
+    //     $(".btn").click(function () {
+    //         window.onbeforeunload = null;
+    //     });
+    // });
 
     function updateLayout(deelnemer){
       document.getElementById('turner_name').innerText = deelnemer.voornaam + ' ' + deelnemer.tussenvoegsel + ' ' + deelnemer.achternaam;
@@ -350,12 +368,17 @@ include("../../../connection.php");
     });
 
     document.body.onload = function () {
+
         socket.emit('requestUser',{name:'juryOverzicht',status:'connected'});
         socket.on("sendUrl" , function (data) {
-            document.getElementById('jury').innerHTML = data.user.name;
+            if (data.user == null || data.user.status !== loginhash){
+             window.location = "../";
+            }else{
+                document.getElementById('jury').innerHTML = data.user.name;
+            }
+            console.log(data);
         })
-    }
-
+    };
 
 </script>
 </html>
