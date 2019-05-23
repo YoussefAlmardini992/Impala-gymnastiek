@@ -57,12 +57,12 @@
                     HandelLogInStatus();
                     break;
 
-                case (iName == 'brug gelijk' && iPassword == 'brug gelijk'):
+                case (iName == 'brug-gelijk' && iPassword == 'brug-gelijk'):
                     value = {name: iName, status: 'connected'};
                     HandelLogInStatus();
                     break;
 
-                case (iName == 'brug ongelijk' && iPassword == 'brug ongelijk'):
+                case (iName == 'brug-ongelijk' && iPassword == 'brug-ongelijk'):
                     value = {name: iName, status: 'connected'};
                     HandelLogInStatus();
                     break;
@@ -72,7 +72,12 @@
                     HandelLogInStatus();
                     break;
 
-                case (iName == 'ringrn' && iPassword == 'ringrn'):
+                    case (iName == 'sprong2' && iPassword == 'sprong2'):
+                    value = {name: iName, status: 'connected'};
+                    HandelLogInStatus();
+                    break;    
+
+                case (iName == 'ringen' && iPassword == 'ringen'):
                     value = {name: iName, status: 'connected'};
                     HandelLogInStatus();
                     break;
