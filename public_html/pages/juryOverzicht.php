@@ -35,26 +35,33 @@ include("../../../connection.php");
 </script>
 <body>
 <div id="main">
-    <button class="score-logout"  onclick="logout()" > X </button>
-    <div class="header">
 
-        <div class="item" style="text-align: left">
-            <h1 id="DnNummer">turner_nummer</h1>
+    <div class="header">
+       <div class="header_item" style="padding-top: 1%">
+           <button class="score-logout"  onclick="logout()" >Uitloggen</button>
+       </div>
+
+        <div class="header_item" style="text-align: center">
+            <img width="80px"  id="logo">
         </div>
-        <div class="item">
-            <img width="80px" src="../assets/<?php echo($loginID)?>.png">
-        </div>
-        <div class="item" style="text-align: right">
+
+        <div class="header_item" style="text-align: right">
             <div id="timestamp"></div>
         </div>
     </div>
 
+    <div class="item" style="text-align: left">
+        <h1 id="DnNummer">turner_nummer</h1>
+    </div>
+
+
+    <div id="jury">null</div>
     <div class="groep_select_box">
         <div class="selectLine">
-            <div class="header_item heading">Groep</div>
-            <div class="header_item selector">
-                <select onchange="onGroepSelect(this)" id="GroupSelect">
-                    <option selected="default"></option>
+            <div class="heading">Groep</div>
+            <div class="Selector">
+                <select onchange="onGroepSelect(this)" id="GroupSelect" class="Select">
+                    <option selected="default" class="Option">Kiezen</option>
                     <!-- SQL query die alle groepen ophaalt en in OPTIONs zet -->
                     <?php
                     $groepen = [];
@@ -79,11 +86,10 @@ include("../../../connection.php");
             </div>
         </div>
         <div class="selectLine">
-            <div id="jury">null</div>
-            <div class="header_item heading">Deelnemer</div>
-            <div class="header_item selector">
-                <select id='deelnemers'>
-                    <option selected="default"></option>
+            <div class="heading">Deelnemer</div>
+            <div class="Selector">
+                <select id='deelnemers' class="Select">
+                    <option selected="default">Kiezen</option>
                 </select>
             </div>
         </div>
@@ -135,62 +141,7 @@ include("../../../connection.php");
 
     //const socket = io.connect('http://145.120.207.219:3000');
     const socket = io.connect('http://localhost:3000');
-    // let value;
-    //
-    // window.onbeforeunload = closingCode;
-    // function closingCode(){
-    //     logout();
-    // }
-    //
-    //
-    // var juryNaam;
-    // switch (true){
-    //     case (localStorage.getItem("rek") == "rek"):
-    //         juryNaam = "rek";
-    //          value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("vloer") == "vloer"):
-    //         juryNaam = "vloer";
-    //          value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("balk") == "balk"):
-    //         juryNaam = "balk";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("ringen") == "ringen"):
-    //         juryNaam = "ringen";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("sprong") == "sprong"):
-    //         juryNaam = "sprong";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("brug gelijk") == "brug gelijk"):
-    //         juryNaam = "brug gelijk";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("brug ongelijk") == "brug ongelijk"):
-    //         juryNaam = "brug ongelijk";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("voltige") == "voltige"):
-    //         juryNaam = "voltige";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //     default:
-    //         this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
-    // }
-    //
-    //
-    // console.log(juryNaam);
-    //
+
     function logout(){
 
 
@@ -198,13 +149,11 @@ include("../../../connection.php");
         if (test) {
             const juryname = document.getElementById('jury').innerHTML;
             socket.emit('logOut',juryname);
-            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+            this.location.href = "http://localhost/impala_Gymnastiek/public_html/index.php";
         }else{
             return false;
         }
     }
-    //
-    //
     // socket.emit('Login_value',value);
 
     // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
@@ -212,48 +161,21 @@ include("../../../connection.php");
         logout();
     };
 
-
-
-
-
-
     function updateLayout(deelnemer){
       document.getElementById('turner_name').innerText = deelnemer.voornaam + ' ' + deelnemer.tussenvoegsel + ' ' + deelnemer.achternaam;
     }
 
-    function SaveTurnerScores(){
-
-      const Scores = {
-        D: document.getElementById('D_score_Input').value,
-        E: document.getElementById('E_score_Input').value,
-        N:document.getElementById('N_score_Input').value,
-        Total: document.getElementById('total').innerText,
-        Jury : value.name
-      };
-
-      socket.emit('set_deelnemer_score',Scores);
-    }
-
-    //Get huidige turner from secretariaat
-    socket.on('get_current_deelnemer',function (deelnemer) {
-      updateLayout(deelnemer);
-      console.log(deelnemer);
-    })
-
     //////// EXTRA CODE VAN THIJMEN LOCAAL
     function telTotaalScore() {
-        
+
         D_score = parseFloat(document.getElementById('D_score_Input').value);
         E_score = parseFloat(document.getElementById('E_score_Input').value);
         N_score = parseFloat(document.getElementById('N_score_Input').value);
         Totaal = D_score + E_score + N_score;
         document.getElementById('total').innerText = Totaal.toFixed(3);
-        
-
     }
 
     //Set up variables************************************************************
-    const users = [];
     let groupName;
     let TheChosenGroup;
     let current_deelnemer;
@@ -275,19 +197,13 @@ include("../../../connection.php");
         }
     }
 
-    //On select deelnemer from dropDown menu*****************************************
-    function onDeelnemerSelect(select) {
-        //emit to server
-        socket.emit('select_deelnemer', select.value);
-    }
-
     //Update page layout with deelnemer information
     function UpdateTurnerInfo(deelnemer) {
         const deelnemer_name = document.getElementById('DnNaam');
         const deelnemer_nummer = document.getElementById('DnNummer');
-
         deelnemer_name.innerText = deelnemer.voornaam + " " + deelnemer.tussenvoegsel + " " + deelnemer.achternaam;
         deelnemer_nummer.innerText = deelnemer.nummer;
+        current_deelnemer = deelnemer;
     }
 
     function SendTurnerScores() {
@@ -306,8 +222,11 @@ include("../../../connection.php");
             let name = document.getElementById('DnNaam').innerHTML;
             
             const scores = new Score(D,E,N,Onderdeel,Nummer,Total,name);
+            current_deelnemer.scores = scores;
 
             socket.emit('send_Turner_score',scores);
+            socket.emit('send_current_turner',current_deelnemer);
+
             ResetJury();
             alert('Verzonden!')
         } else {
@@ -342,7 +261,6 @@ include("../../../connection.php");
             groep.turners.forEach(function (deelnemer) {
                 if (deelnemer.deelnemer_ID == deelnemersSelect.value) {
                     UpdateTurnerInfo(deelnemer);
-                    
                     console.log(deelnemer);
                 }
             })
@@ -354,6 +272,8 @@ include("../../../connection.php");
         socket.on("sendUrl" , function (data) {
             document.getElementById('jury').innerHTML = data.user.name;
         })
+
+      document.getElementById('logo').src = "../assets/" +document.getElementById('jury').innerHTML + ".png";
     }
 
 
