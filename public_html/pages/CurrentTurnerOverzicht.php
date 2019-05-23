@@ -18,6 +18,8 @@
 </head>
 <body class="scoreBordBody">
 <div id="main">
+    <button class="score-logout"  onclick="logout()">X</button>
+    <a class="score-logout" id="fullScreen">[]</a>
     <div class="header">
         <div class="item" style="text-align: left; display: flex">
             <h1>t_nummer : &nbsp;&nbsp; </h1>
@@ -55,72 +57,76 @@
         </div>
     </div>
 </div>
-    <script>
-        //const socket = io.connect('http://145.120.207.219:3000');
-        const socket = io.connect('http://localhost:3000');
-        var user;
-
-        function logout(){
-
-            var test =   confirm("Are you sure you want to logout?");
-            if (test) {
-                localStorage.removeItem("turnerboard");
-                ClearLoginValue();
-                this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
-            }else{
-                return false;
-            }
-        }
-
-
-        let value = {name:user,status:'connected'};
-
-
-  socket.emit('Login_value', value);
-
-  // Als de gebruiker het tabblad sluit, inplaats van uitlogd
-  window.onbeforeunload = function () {
-    ClearLoginValue();
-  };
-
-
-  function ClearLoginValue() {
-    value.status = "disconnected";
-    socket.emit('Login_value', value);
-  }
-
-  socket.on('get_Turner_card', function (card) {
-    updateTurnerInfo(card);
-    console.log(card);
-  });
-
-
-  function updateTurnerInfo(card) {
-    document.getElementById('onderdeel').innerText = card.Onderdeel;
-    document.getElementById('TurnerNumber').innerText = card.Nummer;
-    document.getElementById('turnerName').innerText = card.Name;
-    document.getElementById('Dscore').innerText = card.D;
-    document.getElementById('Escore').innerText = card.E;
-    document.getElementById('Nscore').innerText = card.N;
-    document.getElementById('totalScore').innerText = 'total : ' + card.Total;
-  }
-
-
-  document.getElementById('fullScreen').addEventListener("click", function() {
-
-    var
-      el = document.documentElement
-      , rfs =
-      el.requestFullScreen
-      || el.webkitRequestFullScreen
-      || el.mozRequestFullScreen
-    ;
-    rfs.call(el);
-  });
-
-</body>
 <script>
+    //const socket = io.connect('http://145.120.207.219:3000');
+    const socket = io.connect('http://localhost:3000');
+    var user;
 
+
+    function logout() {
+
+        var test = confirm("Are you sure you want to logout?");
+        if (test) {
+            localStorage.removeItem("turnerboard");
+            ClearLoginValue();
+            this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+        } else {
+            return false;
+        }
+    }
+
+
+    let value = {name: user, status: 'connected'};
+
+    socket.emit('Login_value', value);
+
+    // Als de gebruiker het tabblad sluit, inplaats van uitlogd
+    window.onbeforeunload = function () {
+        ClearLoginValue();
+    };
+
+
+    function ClearLoginValue() {
+        value.status = "disconnected";
+        socket.emit('Login_value', value);
+    }
+
+    socket.on('get_Turner_card', function (card) {
+        updateTurnerInfo(card);
+        console.log(card);
+    });
+
+
+    function updateTurnerInfo(card) {
+        document.getElementById('onderdeel').innerText = card.Onderdeel;
+        document.getElementById('TurnerNumber').innerText = card.Nummer;
+        document.getElementById('turnerName').innerText = card.Name;
+        document.getElementById('Dscore').innerText = card.D;
+        document.getElementById('Escore').innerText = card.E;
+        document.getElementById('Nscore').innerText = card.N;
+        document.getElementById('totalScore').innerText = 'total : ' + card.Total;
+    }
+
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        evt.preventDefault();
+        if (evt.keyCode == 27)
+        {
+            fullScreen = false;
+            document.getElementById('fullScreen').innerText = ' []';
+        }
+    }
+    document.getElementById('fullScreen').addEventListener("click", function () {
+
+        var
+            el = document.documentElement
+            , rfs =
+            el.requestFullScreen
+            || el.webkitRequestFullScreen
+            || el.mozRequestFullScreen
+        ;
+        rfs.call(el);
+    });
 </script>
+</body>
 </html>
-
