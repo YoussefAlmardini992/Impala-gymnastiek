@@ -56,9 +56,16 @@ include("../../../connection.php")
 
   //Connect to SERVER.js**********************************************
   //const socket = io.connect('http://145.120.207.219:3000');
-  const socket = io.connect('http://localhost:3000');
+     const socket = io.connect('http://localhost:3000');
 
   //Set up variables************************************************************
+<<<<<<< HEAD
+  //const users = [];
+  // $( document ).ready(function() {
+  //     console.log( "ready!" );
+  // });
+=======
+>>>>>>> master
   let groupName;
   let TheChosenGroup;
   let current_deelnemer;
@@ -72,6 +79,67 @@ include("../../../connection.php")
   };
 
   //On user log in ****************************************************************************************
+<<<<<<< HEAD
+
+
+      function CreateStatus(user) {
+
+          const statusBody = document.getElementById("statusBody");
+          const StatusItem = document.createElement('div');
+          StatusItem.classList.add('statusItem');
+          const UserName = document.createElement('div');
+          UserName.classList.add('userName');
+          const statusSituation = document.createElement('div');
+          UserName.innerText = user.name;
+          statusSituation.classList.add('statusSituation');
+         // statusSituation.innerText = user.status + "...";
+
+          StatusItem.appendChild(UserName);
+          StatusItem.appendChild(statusSituation);
+          statusBody.appendChild(StatusItem);
+      }
+
+      socket.on('all_users', function (users) {
+          console.log(users);
+          // let userExist = false;
+          // CheckUsersExist(user, userExist);
+          // !userExist && users.push(user);
+          // CheckUsersConnection();
+
+          //console.log(users);
+
+          const statusBody = document.getElementById("statusBody");
+          while (statusBody.firstChild) {
+              statusBody.removeChild(statusBody.firstChild);
+          }
+          if(users.length > 0){
+              users.forEach(function (value) {
+                  if(value.name)
+                      CreateStatus(value);
+              });
+          }
+      });
+
+  socket.on('get_deelnemer_score', function (scores) {
+    console.log(scores);
+    current_deelnemer.scores = scores;
+    updateScores(current_deelnemer);
+  });
+
+  function updateScores(deelnemer) {
+    const DN_D = document.getElementById('D_Score');
+    const DN_N = document.getElementById('N_Score');
+    const DN_E = document.getElementById('E_Score');
+    const DN_Total = document.getElementById('Total_Score');
+    const beeordeler = document.getElementById('JuryNaam');
+
+
+    DN_Total.innerText = deelnemer.scores.Total;
+    DN_D.innerText = deelnemer.scores.D;
+    DN_E.innerText = deelnemer.scores.E;
+    DN_N.innerText = deelnemer.scores.N;
+    beeordeler.innerText = deelnemer.scores.Jury;
+=======
   function CreateStatus(user) {
 
     const statusBody = document.getElementById("statusBody");
@@ -87,6 +155,7 @@ include("../../../connection.php")
     StatusItem.appendChild(UserName);
     StatusItem.appendChild(statusSituation);
     statusBody.appendChild(StatusItem);
+>>>>>>> master
   }
 
 

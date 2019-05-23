@@ -107,12 +107,26 @@ include("../../../connection.php");
 
 </div>
 
+<<<<<<< HEAD
+    var loginhash =  localStorage.getItem("loginHash");
+    console.log(loginhash);
+
+    function onScoreChange(input) {
+      if(input.value > 10 || input.value < 0){
+        alert("ongeldige waarde!... U kunt een nummer invoeren tussen 0 en 10.");
+        input.value = 10;
+      }
+      // EXTRA VAN THIJMEN
+      telTotaalScore();
+    }
+=======
 <form class="content">
     <h1 id="DnNaam">Turner Naam</h1>
     <div>
         <div>D: <input onblur="onScoreChange(this)" id="D_score_Input" type="number" max="10" min="0" value="0"
                        step=".001"></div>
     </div>
+>>>>>>> master
 
     <div>
         <div>E: <input onblur="onScoreChange(this)" id="E_score_Input" type="number" max="10" min="0" value="0"
@@ -124,6 +138,106 @@ include("../../../connection.php");
                        step=".001"></div>
     </div>
 
+<<<<<<< HEAD
+    //const socket = io.connect('http://145.120.207.219:3000');
+    const socket = io.connect('http://localhost:3000');
+    // let value;
+    //
+    // window.onbeforeunload = closingCode;
+    // function closingCode(){
+    //     logout();
+    // }
+    //
+    //
+    // var juryNaam;
+    // switch (true){
+    //     case (localStorage.getItem("rek") == "rek"):
+    //         juryNaam = "rek";
+    //          value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("vloer") == "vloer"):
+    //         juryNaam = "vloer";
+    //          value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("balk") == "balk"):
+    //         juryNaam = "balk";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("ringen") == "ringen"):
+    //         juryNaam = "ringen";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("sprong") == "sprong"):
+    //         juryNaam = "sprong";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("brug gelijk") == "brug gelijk"):
+    //         juryNaam = "brug gelijk";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("brug ongelijk") == "brug ongelijk"):
+    //         juryNaam = "brug ongelijk";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //
+    //     case (localStorage.getItem("voltige") == "voltige"):
+    //         juryNaam = "voltige";
+    //         value = {name:juryNaam,status:'connected'};
+    //         break;
+    //     default:
+    //         this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+    // }
+    //
+    //
+    // console.log(juryNaam);
+    //
+    function logout(){
+
+
+        var test =   confirm("Are you sure you want to logout?");
+        if (test) {
+            localStorage.removeItem("loginHash");
+            const juryname = document.getElementById('jury').innerHTML;
+            socket.emit('logOut',juryname);
+          //  this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+            window.location = "../";
+
+        }else{
+            return false;
+        }
+    }
+    //
+    //
+    // socket.emit('Login_value',value);
+
+    // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
+
+    window.onbeforeunload = function (event) {
+        var message = 'Important: Please click on \'Save\' button to leave this page.';
+        if (typeof event == 'undefined') {
+            event = window.event;
+        }
+        if (event) {
+            event.returnValue = message;
+        }
+        return message;
+    };
+
+    // $(function () {
+    //     $("a").not('#lnkLogOut').click(function () {
+    //         window.onbeforeunload = null;
+    //     });
+    //     $(".btn").click(function () {
+    //         window.onbeforeunload = null;
+    //     });
+    // });
+=======
     <div>
         Totaal: <p id="total">10</p>
     </div>
@@ -139,6 +253,7 @@ include("../../../connection.php");
   //var id = localStorage.getItem("rek");
 
   let onderdeel = 'null';
+>>>>>>> master
 
   function onScoreChange(input) {
     if (input.value > 10 || input.value < 0) {
@@ -296,7 +411,22 @@ include("../../../connection.php");
     document.getElementById('opslaan').disabled = true;
   };
 
+<<<<<<< HEAD
+    document.body.onload = function () {
 
+        socket.emit('requestUser',{name:'juryOverzicht',status:'connected'});
+        socket.on("sendUrl" , function (data) {
+            if (data.user == null || data.user.status !== loginhash){
+             window.location = "../";
+            }else{
+                document.getElementById('jury').innerHTML = data.user.name;
+            }
+            console.log(data);
+        })
+    };
+=======
+
+>>>>>>> master
 
 </script>
 </html>
