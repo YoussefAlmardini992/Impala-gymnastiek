@@ -13,6 +13,9 @@ if(isset($_GET["overzicht"])){
         case "live":
             include ("live.php");
             break;
+        case "uitslagen":
+            include ("uitslagen.php");
+            break;
     }
 }
 ?>
