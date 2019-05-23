@@ -40,12 +40,26 @@ button{
 .Selector select:hover{
     cursor: pointer;
 }
-
+.BODY{
+    display: flex;
+}
+button:disabled,
+button[disabled]{
+    opacity: 0.5;
+}
+button:hover{
+    cursor: pointer;
+}
 .Selector select option {
     padding: 30px;
 }
 .Option{
     text-align: center;
+}
+.DNNumber{
+    width: 100%;
+    text-align: center;
+    font-size: 2.5rem;
 }
 .Select{
     width: 20%;
@@ -58,6 +72,7 @@ button{
     -webkit-appearance: button;
     appearance: button;
     outline: none;
+    text-align-last: center;
 }
 select::-ms-expand {
     display: none; /* hide the default arrow in ie10 and ie11 */
