@@ -35,14 +35,14 @@ include("../../../connection.php");
 </script>
 <body>
 <div id="main">
-
+    <div id="jury" style="display: none" ></div>
     <div class="header">
         <div class="header_item" style="padding-top: 1%">
             <button class="score-logout" onclick="logout()">Uitloggen</button>
         </div>
 
         <div class="header_item" style="text-align: center">
-            <img width="80px" id="logo" >
+            <img alt="logo" width="80px" id="logo" >
         </div>
 
         <div class="header_item" style="text-align: right">
@@ -271,7 +271,7 @@ include("../../../connection.php");
       let N = document.getElementById('N_score_Input').value;
       let Total = document.getElementById('total').innerText;
       let Nummer = document.getElementById('DnNummer').innerText;
-      let Onderdeel = onderdeel;
+      let Onderdeel = document.getElementById("jury").innerHTML;
       let name = document.getElementById('DnNaam').innerHTML;
 
       const scores = new Score(D, E, N, Onderdeel, Nummer, Total, name);
@@ -296,6 +296,7 @@ include("../../../connection.php");
       return this.defaultSelected;
     });
   }
+
 
   // Reset all - Voorkomt dubbel opsturen van data naar secretariaat
   function ResetJury() {
@@ -332,26 +333,27 @@ include("../../../connection.php");
       })
     });
   });
-  //
-  // document.body.onload = function () {
-  //   socket.emit('requestUser', {name: 'juryOverzicht', status: 'connected'});
-  //   socket.on("sendUrl", function (data) {
-  //     onderdeel = data.user.name;
-  //     document.getElementById('logo').src = "../assets/" + data.user.name + ".png";
-  //   });
-  //   document.getElementById('opslaan').disabled = true;
-  // };
+
+
 
     document.body.onload = function () {
 
         socket.emit('requestUser',{name:'juryOverzicht',status:'connected'});
         socket.on("sendUrl" , function (data) {
-            if (data.user == null || data.user.status !== loginhash){
-             window.location = "../";
-            }else{
-                //document.getElementById('jury').innerHTML = data.user.name;
+
+            try{
+                if (data.user == null || data.user.status !== loginhash){
+                    window.location = "../";
+                }else{
+                    document.getElementById('jury').innerHTML = data.user.name;
+                }
+                console.log(data);
             }
-            console.log(data);
+            catch {e} {
+
+            }
+            document.getElementById('logo').src = "../assets/" + data.user.name + ".png";
+            document.getElementById('opslaan').disabled = true;
         })
     };
 </script>

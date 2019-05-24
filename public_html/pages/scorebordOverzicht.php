@@ -66,8 +66,8 @@ include("../../../connection.php");
         }
     }
 
-  let value = {name: user, status: 'connected'};
-  socket.emit('Login_value', value);
+    let value = {name: user, status: 'connected'};
+    socket.emit('Login_value', value);
 
     window.onbeforeunload = function () {
         ClearLoginValue();
@@ -77,78 +77,78 @@ include("../../../connection.php");
         socket.emit('Logout_value', value["name"]);
     }
 
-  socket.on('get_Turner_card', function (card) {
-    cards.push(card);
-    updateScores();
-    console.log(card);
-  });
-
-
-  // Als de gebruiker het tabblad sluit, inplaats van uitlogd
-
-
-
-  function createScoreLine(card) {
-    const newScoreLine = document.createElement('tr');
-    const positie = document.createElement('td');
-    const naam = document.createElement('td');
-    const score = document.createElement('td');
-    newScoreLine.appendChild(positie);
-    newScoreLine.appendChild(naam);
-    newScoreLine.appendChild(score);
-    naam.innerText = card.Name;
-    score.innerText = card.Total;
-    newScoreLine.id = score.innerText;
-    document.getElementById('scoreTable').appendChild(newScoreLine);
-  }
-
-  function updateScores() {
-    let scorebord = document.getElementById("scoreTable");
-    let header = document.getElementById("thead");
-
-    while(scorebord.firstChild) {
-
-      scorebord.removeChild(scorebord.firstChild);
-    }
-    scorebord.appendChild(header);
-    cards.sort((a, b) => (parseInt(a.Total) < parseInt(b.Total)) ? 1 : -1);
-
-    console.log(cards);
-    cards.forEach(function (card) {
-      createScoreLine(card);
+    socket.on('get_Turner_card', function (card) {
+        cards.push(card);
+        updateScores();
+        console.log(card);
     });
-  }
 
-  let fullScreen = false;
 
-  document.onkeydown = function(evt) {
-    evt = evt || window.event;
-    evt.preventDefault();
-    if (evt.keyCode == 27)
-      {
-        fullScreen = false;
-        document.getElementById('fullScreen').innerText = ' []';
-      }
+    // Als de gebruiker het tabblad sluit, inplaats van uitlogd
+
+
+
+    function createScoreLine(card) {
+        const newScoreLine = document.createElement('tr');
+        const positie = document.createElement('td');
+        const naam = document.createElement('td');
+        const score = document.createElement('td');
+        newScoreLine.appendChild(positie);
+        newScoreLine.appendChild(naam);
+        newScoreLine.appendChild(score);
+        naam.innerText = card.Name;
+        score.innerText = card.Total;
+        newScoreLine.id = score.innerText;
+        document.getElementById('scoreTable').appendChild(newScoreLine);
+    }
+
+    function updateScores() {
+        let scorebord = document.getElementById("scoreTable");
+        let header = document.getElementById("thead");
+
+        while(scorebord.firstChild) {
+
+            scorebord.removeChild(scorebord.firstChild);
+        }
+        scorebord.appendChild(header);
+        cards.sort((a, b) => (parseInt(a.Total) < parseInt(b.Total)) ? 1 : -1);
+
+        console.log(cards);
+        cards.forEach(function (card) {
+            createScoreLine(card);
+        });
+    }
+
+    let fullScreen = false;
+
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        evt.preventDefault();
+        if (evt.keyCode == 27)
+        {
+            fullScreen = false;
+            document.getElementById('fullScreen').innerText = ' []';
+        }
     };
 
-  document.addEventListener("fullscreenchange", function() {
-    output.innerHTML = "fullscreenchange event fired!";
-  });
+    document.addEventListener("fullscreenchange", function() {
+        output.innerHTML = "fullscreenchange event fired!";
+    });
 
 
-  document.getElementById('fullScreen').addEventListener("click", function() {
+    document.getElementById('fullScreen').addEventListener("click", function() {
 
-    fullScreen = true;
-    document.getElementById('fullScreen').innerText = '';
-    var
-      el = document.documentElement
-      , rfs =
-      el.requestFullScreen
-      || el.webkitRequestFullScreen
-      || el.mozRequestFullScreen
-    ;
-    rfs.call(el);
-  });
+        fullScreen = true;
+        document.getElementById('fullScreen').innerText = '';
+        var
+            el = document.documentElement
+            , rfs =
+            el.requestFullScreen
+            || el.webkitRequestFullScreen
+            || el.mozRequestFullScreen
+        ;
+        rfs.call(el);
+    });
 
 </script>
 
@@ -161,5 +161,3 @@ include("../../../connection.php");
 
 </script>
 </html>
-
-
