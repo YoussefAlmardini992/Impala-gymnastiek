@@ -28,7 +28,10 @@ const screenConnections = [];
 
 function emitConnection(SERVER) {
 
-  const io = socket.listen(SERVER);
+
+    const io = socket.listen(SERVER);
+
+
 
   io.sockets.on('connection', function (socket) {
 
@@ -98,27 +101,27 @@ function emitConnection(SERVER) {
     });
 
 
-    //ON SELECT USER
-    socket.on('LoginValue', function (value) {
-      let notExistIndex = 0;
-      let pushed;
-      if (users.length < 1) {
-        users.push(value);
-        pushed = true;
-      } else {
-        for (var user in users) {
-          if (users[user].name === value.name) {
-            notExistIndex++;
-          }
-        }
-        if (notExistIndex === 0) {
-          users.push(value);
-          pushed = true;
-        }
-      }
-      pushed ? lastUser = users[users.length - 1] : null;
-      console.log(users);
-    });
+        //ON SELECT USER
+        socket.on('LoginValue', function (value) {
+            let notExistIndex = 0;
+            let pushed;
+            if (users.length < 1) {
+                users.push(value);
+                pushed = true;
+            } else {
+                for (var user in users) {
+                    if (users[user].name === value.name) {
+                        notExistIndex++;
+                    }
+                }
+                if (notExistIndex === 0) {
+                    users.push(value);
+                    pushed = true;
+                }
+            }
+            pushed ? lastUser = users[users.length - 1] : null;
+               socket.broadcast.emit("all_users" , users);
+        });
 
 
     socket.on('requestUser', function (user) {
@@ -202,6 +205,7 @@ function emitConnection(SERVER) {
     });
 
   });
+
 }
 
 emitConnection(http_server);

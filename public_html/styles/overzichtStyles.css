@@ -68,14 +68,22 @@
 .content {
     text-align: center;
     font-size: 200%;
+    margin-top: -150px;
 }
 
 .table {
     margin: 0px auto;
     width: 100%;
-
 }
-
+.OPSLAAN{
+    font-size: 1em;
+    text-decoration: none;
+    background-color: blue;
+    color: white;
+    border: none;
+    height: 50px;
+    width: 20%;
+}
 td, th {
 
     text-align: center;
