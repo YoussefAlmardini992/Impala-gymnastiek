@@ -54,6 +54,24 @@ function emitConnection(SERVER) {
 
     });
 
+    // ON SELECT WEDSTRIJD bij uitslagen.php
+    socket.on('select_wedstrijd', function (wedstrijddatum) {
+        console.log(wedstrijddatum);
+  
+        connection.query('SELECT DISTINCT nummer FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
+          if (error) throw error;
+          socket.emit('selected_wedstrijd', results);
+        });
+    });
+
+    // ON SELECT DEELNEMER bij uitslagen.php results all scores deelnemer
+    socket.on('DeelnemerNummerSelect', function (data) {
+        connection.query('SELECT * FROM onderdeel_uitsl WHERE wedstrijddatum ="' + data.wedstrijdDatum + '" AND nummer ="' + data.nummer + '"', function (error, results, fields) {
+            if (error) throw error;
+            socket.emit('UitslagenDeelnemer', results);
+          });
+    });
+
     socket.on('getCardData', function (card) {
       try{
           connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
