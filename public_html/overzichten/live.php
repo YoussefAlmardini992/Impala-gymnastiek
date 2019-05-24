@@ -59,13 +59,7 @@ include("../../../connection.php")
      const socket = io.connect('http://localhost:3000');
 
   //Set up variables************************************************************
-<<<<<<< HEAD
-  //const users = [];
-  // $( document ).ready(function() {
-  //     console.log( "ready!" );
-  // });
-=======
->>>>>>> master
+
   let groupName;
   let TheChosenGroup;
   let current_deelnemer;
@@ -79,9 +73,6 @@ include("../../../connection.php")
   };
 
   //On user log in ****************************************************************************************
-<<<<<<< HEAD
-
-
       function CreateStatus(user) {
 
           const statusBody = document.getElementById("statusBody");
@@ -115,7 +106,7 @@ include("../../../connection.php")
           if(users.length > 0){
               users.forEach(function (value) {
                   if(value.name)
-                      CreateStatus(value);
+                      CreateStatus(value.name);
               });
           }
       });
@@ -139,7 +130,6 @@ include("../../../connection.php")
     DN_E.innerText = deelnemer.scores.E;
     DN_N.innerText = deelnemer.scores.N;
     beeordeler.innerText = deelnemer.scores.Jury;
-=======
   function CreateStatus(user) {
 
     const statusBody = document.getElementById("statusBody");
@@ -155,7 +145,6 @@ include("../../../connection.php")
     StatusItem.appendChild(UserName);
     StatusItem.appendChild(statusSituation);
     statusBody.appendChild(StatusItem);
->>>>>>> master
   }
 
 

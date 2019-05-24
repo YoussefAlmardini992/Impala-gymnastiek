@@ -33,9 +33,6 @@ include("../../../connection.php"); // Voor localhost
 
 <div id="main">
     <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-    <?php
-    // echo '<h5>Ingelogd als: ' . $_SESSION["id"] . '</h5>';
-    ?>
     <div class="overzichtContainer" id="">
         <?php
 
@@ -452,17 +449,13 @@ include("../../../connection.php"); // Voor localhost
   };
 
 
-<<<<<<< HEAD
-    window.onbeforeunload = function () {
-        logout()
-    };
 
     //const socket = io.connect('http://145.120.207.219:3000');
    // const socket = io.connect('http://localhost:3000');
 
-=======
+
   function logout() {
->>>>>>> master
+
 
     var test = confirm("Are you sure you want to logout?");
     if (test) {

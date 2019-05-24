@@ -10,9 +10,19 @@
 
 </head>
 <body>
-<div class="WelcomePageContainer">
-    <div class="title">
-        <h1>Impala Gymnastiek</h1>
+    <div class="WelcomePageContainer">
+        <div class="title">
+            <h1>Impala Gymnastiek</h1>
+        </div>
+        <div class="inputItem">
+            <input type="text" name="userName" id="userName" placeholder="gebruikersnaam">
+        </div>
+        <div class="inputItem">
+            <input type="password" name="password" id="password" placeholder="wachtwoord">
+        </div>
+        <div class="inputItem_Submit">
+            <button  name="submit" onclick="loginCheck()">Inloggen</button>
+        </div>
     </div>
 
     <script>
@@ -124,22 +134,19 @@
                   alert('asldiugalsfdbsadf')
               }
           }
-        });
-      } else {
-
-      }
+            function LogIn() {
+                socket.emit('LoginValue', value);
+                if (value.name === 'secretariaat') {
+                    window.location = "pages/secretariaatOverzicht.php";
+                } else {
+                    window.location = "pages/juryOverzicht.php";
+                }
+            }
     }
 
-    function LogIn() {
-      socket.emit('LoginValue', value);
-      if (value.name === 'secretariaat') {
-        window.location = "pages/secretariaatOverzicht.php";
-      } else {
-        window.location = "pages/juryOverzicht.php";
-      }
-    }
 
-  }
+
+
 
 
 </script>
