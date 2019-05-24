@@ -28,12 +28,10 @@ const screenConnections = [];
 
 function emitConnection(SERVER) {
 
-<<<<<<< HEAD
 
     const io = socket.listen(SERVER);
-=======
-  const io = socket.listen(SERVER);
->>>>>>> master
+
+
 
   io.sockets.on('connection', function (socket) {
 
@@ -85,7 +83,6 @@ function emitConnection(SERVER) {
     });
 
 
-<<<<<<< HEAD
         //ON SELECT USER
         socket.on('LoginValue', function (value) {
             let notExistIndex = 0;
@@ -107,29 +104,6 @@ function emitConnection(SERVER) {
             pushed ? lastUser = users[users.length - 1] : null;
                socket.broadcast.emit("all_users" , users);
         });
-=======
-    //ON SELECT USER
-    socket.on('LoginValue', function (value) {
-      let notExistIndex = 0;
-      let pushed;
-      if (users.length < 1) {
-        users.push(value);
-        pushed = true;
-      } else {
-        for (var user in users) {
-          if (users[user].name === value.name) {
-            notExistIndex++;
-          }
-        }
-        if (notExistIndex === 0) {
-          users.push(value);
-          pushed = true;
-        }
-      }
-      pushed ? lastUser = users[users.length - 1] : null;
-      console.log(users);
-    });
->>>>>>> master
 
 
     socket.on('requestUser', function (user) {
@@ -157,16 +131,6 @@ function emitConnection(SERVER) {
     });
 
 
-<<<<<<< HEAD
-        //ON START MATCH
-        // 3. Make sure all the screens receive the group. There can be multiple connections. - Jarrin
-        socket.on('start_match', function (group) {
-            // Loop al screen connection and emit the event.
-            screenConnections.forEach((connection) => {
-                connection.emit('get_group', group);
-            });
-        });
-=======
     socket.on('logOut', function (USER) {
       users.forEach(function (user) {
         if (user.name === USER) {
@@ -180,7 +144,6 @@ function emitConnection(SERVER) {
     });
 
 
->>>>>>> master
 
     //ON START MATCH
     // 3. Make sure all the screens receive the group. There can be multiple connections. - Jarrin
@@ -223,11 +186,8 @@ function emitConnection(SERVER) {
       socket.broadcast.emit('get_Turner_card', card);
     });
 
-<<<<<<< HEAD
-
-=======
   });
->>>>>>> master
+
 }
 
 emitConnection(http_server);
