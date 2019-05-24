@@ -25,8 +25,8 @@
             <h1>t_nummer : &nbsp;&nbsp; </h1>
             <h1 id="TurnerNumber">3000</h1>
         </div>
-        <div class="item">
-            <h1 id="onderdeel">Sprong</h1>
+        <div class="item" style="margin-top: 20px ">
+            <h1 id="onderdeel"></h1>
         </div>
         <div class="item" style="text-align: right">
             <h1>00:00</h1>

@@ -35,14 +35,14 @@ include("../../../connection.php");
 </script>
 <body>
 <div id="main">
-
+    <div id="jury" style="display: none" ></div>
     <div class="header">
         <div class="header_item" style="padding-top: 1%">
             <button class="score-logout" onclick="logout()">Uitloggen</button>
         </div>
 
         <div class="header_item" style="text-align: center">
-            <img width="80px" id="logo">
+            <img alt="logo" width="80px" id="logo" >
         </div>
 
         <div class="header_item" style="text-align: right">
@@ -50,8 +50,7 @@ include("../../../connection.php");
         </div>
     </div>
 
-    <divstyle
-    ="text-align: left">
+    <div style="text-align: left">
     <h1 id="DnNummer" class="DNNumber">turner_nummer</h1>
 </div>
 
@@ -107,26 +106,15 @@ include("../../../connection.php");
 
 </div>
 
-<<<<<<< HEAD
-    var loginhash =  localStorage.getItem("loginHash");
-    console.log(loginhash);
 
-    function onScoreChange(input) {
-      if(input.value > 10 || input.value < 0){
-        alert("ongeldige waarde!... U kunt een nummer invoeren tussen 0 en 10.");
-        input.value = 10;
-      }
-      // EXTRA VAN THIJMEN
-      telTotaalScore();
-    }
-=======
+
+
 <form class="content">
     <h1 id="DnNaam">Turner Naam</h1>
     <div>
         <div>D: <input onblur="onScoreChange(this)" id="D_score_Input" type="number" max="10" min="0" value="0"
                        step=".001"></div>
     </div>
->>>>>>> master
 
     <div>
         <div>E: <input onblur="onScoreChange(this)" id="E_score_Input" type="number" max="10" min="0" value="0"
@@ -138,65 +126,32 @@ include("../../../connection.php");
                        step=".001"></div>
     </div>
 
-<<<<<<< HEAD
-    //const socket = io.connect('http://145.120.207.219:3000');
-    const socket = io.connect('http://localhost:3000');
-    // let value;
-    //
-    // window.onbeforeunload = closingCode;
-    // function closingCode(){
-    //     logout();
-    // }
-    //
-    //
-    // var juryNaam;
-    // switch (true){
-    //     case (localStorage.getItem("rek") == "rek"):
-    //         juryNaam = "rek";
-    //          value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("vloer") == "vloer"):
-    //         juryNaam = "vloer";
-    //          value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("balk") == "balk"):
-    //         juryNaam = "balk";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("ringen") == "ringen"):
-    //         juryNaam = "ringen";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("sprong") == "sprong"):
-    //         juryNaam = "sprong";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("brug gelijk") == "brug gelijk"):
-    //         juryNaam = "brug gelijk";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("brug ongelijk") == "brug ongelijk"):
-    //         juryNaam = "brug ongelijk";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //
-    //     case (localStorage.getItem("voltige") == "voltige"):
-    //         juryNaam = "voltige";
-    //         value = {name:juryNaam,status:'connected'};
-    //         break;
-    //     default:
-    //         this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
-    // }
-    //
-    //
-    // console.log(juryNaam);
-    //
+
+
+    <div>
+        Totaal: <p id="total">10</p>
+    </div>
+
+
+</form>
+
+
+</div>
+</body>
+<script>
+
+    var loginhash =  localStorage.getItem("loginHash");
+    console.log(loginhash);
+
+    function onScoreChange(input) {
+        if(input.value > 10 || input.value < 0){
+            alert("ongeldige waarde!... U kunt een nummer invoeren tussen 0 en 10.");
+            input.value = 10;
+        }
+        // EXTRA VAN THIJMEN
+        telTotaalScore();
+    }
+
     function logout(){
 
 
@@ -205,16 +160,13 @@ include("../../../connection.php");
             localStorage.removeItem("loginHash");
             const juryname = document.getElementById('jury').innerHTML;
             socket.emit('logOut',juryname);
-          //  this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
+            //  this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
             window.location = "../";
 
         }else{
             return false;
         }
     }
-    //
-    //
-    // socket.emit('Login_value',value);
 
     // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
 
@@ -229,31 +181,10 @@ include("../../../connection.php");
         return message;
     };
 
-    // $(function () {
-    //     $("a").not('#lnkLogOut').click(function () {
-    //         window.onbeforeunload = null;
-    //     });
-    //     $(".btn").click(function () {
-    //         window.onbeforeunload = null;
-    //     });
-    // });
-=======
-    <div>
-        Totaal: <p id="total">10</p>
-    </div>
 
-
-</form>
-
-
-</div>
-</body>
-<script>
-
-  //var id = localStorage.getItem("rek");
 
   let onderdeel = 'null';
->>>>>>> master
+
 
   function onScoreChange(input) {
     if (input.value > 10 || input.value < 0) {
@@ -340,7 +271,7 @@ include("../../../connection.php");
       let N = document.getElementById('N_score_Input').value;
       let Total = document.getElementById('total').innerText;
       let Nummer = document.getElementById('DnNummer').innerText;
-      let Onderdeel = onderdeel;
+      let Onderdeel = document.getElementById("jury").innerHTML;
       let name = document.getElementById('DnNaam').innerHTML;
 
       const scores = new Score(D, E, N, Onderdeel, Nummer, Total, name);
@@ -365,6 +296,7 @@ include("../../../connection.php");
       return this.defaultSelected;
     });
   }
+
 
   // Reset all - Voorkomt dubbel opsturen van data naar secretariaat
   function ResetJury() {
@@ -402,32 +334,28 @@ include("../../../connection.php");
     });
   });
 
-  document.body.onload = function () {
-    socket.emit('requestUser', {name: 'juryOverzicht', status: 'connected'});
-    socket.on("sendUrl", function (data) {
-      onderdeel = data.user.name;
-      document.getElementById('logo').src = "../assets/" + data.user.name + ".png";
-    });
-    document.getElementById('opslaan').disabled = true;
-  };
 
-<<<<<<< HEAD
+
     document.body.onload = function () {
 
         socket.emit('requestUser',{name:'juryOverzicht',status:'connected'});
         socket.on("sendUrl" , function (data) {
-            if (data.user == null || data.user.status !== loginhash){
-             window.location = "../";
-            }else{
-                document.getElementById('jury').innerHTML = data.user.name;
+
+            try{
+                if (data.user == null || data.user.status !== loginhash){
+                    window.location = "../";
+                }else{
+                    document.getElementById('jury').innerHTML = data.user.name;
+                }
+                console.log(data);
             }
-            console.log(data);
+            catch {e} {
+
+            }
+            document.getElementById('logo').src = "../assets/" + data.user.name + ".png";
+            document.getElementById('opslaan').disabled = true;
         })
     };
-=======
-
->>>>>>> master
-
 </script>
 </html>
 
