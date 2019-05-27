@@ -28,7 +28,10 @@ const screenConnections = [];
 
 function emitConnection(SERVER) {
 
-  const io = socket.listen(SERVER);
+
+    const io = socket.listen(SERVER);
+
+
 
   io.sockets.on('connection', function (socket) {
 
@@ -52,6 +55,24 @@ function emitConnection(SERVER) {
         console.log(results);
       });
 
+    });
+
+    // ON SELECT WEDSTRIJD bij uitslagen.php
+    socket.on('select_wedstrijd', function (wedstrijddatum) {
+        console.log(wedstrijddatum);
+  
+        connection.query('SELECT DISTINCT nummer FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
+          if (error) throw error;
+          socket.emit('selected_wedstrijd', results);
+        });
+    });
+
+    // ON SELECT DEELNEMER bij uitslagen.php results all scores deelnemer
+    socket.on('DeelnemerNummerSelect', function (data) {
+        connection.query('SELECT * FROM onderdeel_uitsl WHERE wedstrijddatum ="' + data.wedstrijdDatum + '" AND nummer ="' + data.nummer + '"', function (error, results, fields) {
+            if (error) throw error;
+            socket.emit('UitslagenDeelnemer', results);
+          });
     });
 
     socket.on('getCardData', function (card) {
@@ -80,27 +101,27 @@ function emitConnection(SERVER) {
     });
 
 
-    //ON SELECT USER
-    socket.on('LoginValue', function (value) {
-      let notExistIndex = 0;
-      let pushed;
-      if (users.length < 1) {
-        users.push(value);
-        pushed = true;
-      } else {
-        for (var user in users) {
-          if (users[user].name === value.name) {
-            notExistIndex++;
-          }
-        }
-        if (notExistIndex === 0) {
-          users.push(value);
-          pushed = true;
-        }
-      }
-      pushed ? lastUser = users[users.length - 1] : null;
-      console.log(users);
-    });
+        //ON SELECT USER
+        socket.on('LoginValue', function (value) {
+            let notExistIndex = 0;
+            let pushed;
+            if (users.length < 1) {
+                users.push(value);
+                pushed = true;
+            } else {
+                for (var user in users) {
+                    if (users[user].name === value.name) {
+                        notExistIndex++;
+                    }
+                }
+                if (notExistIndex === 0) {
+                    users.push(value);
+                    pushed = true;
+                }
+            }
+            pushed ? lastUser = users[users.length - 1] : null;
+               socket.broadcast.emit("all_users" , users);
+        });
 
 
     socket.on('requestUser', function (user) {
@@ -184,6 +205,7 @@ function emitConnection(SERVER) {
     });
 
   });
+
 }
 
 emitConnection(http_server);

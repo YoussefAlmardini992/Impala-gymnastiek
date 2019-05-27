@@ -15,6 +15,8 @@ include("../../../connection.php"); // Voor localhost
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="../styles/overzichtStyles.css">
+    <link rel="stylesheet" href="../styles/juryOverzicht.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 
 
@@ -33,9 +35,6 @@ include("../../../connection.php"); // Voor localhost
 
 <div id="main">
     <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-    <?php
-    // echo '<h5>Ingelogd als: ' . $_SESSION["id"] . '</h5>';
-    ?>
     <div class="overzichtContainer" id="">
         <?php
 
@@ -452,7 +451,13 @@ include("../../../connection.php"); // Voor localhost
   };
 
 
+
+    //const socket = io.connect('http://145.120.207.219:3000');
+   // const socket = io.connect('http://localhost:3000');
+
+
   function logout() {
+
 
     var test = confirm("Are you sure you want to logout?");
     if (test) {
