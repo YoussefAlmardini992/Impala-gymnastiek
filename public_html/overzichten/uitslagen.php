@@ -61,6 +61,7 @@ function onWedstrijdSelect(select) {
         console.log(result);
         ClearList(deelnemersSelect);
         deelnemersSelect.options[deelnemersSelect.options.length] = new Option('Kiezen', "default");
+        if (result.length <= 1) alert("Er is geen data van deze datum");
         for (i = 0; i < result.length; i++) { 
             deelnemersSelect.options[deelnemersSelect.options.length] = new Option(result[i].nummer, result[i].nummer);
         }
