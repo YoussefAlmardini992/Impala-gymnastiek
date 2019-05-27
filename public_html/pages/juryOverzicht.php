@@ -153,8 +153,6 @@ include("../../../connection.php");
     }
 
     function logout(){
-
-
         var test =   confirm("Are you sure you want to logout?");
         if (test) {
             localStorage.removeItem("loginHash");
@@ -198,18 +196,6 @@ include("../../../connection.php");
 
   //const socket = io.connect('http://145.120.207.219:3000');
   const socket = io.connect('http://localhost:3000');
-
-  function logout() {
-
-
-    var test = confirm("Are you sure you want to logout?");
-    if (test) {
-      socket.emit('logOut', onderdeel);
-      this.location.href = "http://localhost/impala_Gymnastiek/public_html/index.php";
-    } else {
-      return false;
-    }
-  }
 
   // socket.emit('Login_value',value);
 
@@ -340,9 +326,11 @@ include("../../../connection.php");
 
         socket.emit('requestUser',{name:'juryOverzicht',status:'connected'});
         socket.on("sendUrl" , function (data) {
+          console.log(data);
 
             try{
                 if (data.user == null || data.user.status !== loginhash){
+      
                     window.location = "../";
                 }else{
                     document.getElementById('jury').innerHTML = data.user.name;

@@ -121,6 +121,7 @@ function emitConnection(SERVER) {
             }
             pushed ? lastUser = users[users.length - 1] : null;
                socket.broadcast.emit("all_users" , users);
+               console.log(users);
         });
 
 
@@ -159,6 +160,7 @@ function emitConnection(SERVER) {
           lastUser = null;
         }
       });
+      console.log(users);
     });
 
 
