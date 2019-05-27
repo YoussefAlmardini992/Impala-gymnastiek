@@ -61,7 +61,8 @@ function emitConnection(SERVER) {
     socket.on('select_wedstrijd', function (wedstrijddatum) {
         console.log(wedstrijddatum);
   
-        connection.query('SELECT DISTINCT nummer FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
+        //connection.query('SELECT DISTINCT nummer FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
+        connection.query('SELECT * FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
           if (error) throw error;
           socket.emit('selected_wedstrijd', results);
         });
@@ -121,6 +122,7 @@ function emitConnection(SERVER) {
             }
             pushed ? lastUser = users[users.length - 1] : null;
                socket.broadcast.emit("all_users" , users);
+               console.log(users);
         });
 
 
@@ -159,6 +161,7 @@ function emitConnection(SERVER) {
           lastUser = null;
         }
       });
+      console.log(users);
     });
 
 

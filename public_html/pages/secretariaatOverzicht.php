@@ -1,8 +1,6 @@
 <?php
 //include("../uti/connection.php"); // Voor online
 include("../../../connection.php"); // Voor localhost
-
-
 ?>
 <html>
 <head>
@@ -30,14 +28,12 @@ include("../../../connection.php"); // Voor localhost
     <a class='nav-item' href='?overzicht=live'>LIVE</a>
     <a class='nav-item' href='?overzicht=uitslagen'>Uitslagen</a>
     <a class='nav-item' onclick="logout()" href="../index.php">Log uit</a>
-
 </div>
 
 <div id="main">
     <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
     <div class="overzichtContainer" id="">
         <?php
-
         if (isset($_GET["overzicht"])) {
             include("../overzichten/overzichten.php");
         }
@@ -49,29 +45,28 @@ include("../../../connection.php"); // Voor localhost
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-
                     $groepen_change[] = "
-                            <a class='back' href='?overzicht=groepen'>Back</a>
-                            <form class='form' method='post' action=''>
-                                <table class='table'>
-                                    <tr>
-                                        <td class='input'>Naam:</td>
-                                        <td><input type='text' name='naam' value='" . $row['naam'] . "'></td>
-                                    </tr>
-                                    <tr>
-                                        <td class='input'>Niveau:</td>
-                                        <td><input type='text' name='niveau' value='" . $row['niveau'] . "'></td>
-                                    </tr>
-                                    <tr>
-                                        <td class='input'>Jaar:</td>
-                                        <td><input type='number' min='1950' max='9999' name='jaar' value='" . $row['jaar'] . "'></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type='hidden' value='groepen_change' name='target'></td>
-                                        <td><input class='button' type='submit' name='submit' value='Verzenden'></td>
-                                    </tr>
-                                </table>
-                            </form>";
+                        <a class='back' href='?overzicht=groepen'>Back</a>
+                        <form class='form' method='post' action=''>
+                            <table class='table'>
+                                <tr>
+                                    <td class='input'>Naam:</td>
+                                    <td><input type='text' name='naam' value='" . $row['naam'] . "'></td>
+                                </tr>
+                                <tr>
+                                    <td class='input'>Niveau:</td>
+                                    <td><input type='text' name='niveau' value='" . $row['niveau'] . "'></td>
+                                </tr>
+                                <tr>
+                                    <td class='input'>Jaar:</td>
+                                    <td><input type='number' min='1950' max='9999' name='jaar' value='" . $row['jaar'] . "'></td>
+                                </tr>
+                                <tr>
+                                    <td><input type='hidden' value='groepen_change' name='target'></td>
+                                    <td><input class='button' type='submit' name='submit' value='Verzenden'></td>
+                                </tr>
+                            </table>
+                        </form>";
                 }//end while
             }
 
@@ -172,7 +167,14 @@ include("../../../connection.php"); // Voor localhost
                                         <td class='input' >Groep:</td>
                                         <td>
                                                 <select name='groep'>";
+                    // Zet de groep neer waar in de deelnemer zit
+                    foreach ($groepenNaam as $valuekey):
+                        if($valuekey['groep_ID'] == $row['groep_ID']) {
+                            $str .= '<option value=' . $valuekey['groep_ID'] . '>' . $valuekey['naam'] . '</option>';
+                        }
+                    endforeach;                     
 
+                    // Zet alle groepen in de option
                     foreach ($groepenNaam as $valuekey):
                         $str .= '<option value=' . $valuekey['groep_ID'] . '>' . $valuekey['naam'] . '</option>';
                     endforeach;
@@ -184,7 +186,7 @@ include("../../../connection.php"); // Voor localhost
                                         <td class='input' >Geslacht:</td>
                                         <td>
                                             <select name='geslacht'>
-                                                <option value='default'></option>
+                                                <option value='".$row['geslacht']."'>".$row['geslacht']."</option>
                                                 <option value='m'>m</option>
                                                 <option value='v'>v</option>
                                              </select>
@@ -221,12 +223,11 @@ include("../../../connection.php"); // Voor localhost
                     $nummer = $_POST['nummer'];
                     //  $jaar = $_POST['jaar'];
                     $sqlupdate = "UPDATE `deelnemers` SET voornaam ='$voornaam', tussenvoegsel = '$tussenvoegsel', 
-                        achternaam ='$achternaam', nummer ='$nummer', groep_ID ='$groep', geslacht = '$geslacht' WHERE deelnemer_ID = $id";
+                        achternaam ='$achternaam', groep_ID ='$groep', geslacht = '$geslacht', nummer = '$nummer' WHERE deelnemer_ID = $id";
 
                     if (mysqli_query($conn, $sqlupdate)) {
-                        header("Location: ?overzicht=deelnemers");
                         echo mysqli_error($conn);
-                        echo "<br>" . $sqlupdate;
+                        echo "<script> location.href='?overzicht=deelnemers'; </script>";
                     }
                 } else {
                     echo "<script type='text/javascript'>alert('Vul geslacht in');</script>";
@@ -446,29 +447,26 @@ include("../../../connection.php"); // Voor localhost
 <script>
 
 
-  window.onbeforeunload = function () {
+  window.onunload = function () {
     logout()
   };
 
 
-
     //const socket = io.connect('http://145.120.207.219:3000');
-   // const socket = io.connect('http://localhost:3000');
-
+    const socket = io.connect('http://localhost:3000');
 
   function logout() {
-
-
     var test = confirm("Are you sure you want to logout?");
     if (test) {
       socket.emit('logOut', 'secretariaat');
-      socket.on('logOutConfirm', function () {
-        window.location = 'http://localhost/impala_Gymnasiek/public_html/index.php'
-      })
     } else {
       return false;
     }
   }
+
+    socket.on('logOutConfirm', function () {
+        window.location = '../index.php'
+    });
 
   function openNav() {
     document.getElementById("mySidenav").style.display = "block";

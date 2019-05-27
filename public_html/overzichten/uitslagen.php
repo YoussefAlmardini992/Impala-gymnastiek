@@ -70,7 +70,6 @@
       deelnemersSelect.options[deelnemersSelect.options.length] = new Option(result[i].nummer, result[i].nummer);
     }
     console.log();
-
   });
 
   //on deelnemer select
@@ -140,4 +139,48 @@
     pdf.save('certificaat.pdf');
   }
 
+    //on deelnemer select
+    // deelnemersSelect.addEventListener('change', function () {
+    //     const selectOption = deelnemersSelect.value;
+    //     const data = {
+    //         nummer : selectOption,
+    //         wedstrijdDatum: wedstrijddatum
+    //     }
+    //     if(selectOption !== 'default') {
+    //         socket.emit('DeelnemerNummerSelect', data);
+    //     }
+        
+    // });
+
+    // socket.on('UitslagenDeelnemer', function (result) {
+    //     // Removes full table if exist
+    //     var tbl = document.getElementById('table');
+    //     if(tbl) tbl.parentNode.removeChild(tbl);
+
+    //     //Maakt table aan met data
+    //     let regels ="<table id='table' class='table'>" +
+    //                 "<tr class='table-head'>" +
+    //                 "<th>Voornaam</th>" +
+    //                 "<th>Tussenvoegsel</th>" +
+    //                 "<th>Achternaam</th>" +
+    //                 "<th>Onderdeel</th>" +
+    //                 "<th>D_Score</th>" +
+    //                 "<th>E_Score</th>" +
+    //                 "<th>N_Score</th>" +
+    //                 "<th>Totaal</th>" +
+    //             "</tr>";
+    //     for (i = 0; i < result.length; i++) {
+    //     regels += "<tr>" +
+    //                 "<td>"+ result[i].voornaam +"</td>" +
+    //                 "<td>"+ result[i].tussenvoegsel +"</td>" +
+    //                 "<td>"+ result[i].achternaam +"</td>" +
+    //                 "<td>"+ result[i].subonderdeel +"</td>" +
+    //                 "<td>"+ result[i].D_score +"</td>" +
+    //                 "<td>"+ result[i].E_score +"</td>" +
+    //                 "<td>"+ result[i].N_score +"</td>" +
+    //                 "<td>"+ result[i].totaalscore +"</td>" +
+    //             "</tr>";
+    //     }
+    //     deelnemersSelect.insertAdjacentHTML('afterend', regels);
+    // });
 </script>
