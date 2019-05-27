@@ -1,3 +1,4 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 <div class="selectLine">
     <div class="heading">Wedstrijd:</div>
     <div class="Selector">
@@ -32,6 +33,9 @@
         </select>
     </div>
 </div>
+
+<input type="button" id="dwn-btn" value="downloaden" onclick="DownloadAlsPDF()"/>
+
 
 <script>
 //const socket = io.connect('http://145.120.207.219:3000');
@@ -143,4 +147,26 @@ function onWedstrijdSelect(select) {
     //     }
     //     deelnemersSelect.insertAdjacentHTML('afterend', regels);
     // });
+
+    function DownloadAlsPDF() {
+        var pdf = new jsPDF('p', 'pt', 'letter');
+
+        pdf.cellInitialize();
+        pdf.setFontSize(10);
+
+
+        pdf.text(25,100,'Impala');
+
+
+        $.each( $('#customers tr'), function (i, row){
+        $.each( $(row).find("td, th"), function(j, cell){
+            var txt = $(cell).text().trim() || " ";
+            var width = (j==4) ? 40 : 70; //make 4th column smaller
+            pdf.cell(10, 50, width, 30, txt, i);
+        });
+        });
+
+        pdf.save('certificaat.pdf');
+    }
+
 </script>
