@@ -59,31 +59,14 @@ function onWedstrijdSelect(select) {
     //Request van selected group from the server**********************************************
     socket.on('selected_wedstrijd', function (result) {
         console.log(result);
-        ClearList(deelnemersSelect);
-        deelnemersSelect.options[deelnemersSelect.options.length] = new Option('Kiezen', "default");
-        if (result.length <= 1) alert("Er is geen data van deze datum");
-        for (i = 0; i < result.length; i++) { 
-            deelnemersSelect.options[deelnemersSelect.options.length] = new Option(result[i].nummer, result[i].nummer);
-        }
-        console.log();
-
-    });
-
-    //on deelnemer select
-    deelnemersSelect.addEventListener('change', function () {
-        const selectOption = deelnemersSelect.value;
-        const data = {
-            nummer : selectOption,
-            wedstrijdDatum: wedstrijddatum
-        }
-        if(selectOption !== 'default') {
-            socket.emit('DeelnemerNummerSelect', data);
-        }
+        // ClearList(deelnemersSelect);
+        // deelnemersSelect.options[deelnemersSelect.options.length] = new Option('Kiezen', "default");
+        // if (result.length <= 1) alert("Er is geen data van deze datum");
+        // for (i = 0; i < result.length; i++) { 
+        //     deelnemersSelect.options[deelnemersSelect.options.length] = new Option(result[i].nummer, result[i].nummer);
+        // }
+        // console.log();
         
-    });
-
-    socket.on('UitslagenDeelnemer', function (result) {
-        // Removes full table if exist
         var tbl = document.getElementById('table');
         if(tbl) tbl.parentNode.removeChild(tbl);
 
@@ -93,6 +76,7 @@ function onWedstrijdSelect(select) {
                     "<th>Voornaam</th>" +
                     "<th>Tussenvoegsel</th>" +
                     "<th>Achternaam</th>" +
+                    "<th>Niveau</th>" +
                     "<th>Onderdeel</th>" +
                     "<th>D_Score</th>" +
                     "<th>E_Score</th>" +
@@ -104,6 +88,7 @@ function onWedstrijdSelect(select) {
                     "<td>"+ result[i].voornaam +"</td>" +
                     "<td>"+ result[i].tussenvoegsel +"</td>" +
                     "<td>"+ result[i].achternaam +"</td>" +
+                    "<td>"+ result[i].niveau +"</td>" +
                     "<td>"+ result[i].subonderdeel +"</td>" +
                     "<td>"+ result[i].D_score +"</td>" +
                     "<td>"+ result[i].E_score +"</td>" +
@@ -113,4 +98,49 @@ function onWedstrijdSelect(select) {
         }
         deelnemersSelect.insertAdjacentHTML('afterend', regels);
     });
+
+    //on deelnemer select
+    // deelnemersSelect.addEventListener('change', function () {
+    //     const selectOption = deelnemersSelect.value;
+    //     const data = {
+    //         nummer : selectOption,
+    //         wedstrijdDatum: wedstrijddatum
+    //     }
+    //     if(selectOption !== 'default') {
+    //         socket.emit('DeelnemerNummerSelect', data);
+    //     }
+        
+    // });
+
+    // socket.on('UitslagenDeelnemer', function (result) {
+    //     // Removes full table if exist
+    //     var tbl = document.getElementById('table');
+    //     if(tbl) tbl.parentNode.removeChild(tbl);
+
+    //     //Maakt table aan met data
+    //     let regels ="<table id='table' class='table'>" +
+    //                 "<tr class='table-head'>" +
+    //                 "<th>Voornaam</th>" +
+    //                 "<th>Tussenvoegsel</th>" +
+    //                 "<th>Achternaam</th>" +
+    //                 "<th>Onderdeel</th>" +
+    //                 "<th>D_Score</th>" +
+    //                 "<th>E_Score</th>" +
+    //                 "<th>N_Score</th>" +
+    //                 "<th>Totaal</th>" +
+    //             "</tr>";
+    //     for (i = 0; i < result.length; i++) {
+    //     regels += "<tr>" +
+    //                 "<td>"+ result[i].voornaam +"</td>" +
+    //                 "<td>"+ result[i].tussenvoegsel +"</td>" +
+    //                 "<td>"+ result[i].achternaam +"</td>" +
+    //                 "<td>"+ result[i].subonderdeel +"</td>" +
+    //                 "<td>"+ result[i].D_score +"</td>" +
+    //                 "<td>"+ result[i].E_score +"</td>" +
+    //                 "<td>"+ result[i].N_score +"</td>" +
+    //                 "<td>"+ result[i].totaalscore +"</td>" +
+    //             "</tr>";
+    //     }
+    //     deelnemersSelect.insertAdjacentHTML('afterend', regels);
+    // });
 </script>
