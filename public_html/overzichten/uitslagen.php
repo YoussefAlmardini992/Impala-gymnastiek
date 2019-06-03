@@ -39,7 +39,7 @@
 
 <script>
   //const socket = io.connect('http://145.120.207.219:3000');
-  const socket = io.connect('http://localhost:3000');
+  const Socket = io.connect('http://localhost:3000');
   const deelnemersSelect = document.getElementById('deelnemers');
   let wedstrijddatum;
 
@@ -61,7 +61,10 @@
         });
         });
 
-        pdf.save('certificaat.pdf');
+
+      pdf.autoTable({html:'#table'});
+
+      pdf.save('certificaat.pdf');
     }
 
     function onWedstrijdSelect(select) {
@@ -69,7 +72,7 @@
         wedstrijddatum = select.value
         $.when(ClearList(deelnemersSelect)).done(function() {
             //emit to server
-            socket.emit('select_wedstrijd', select.value);
+            Socket.emit('select_wedstrijd', select.value);
         });
     }
 
@@ -77,7 +80,7 @@
    function ClearList(select) {
        let length = select.options.length;
        for (let i = 0; i < length; i++) {
-       select.options[i] = null;
+       Select.options[i] = null;
        }
    }
 

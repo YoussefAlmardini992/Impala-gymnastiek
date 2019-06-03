@@ -444,6 +444,7 @@ include("../../../connection.php"); // Voor localhost
 </div>
 <div class="startWedstrijdBody"></div>
 </body>
+<script src="https://unpkg.com/jspdf-autotable"></script>
 <script>
 
 
