@@ -167,7 +167,14 @@ include("../../../connection.php"); // Voor localhost
                                         <td class='input' >Groep:</td>
                                         <td>
                                                 <select name='groep'>";
+                    // Zet de groep neer waar in de deelnemer zit
+                    foreach ($groepenNaam as $valuekey):
+                        if($valuekey['groep_ID'] == $row['groep_ID']) {
+                            $str .= '<option value=' . $valuekey['groep_ID'] . '>' . $valuekey['naam'] . '</option>';
+                        }
+                    endforeach;                     
 
+                    // Zet alle groepen in de option
                     foreach ($groepenNaam as $valuekey):
                         $str .= '<option value=' . $valuekey['groep_ID'] . '>' . $valuekey['naam'] . '</option>';
                     endforeach;
@@ -179,7 +186,7 @@ include("../../../connection.php"); // Voor localhost
                                         <td class='input' >Geslacht:</td>
                                         <td>
                                             <select name='geslacht'>
-                                                <option value='default'></option>
+                                                <option value='".$row['geslacht']."'>".$row['geslacht']."</option>
                                                 <option value='m'>m</option>
                                                 <option value='v'>v</option>
                                              </select>
@@ -216,12 +223,11 @@ include("../../../connection.php"); // Voor localhost
                     $nummer = $_POST['nummer'];
                     //  $jaar = $_POST['jaar'];
                     $sqlupdate = "UPDATE `deelnemers` SET voornaam ='$voornaam', tussenvoegsel = '$tussenvoegsel', 
-                        achternaam ='$achternaam', nummer ='$nummer', groep_ID ='$groep', geslacht = '$geslacht' WHERE deelnemer_ID = $id";
+                        achternaam ='$achternaam', groep_ID ='$groep', geslacht = '$geslacht', nummer = '$nummer' WHERE deelnemer_ID = $id";
 
                     if (mysqli_query($conn, $sqlupdate)) {
-                        header("Location: ?overzicht=deelnemers");
                         echo mysqli_error($conn);
-                        echo "<br>" . $sqlupdate;
+                        echo "<script> location.href='?overzicht=deelnemers'; </script>";
                     }
                 } else {
                     echo "<script type='text/javascript'>alert('Vul geslacht in');</script>";
