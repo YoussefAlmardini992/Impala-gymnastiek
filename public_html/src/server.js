@@ -47,19 +47,19 @@ function emitConnection(SERVER) {
     //ON SELECT GROUP
     socket.on('select_group', function (Group_ID) {
 
-      console.log(Group_ID);
+     // console.log(Group_ID);
 
       connection.query('SELECT * FROM deelnemers INNER JOIN groepen ON deelnemers.groep_ID = groepen.groep_ID WHERE groepen.groep_ID="' + Group_ID + '"', function (error, results, fields) {
         if (error) throw error;
         socket.emit('selected_group', results);
-        console.log(results);
+       // console.log(results);
       });
 
     });
 
     // ON SELECT WEDSTRIJD bij uitslagen.php
     socket.on('select_wedstrijd', function (wedstrijddatum) {
-        console.log(wedstrijddatum);
+       // console.log(wedstrijddatum);
   
         //connection.query('SELECT DISTINCT nummer FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
         connection.query('SELECT * FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
@@ -91,6 +91,17 @@ function emitConnection(SERVER) {
                   "VALUES (" + results[0].deelnemer_ID + ", " + results[0].wedstrijd_ID + ", " + results[0].onderdeel_id + ", " + results[0].subonderdeel_id + ", " + card.D + ", " + card.E + ", " + card.N + ")", function (error, results, fields) {
                   if (error) throw error;
                   console.log('insert is done');
+
+                  connection.query('SELECT voornaam, achternaam, D_score , E_score , N_score from scores ' +
+                      'inner join deelnemers on scores.deelnemer_ID = deelnemers.deelnemer_ID ' ,function (error, results, fields)  {
+
+                      if (error)
+                          throw error;
+                      console.log(results);
+                      socket.broadcast.emit('get_Turner_card', results);
+                  });
+
+
               });
           });
       }catch (e) {
@@ -122,7 +133,7 @@ function emitConnection(SERVER) {
             }
             pushed ? lastUser = users[users.length - 1] : null;
                socket.broadcast.emit("all_users" , users);
-               console.log(users);
+             //  console.log(users);
         });
 
 
@@ -161,7 +172,7 @@ function emitConnection(SERVER) {
           lastUser = null;
         }
       });
-      console.log(users);
+    //  console.log(users);
     });
 
 
@@ -193,7 +204,7 @@ function emitConnection(SERVER) {
 
       });
 
-      console.log(deelnemer);
+    //  console.log(deelnemer);
     });
 
     //////// EXTRA CODE VAN THIJMEN LOCAAL
@@ -202,10 +213,16 @@ function emitConnection(SERVER) {
     });
 
     //ON RECIEVE CARD
-    socket.on('send_Turner_card', function (card) {
-      console.log(card);
-      socket.broadcast.emit('get_Turner_card', card);
-    });
+    // socket.on('send_Turner_card', function (card) {
+    //
+    //     connection.query('SELECT voornaam, achternaam, D_score , E_score , N_score from scores ' +
+    //         'inner join deelnemers on scores.deelnemer_ID = deelnemers.deelnemer_ID ' ,function (error, results, fields)  {
+    //         if (error)
+    //             throw error;
+    //     });
+    //
+    //   socket.broadcast.emit('get_Turner_card', results);
+    // });
 
   });
 

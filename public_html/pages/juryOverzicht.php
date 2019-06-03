@@ -140,6 +140,14 @@ include("../../../connection.php");
 </body>
 <script>
 
+    //On reload or close confirm*************************************************
+    function myConfirmation() {
+        alert("test");
+        return 'Are you sure you want to quit?';
+    }
+
+    window.onbeforeunload = myConfirmation;
+
     var loginhash =  localStorage.getItem("loginHash");
     console.log(loginhash);
 
@@ -160,6 +168,7 @@ include("../../../connection.php");
             socket.emit('logOut',juryname);
             //  this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
             window.location = "../";
+            return true
 
         }else{
             return false;
@@ -168,16 +177,16 @@ include("../../../connection.php");
 
     // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
 
-    window.onbeforeunload = function (event) {
-        var message = 'Important: Please click on \'Save\' button to leave this page.';
-        if (typeof event == 'undefined') {
-            event = window.event;
-        }
-        if (event) {
-            event.returnValue = message;
-        }
-        return message;
-    };
+    // window.onbeforeunload = function (event) {
+    //     var message = 'Important: Please click on \'Save\' button to leave this page.';
+    //     if (typeof event == 'undefined') {
+    //         event = window.event;
+    //     }
+    //     if (event) {
+    //         event.returnValue = message;
+    //     }
+    //     return message;
+    // };
 
 
 
@@ -200,9 +209,9 @@ include("../../../connection.php");
   // socket.emit('Login_value',value);
 
   // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
-  window.onbeforeunload = function () {
-    logout();
-  };
+  // window.onbeforeunload = function () {
+  //   logout();
+  // };
 
   //////// EXTRA CODE VAN THIJMEN LOCAAL
   function telTotaalScore() {
@@ -314,7 +323,7 @@ include("../../../connection.php");
       groep.turners.forEach(function (deelnemer) {
         if (deelnemer.deelnemer_ID == deelnemersSelect.value) {
           UpdateTurnerInfo(deelnemer);
-          console.log(deelnemer);
+          console.log("de deelnemer" ,  deelnemer);
         }
       })
     });

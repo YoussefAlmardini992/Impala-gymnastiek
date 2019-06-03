@@ -113,7 +113,7 @@ include("../../../connection.php");
         scorebord.appendChild(header);
         cards.sort((a, b) => (parseInt(a.Total) < parseInt(b.Total)) ? 1 : -1);
 
-        console.log(cards);
+        console.log("lockal array" ,cards);
         cards.forEach(function (card) {
             createScoreLine(card);
         });
