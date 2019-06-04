@@ -233,7 +233,7 @@ include("../../../connection.php");
     const deelnemersSelect = document.getElementById('deelnemers');
     $.when(ClearList(deelnemersSelect)).done(function () {
       //emit to server
-      socket.emit('select_group', select.value);
+      socket.emit('select_group', select.value , document.getElementById('jury').innerHTML );
     });
   }
 

@@ -45,16 +45,17 @@ function emitConnection(SERVER) {
 
     //Socket Actions
     //ON SELECT GROUP
-    socket.on('select_group', function (Group_ID) {
+    socket.on('select_group', function (Group_ID , juryname) {
+        let deelnemersLijst;
 
      // console.log(Group_ID);
 
-      connection.query('SELECT * FROM deelnemers INNER JOIN groepen ON deelnemers.groep_ID = groepen.groep_ID WHERE groepen.groep_ID="' + Group_ID + '"', function (error, results, fields) {
+      connection.query('SELECT * FROM deelnemers INNER JOIN groepen ON deelnemers.groep_ID = groepen.groep_ID WHERE   groepen.groep_ID= "' + Group_ID + '" AND  deelnemers.deelnemer_ID not in (SELECT deelnemer_ID FROM scores WHERE onderdeel_id = (SELECT onderdeel_ID FROM onderdelen WHERE onderdeel = "' + juryname + '") )', function (error, results, fields) {
         if (error) throw error;
         socket.emit('selected_group', results);
-       // console.log(results);
-      });
+       console.log(results);
 
+      });
     });
 
     // ON SELECT WEDSTRIJD bij uitslagen.php
@@ -111,8 +112,6 @@ function emitConnection(SERVER) {
       }
 
     });
-
-
         //ON SELECT USER
         socket.on('LoginValue', function (value) {
             let notExistIndex = 0;
