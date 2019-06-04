@@ -454,18 +454,18 @@ include("../../../connection.php"); // Voor localhost
 
 
     //const socket = io.connect('http://145.120.207.219:3000');
-    const socket = io.connect('http://localhost:3000');
+    const socketSecretariaat = io.connect('http://localhost:3000');
 
   function logout() {
     var test = confirm("Are you sure you want to logout?");
     if (test) {
-      socket.emit('logOut', 'secretariaat');
+      socketSecretariaat.emit('logOut', 'secretariaat');
     } else {
       return false;
     }
   }
 
-    socket.on('logOutConfirm', function () {
+  socketSecretariaat.on('logOutConfirm', function () {
         window.location = '../index.php'
     });
 
