@@ -274,6 +274,20 @@ include("../../../connection.php")
         })
     }
 
+
+
+    Array.prototype.remove = function() {
+        var what, a = arguments, L = a.length, ax;
+        while (L && this.length) {
+            what = a[--L];
+            while ((ax = this.indexOf(what)) !== -1) {
+                this.splice(ax, 1);
+            }
+        }
+        return this;
+    };
+
+
     // Voegt Score toe aan DATABASE
     function addScoreDB(control) {
         const ID = control.parentElement.parentElement.parentElement.id;
@@ -283,6 +297,7 @@ include("../../../connection.php")
         control.parentElement.parentElement.parentElement.remove();
         console.log(clickedCard);
         socket.emit('getCardData',clickedCard);
+        Scores.remove(clickedCard);
     }
 
 </script>
