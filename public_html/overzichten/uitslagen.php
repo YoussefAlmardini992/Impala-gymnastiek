@@ -44,7 +44,7 @@
   let wedstrijddatum;
 
     function DownloadAlsPDF() {
-        var pdf = new jsPDF('p', 'pt', 'letter');
+        var pdf = new jsPDF('p', 'pt');
 
         pdf.cellInitialize();
         pdf.setFontSize(10);
@@ -61,10 +61,9 @@
         });
         });
 
+        pdf.autoTable({html:'#table'});
 
-      pdf.autoTable({html:'#table'});
-
-      pdf.save('certificaat.pdf');
+        pdf.save('certificaat.pdf');
     }
 
     function onWedstrijdSelect(select) {
@@ -80,12 +79,12 @@
    function ClearList(select) {
        let length = select.options.length;
        for (let i = 0; i < length; i++) {
-       Select.options[i] = null;
+       select.options[i] = null;
        }
    }
 
    //Request van selected group from the server**********************************************
-   socket.on('selected_wedstrijd', function (result) {
+   Socket.on('selected_wedstrijd', function (result) {
        console.log(result);
        // ClearList(deelnemersSelect);
        // deelnemersSelect.options[deelnemersSelect.options.length] = new Option('Kiezen', "default");
