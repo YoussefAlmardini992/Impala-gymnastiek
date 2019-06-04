@@ -48,8 +48,8 @@ include("../../../connection.php");
 <script>
 
     const cards = [];
-    //const socket = io.connect('http://145.120.207.219:3000');
-    const socket = io.connect('http://localhost:3000');
+    const socket = io.connect('http://145.120.197.218:3000');
+  //  const socket = io.connect('http://localhost:3000');
 
 
     var user;
@@ -88,7 +88,7 @@ include("../../../connection.php");
 
 
 
-    function createScoreLine(card) {
+    function createScoreLine(card , index) {
         const newScoreLine = document.createElement('tr');
         const positie = document.createElement('td');
         const naam = document.createElement('td');
@@ -98,6 +98,7 @@ include("../../../connection.php");
         newScoreLine.appendChild(score);
         naam.innerText = card.Name;
         score.innerText = card.Total;
+        positie.innerText = index;
         newScoreLine.id = score.innerText;
         document.getElementById('scoreTable').appendChild(newScoreLine);
     }
@@ -111,11 +112,16 @@ include("../../../connection.php");
             scorebord.removeChild(scorebord.firstChild);
         }
         scorebord.appendChild(header);
+
         cards.sort((a, b) => (parseInt(a.Total) < parseInt(b.Total)) ? 1 : -1);
 
         console.log("lockal array" ,cards);
+
+        let index = 1;
+
         cards.forEach(function (card) {
-            createScoreLine(card);
+            createScoreLine(card , index);
+            index ++;
         });
     }
 

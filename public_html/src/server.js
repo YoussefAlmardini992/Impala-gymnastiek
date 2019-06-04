@@ -98,8 +98,8 @@ function emitConnection(SERVER) {
 
                       if (error)
                           throw error;
-                      console.log(results);
-                      socket.broadcast.emit('get_Turner_card', results);
+                      console.log("gestuurd data naar boards : " , results);
+                      socket.broadcast.emit('get_Turner_card', card);
                   });
 
 
@@ -209,6 +209,7 @@ function emitConnection(SERVER) {
     //////// EXTRA CODE VAN THIJMEN LOCAAL
     socket.on('send_Turner_score', function (scores) {
       socket.broadcast.emit('send_Turner_score_to_secretariaat', scores);
+      console.log("bevestigdScores :", scores);
     });
 
     //ON RECIEVE CARD
