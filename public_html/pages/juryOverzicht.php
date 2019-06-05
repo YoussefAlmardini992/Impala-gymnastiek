@@ -203,8 +203,8 @@ include("../../../connection.php");
   }
 
 
-    const socket = io.connect('http://145.120.197.218:3000');
-  //const socket = io.connect('http://localhost:3000');
+    //  const socket = io.connect('http://145.120.197.218:3000');
+  const socket = io.connect('http://localhost:3000');
 
   // socket.emit('Login_value',value);
 
@@ -273,7 +273,9 @@ include("../../../connection.php");
       current_deelnemer.scores = scores;
 
       socket.emit('send_Turner_score', scores);
+      console.log("send score" , scores);
       socket.emit('send_current_turner', current_deelnemer);
+      console.log("current_deelnemer" , current_deelnemer);
 
       ResetJury();
       alert('Verzonden!')

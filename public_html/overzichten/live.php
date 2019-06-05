@@ -53,8 +53,8 @@ include("../../../connection.php")
 
 
     //Connect to SERVER.js**********************************************
-    const socket = io.connect('http://145.120.197.218:3000');
-    //const socket = io.connect('http://localhost:3000');
+    // const socket = io.connect('http://145.120.197.218:3000');
+    const socket = io.connect('http://localhost:3000');
 
     //Set up variables************************************************************
     //const users = [];
@@ -77,7 +77,7 @@ include("../../../connection.php")
 
         const groep = new Groep(groupName, result[0].niveau, result);
         TheChosenGroup = groep;
-        console.log(TheChosenGroup);
+       // console.log(TheChosenGroup);
 
         //fetch deelnemers in select control
         const deelnemersSelect = document.getElementById('deelnemers');
@@ -98,7 +98,7 @@ include("../../../connection.php")
                     const start = document.getElementById('start');
                     start.disabled = false;
                     CheckConrolsActivity(start);
-                    console.log(deelnemer);
+                   // console.log(deelnemer);
                 }
             })
         });
@@ -177,7 +177,7 @@ include("../../../connection.php")
     }
 
     socket.on('all_users', function (users) {
-        console.log(users);
+       // console.log(users);
         // let userExist = false;
         // CheckUsersExist(user, userExist);
         // !userExist && users.push(user);
@@ -198,7 +198,7 @@ include("../../../connection.php")
     });
 
     socket.on('get_deelnemer_score', function (scores) {
-        console.log(scores);
+        console.log("one score" , scores);
         current_deelnemer.scores = scores;
         updateScores(current_deelnemer);
     });
@@ -235,7 +235,7 @@ include("../../../connection.php")
 
     // Ontvangt scores van server
     socket.on('send_Turner_score_to_secretariaat', function (score) {
-        console.log(score);
+        console.log("from socket" , score);
         Scores.push(score);
         updateInterFace();
     });
@@ -295,10 +295,11 @@ include("../../../connection.php")
 
         socket.emit('send_Turner_card',clickedCard);
         control.parentElement.parentElement.parentElement.remove();
-        console.log(clickedCard);
         socket.emit('getCardData',clickedCard);
+        console.log("clickedCard" , clickedCard);
         Scores.remove(clickedCard);
     }
+
 
 </script>
 
