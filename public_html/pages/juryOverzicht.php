@@ -35,7 +35,7 @@ include("../../../connection.php");
 </script>
 <body>
 <div id="main">
-    <div id="jury" style="display: none" ></div>
+    <div id="jury" style="" ></div>
     <div class="header">
         <div class="header_item" style="padding-top: 1%">
             <button class="score-logout" onclick="logout()">Uitloggen</button>
@@ -266,16 +266,14 @@ include("../../../connection.php");
       let N = document.getElementById('N_score_Input').value;
       let Total = document.getElementById('total').innerText;
       let Nummer = document.getElementById('DnNummer').innerText;
-      let Onderdeel = document.getElementById("jury").innerHTML;
+      let Onderdeel = username;
       let name = document.getElementById('DnNaam').innerHTML;
 
       const scores = new Score(D, E, N, Onderdeel, Nummer, Total, name);
       current_deelnemer.scores = scores;
 
       socket.emit('send_Turner_score', scores);
-      console.log("send score" , scores);
       socket.emit('send_current_turner', current_deelnemer);
-      console.log("current_deelnemer" , current_deelnemer);
 
       ResetJury();
       alert('Verzonden!')
@@ -292,6 +290,7 @@ include("../../../connection.php");
     $('#deelnemers option').prop('selected', function() {
       return this.defaultSelected;
     });
+    location.reload();
   }
 
 
@@ -309,7 +308,6 @@ include("../../../connection.php");
 
     const groep = new Groep(groupName, result[0].niveau, result);
     TheChosenGroup = groep;
-    console.log(TheChosenGroup);
 
     //fetch deelnemers in select control
     const deelnemersSelect = document.getElementById('deelnemers');
@@ -325,36 +323,42 @@ include("../../../connection.php");
       groep.turners.forEach(function (deelnemer) {
         if (deelnemer.deelnemer_ID == deelnemersSelect.value) {
           UpdateTurnerInfo(deelnemer);
-          console.log("de deelnemer" ,  deelnemer);
         }
       })
     });
   });
 
-
-
-    document.body.onload = function () {
-
+    let username;
         socket.emit('requestUser',{name:'juryOverzicht',status:'connected'});
-        socket.on("sendUrl" , function (data) {
-          console.log(data);
 
-            try{
-                if (data.user == null || data.user.status !== loginhash){
-      
-                    window.location = "../";
-                }else{
-                    document.getElementById('jury').innerHTML = data.user.name;
+        socket.on("sendUrl", function (data) {
+            console.log(data);
+            console.log("users" , data.users);
+
+            data.users.forEach(function(item){
+
+                if(item.status == loginhash){
+                    username = item.name
                 }
-                console.log(data);
-            }
-            catch {e} {
+            });
 
-            }
-            document.getElementById('logo').src = "../assets/" + data.user.name + ".png";
+
+
+            // if (data.user.status = loginhash) {
+            //     document.getElementById('jury').innerHTML = data.user.name;
+            // }
+
+            document.getElementById('logo').src = "../assets/" + username+ ".png";
             document.getElementById('opslaan').disabled = true;
+
+
+            if (data.user == null && data.user.status !== loginhash) {
+                window.location = "../";
+                logout();
+            }
         })
-    };
+
+
 </script>
 </html>
 
