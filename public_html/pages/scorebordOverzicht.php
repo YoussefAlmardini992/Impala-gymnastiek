@@ -48,8 +48,8 @@ include("../../../connection.php");
 <script>
 
     const cards = [];
-    const socket = io.connect('http://145.120.197.218:3000');
-  //  const socket = io.connect('http://localhost:3000');
+    //  const socket = io.connect('http://145.120.197.218:3000');
+   const socket = io.connect('http://localhost:3000');
 
 
     var user;
@@ -78,9 +78,29 @@ include("../../../connection.php");
     }
 
     socket.on('get_Turner_card', function (card) {
-        cards.push(card);
-        updateScores();
-        console.log(card);
+
+        let cardExist = false;
+
+        cards.forEach(function(item){
+            if(item.Name === card.Name){
+
+                let x  = parseInt(item.Total) + parseInt(card.Total);
+                item.Total = x.toString();
+                cardExist = true;
+            }
+        });
+
+
+        try{
+            if(!cardExist){
+                cards.push(card);
+            }
+        }catch (e) {
+            console.error(e.message);
+        }finally {
+
+            updateScores();
+        }
     });
 
 

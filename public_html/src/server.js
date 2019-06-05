@@ -53,7 +53,7 @@ function emitConnection(SERVER) {
       connection.query('SELECT * FROM deelnemers INNER JOIN groepen ON deelnemers.groep_ID = groepen.groep_ID WHERE   groepen.groep_ID= "' + Group_ID + '" AND  deelnemers.deelnemer_ID not in (SELECT deelnemer_ID FROM scores WHERE onderdeel_id = (SELECT onderdeel_ID FROM onderdelen WHERE onderdeel = "' + juryname + '") )', function (error, results, fields) {
         if (error) throw error;
         socket.emit('selected_group', results);
-       console.log(results);
+      // console.log(results);
 
       });
     });
@@ -78,6 +78,7 @@ function emitConnection(SERVER) {
     });
 
     socket.on('getCardData', function (card) {
+        console.log("get data " ,card.Nummer)
       try{
           connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
               'FROM wedstrijden ' +
@@ -98,7 +99,7 @@ function emitConnection(SERVER) {
 
                       if (error)
                           throw error;
-                      console.log("gestuurd data naar boards : " , results);
+                     // console.log("gestuurd data naar boards : " , results);
                       socket.broadcast.emit('get_Turner_card', card);
                   });
 
