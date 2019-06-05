@@ -78,7 +78,7 @@ function emitConnection(SERVER) {
     });
 
     socket.on('getCardData', function (card) {
-        console.log("get data " ,card.Nummer)
+      //  console.log("get data " ,card.Nummer)
       try{
           connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
               'FROM wedstrijden ' +
@@ -138,7 +138,8 @@ function emitConnection(SERVER) {
 
 
     socket.on('requestUser', function (user) {
-      let userExist = false;
+       // console.log(user);
+        let userExist = false;
       try {
         for (i = 0; i < users.length; i++) {
           if (users[i].name === user.name) {
@@ -154,10 +155,8 @@ function emitConnection(SERVER) {
       }
       finally {
 
-        socket.emit('sendUrl', {
-          userExist: userExist,
-          user: lastUser
-        });
+        socket.emit('sendUrl', {userExist: userExist, user: lastUser , users});
+        //  console.log(userExist);
       }
     });
 
@@ -210,7 +209,7 @@ function emitConnection(SERVER) {
     //////// EXTRA CODE VAN THIJMEN LOCAAL
     socket.on('send_Turner_score', function (scores) {
       socket.broadcast.emit('send_Turner_score_to_secretariaat', scores);
-      console.log("bevestigdScores :", scores);
+     // console.log("bevestigdScores :", scores);
     });
 
     //ON RECIEVE CARD
