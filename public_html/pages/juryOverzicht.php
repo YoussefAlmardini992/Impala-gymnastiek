@@ -140,13 +140,9 @@ include("../../../connection.php");
 </body>
 <script>
 
+    let username;
     //On reload or close confirm*************************************************
-    function myConfirmation() {
-        alert("test");
-        return 'Are you sure you want to quit?';
-    }
 
-    window.onbeforeunload = myConfirmation;
 
     var loginhash =  localStorage.getItem("loginHash");
     console.log(loginhash);
@@ -165,7 +161,7 @@ include("../../../connection.php");
         if (test) {
             localStorage.removeItem("loginHash");
             const juryname = document.getElementById('jury').innerHTML;
-            socket.emit('logOut',juryname);
+            socket.emit('logOut',username);
             //  this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
             window.location = "../";
             return true
@@ -174,23 +170,6 @@ include("../../../connection.php");
             return false;
         }
     }
-
-    // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
-
-    // window.onbeforeunload = function (event) {
-    //     var message = 'Important: Please click on \'Save\' button to leave this page.';
-    //     if (typeof event == 'undefined') {
-    //         event = window.event;
-    //     }
-    //     if (event) {
-    //         event.returnValue = message;
-    //     }
-    //     return message;
-    // };
-
-
-
-  let onderdeel = 'null';
 
 
   function onScoreChange(input) {
@@ -203,8 +182,8 @@ include("../../../connection.php");
   }
 
 
-    //  const socket = io.connect('http://145.120.197.218:3000');
-  const socket = io.connect('http://localhost:3000');
+    const socket = io.connect('http://145.120.206.58:3000');
+  //const socket = io.connect('http://localhost:3000');
 
   // socket.emit('Login_value',value);
 
@@ -233,7 +212,8 @@ include("../../../connection.php");
     const deelnemersSelect = document.getElementById('deelnemers');
     $.when(ClearList(deelnemersSelect)).done(function () {
       //emit to server
-      socket.emit('select_group', select.value , document.getElementById('jury').innerHTML );
+      groupName = select.value;
+      socket.emit('select_group', select.value , username );
     });
   }
 
@@ -274,11 +254,14 @@ include("../../../connection.php");
 
       socket.emit('send_Turner_score', scores);
       socket.emit('send_current_turner', current_deelnemer);
+      socket.emit('select_group', groupName , username );
 
       ResetJury();
-      alert('Verzonden!')
+      alert('Verzonden!');
+      location.reload();
     } else {
       alert('Vul waardes in');
+      location.reload();
     }
 
     document.getElementById('opslaan').disabled = true;
@@ -290,7 +273,7 @@ include("../../../connection.php");
     $('#deelnemers option').prop('selected', function() {
       return this.defaultSelected;
     });
-    location.reload();
+    //location.reload();
   }
 
 
@@ -303,24 +286,24 @@ include("../../../connection.php");
   }
 
   //Request van selected group from the server**********************************************
+
   socket.on('selected_group', function (result) {
-
-
-    const groep = new Groep(groupName, result[0].niveau, result);
-    TheChosenGroup = groep;
+    console.clear();
+    console.log('result',result);
 
     //fetch deelnemers in select control
     const deelnemersSelect = document.getElementById('deelnemers');
     ClearList(deelnemersSelect);
     deelnemersSelect.options.add(new Option('kiezen', 'default'));
-    TheChosenGroup.turners.forEach(function (deelnemer) {
+    result.forEach(function (deelnemer) {
       deelnemersSelect.options[deelnemersSelect.options.length] = new Option(deelnemer.nummer, deelnemer.deelnemer_ID);
+      console.log('result after for',result);
     });
 
     //Request van gekozen deelnemer van de gekozen groep
     deelnemersSelect.addEventListener('change', function () {
       document.getElementById('opslaan').disabled = false;
-      groep.turners.forEach(function (deelnemer) {
+      result.forEach(function (deelnemer) {
         if (deelnemer.deelnemer_ID == deelnemersSelect.value) {
           UpdateTurnerInfo(deelnemer);
         }
@@ -328,17 +311,18 @@ include("../../../connection.php");
     });
   });
 
-    let username;
+
         socket.emit('requestUser',{name:'juryOverzicht',status:'connected'});
 
         socket.on("sendUrl", function (data) {
             console.log(data);
             console.log("users" , data.users);
 
-            data.users.forEach(function(item){
+            data.users.forEach(function(user){
 
-                if(item.status == loginhash){
-                    username = item.name
+              console.log('loginhash',loginhash);
+                if(user.status === loginhash){
+                    username = user.name
                 }
             });
 
