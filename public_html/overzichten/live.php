@@ -53,113 +53,27 @@ include("../../../connection.php")
 
 
     //Connect to SERVER.js**********************************************
-    // const socket = io.connect('http://145.120.197.218:3000');
-    const socket = io.connect('http://localhost:3000');
+    const socket = io.connect('http://145.120.206.58:3000');
+    //const socket = io.connect('http://localhost:3000');
 
     //Set up variables************************************************************
-    //const users = [];
-    // $( document ).ready(function() {
-    //     console.log( "ready!" );
-    // });
-    let groupName;
-    let TheChosenGroup;
     let current_deelnemer;
-    const Scores = [];
+    var Scores = [];
 
-    //On select group from dropDown menu*****************************************
-    function onGroepSelect(select) {
-        //emit to server
-        socket.emit('select_group', select.value);
-    }
 
-    //Request selected group from the server**********************************************
-    socket.on('selected_group', function (result) {
+    socket.emit("OnRefreshSaveStatus" , true);
 
-        const groep = new Groep(groupName, result[0].niveau, result);
-        TheChosenGroup = groep;
-       // console.log(TheChosenGroup);
-
-        //fetch deelnemers in select control
-        const deelnemersSelect = document.getElementById('deelnemers');
-        ClearList(deelnemersSelect);
-        deelnemersSelect.options.add(new Option(' ', 'default'));
-        TheChosenGroup.turners.forEach(function (deelnemer) {
-            deelnemersSelect.options[deelnemersSelect.options.length] = new Option(deelnemer.voornaam, deelnemer.deelnemer_ID);
-        });
-
-        //Request deelnemer from the chosen group
-        deelnemersSelect.addEventListener('change', function () {
-            groep.turners.forEach(function (deelnemer) {
-                if (deelnemer.deelnemer_ID == deelnemersSelect.value) {
-                    UpdateTurnerInfo(deelnemer);
-
-                    socket.emit('set_current_deelnemer', deelnemer);
-                    current_deelnemer = deelnemer;
-                    const start = document.getElementById('start');
-                    start.disabled = false;
-                    CheckConrolsActivity(start);
-                   // console.log(deelnemer);
-                }
-            })
-        });
-
+    socket.on('getUserStatus',function (data) {
+      $(document).ready(function(){
+        createUserStatus(data.users);
+        Scores = data.cards;
+        updateInterFace();
+      });
     });
 
-    //On reload or close confirm*************************************************
-    window.onbeforeunload = function () {
-        return "afsluiten beindegt uw wedstrijd! weet u zeker dat u deze pagina wil verlaten?";
-        //TODO fix this message
-    };
-
-    //Update page layout with deelnemer information
-    function UpdateTurnerInfo(DN) {
-        const DN_name = document.getElementById('DnName');
-        const DN_groep = document.getElementById('DnGroep');
-        const DN_niveau = document.getElementById('DnNiveau');
-
-        DN_name.innerText = DN.voornaam + " " + DN.tussenvoegsel + " " + DN.achternaam;
-        DN_groep.innerText = DN.naam;
-        DN_niveau.innerText = DN.niveau;
-    }
-
-    //Clear select when index is changed********************************************************
-    function ClearList(select) {
-        let length = select.options.length;
-        for (let i = 0; i < length; i++) {
-            select.options[i] = null;
-        }
-    }
-
-    //UTI*****************************************************************************************
-
-    //
-    // function CheckUsersExist(user, userExist) {
-    //   for (let i = 0; i < users.length; i++) {
-    //     if (users[i].name === user.name) {
-    //       let index = users.indexOf(users[i]);
-    //       if (index > -1) {
-    //         users.splice(index, 1);
-    //         userExist = true;
-    //       }
-    //     }
-    //   }
-    // }
-
-    // function CheckUsersConnection() {
-    //   for (let i = 0; i < users.length; i++) {
-    //     if (users[i].status === 'disconnected') {
-    //       let index = users.indexOf(users[i]);
-    //       if (index > -1) {
-    //         users.splice(index, 1);
-    //       }
-    //     }
-    //   }
-    // }
 
     //On user log in ****************************************************************************************
-
-
-    function CreateStatus(user) {
+    function CreateStatusLine(user) {
 
         const statusBody = document.getElementById("statusBody");
         const StatusItem = document.createElement('div');
@@ -169,14 +83,16 @@ include("../../../connection.php")
         const statusSituation = document.createElement('div');
         UserName.innerText = user.name;
         statusSituation.classList.add('statusSituation');
-        // statusSituation.innerText = user.status + "...";
-
         StatusItem.appendChild(UserName);
         StatusItem.appendChild(statusSituation);
         statusBody.appendChild(StatusItem);
     }
 
+
     socket.on('all_users', function (users) {
+
+      console.log(users);
+
        // console.log(users);
         // let userExist = false;
         // CheckUsersExist(user, userExist);
@@ -189,13 +105,17 @@ include("../../../connection.php")
         while (statusBody.firstChild) {
             statusBody.removeChild(statusBody.firstChild);
         }
-        if(users.length > 0){
-            users.forEach(function (value) {
-                if(value.name)
-                    CreateStatus(value);
-            });
-        }
+       createUserStatus(users);
+
     });
+
+    function createUserStatus(users){
+      if(users.length > 0){
+        users.forEach(function (user) {
+          CreateStatusLine(user);
+        });
+      }
+    }
 
     socket.on('get_deelnemer_score', function (scores) {
         console.log("one score" , scores);
@@ -234,13 +154,16 @@ include("../../../connection.php")
     //////// EXTRA CODE VAN THIJMEN LOCAAL
 
     // Ontvangt scores van server
-    socket.on('send_Turner_score_to_secretariaat', function (score) {
-        console.log("from socket" , score);
-        Scores.push(score);
+    socket.on('send_Turner_score_to_secretariaat', function (cards) {
+        Scores = cards;
+        console.log("from socket" , cards);
+        console.log("array scores" , Scores);
         updateInterFace();
     });
 
+
     function updateInterFace() {
+        console.log(Scores);
         $("#sended_scores").empty();
 
         let index = 0;
@@ -275,7 +198,7 @@ include("../../../connection.php")
     }
 
 
-
+    // Remove array function
     Array.prototype.remove = function() {
         var what, a = arguments, L = a.length, ax;
         while (L && this.length) {
@@ -291,13 +214,23 @@ include("../../../connection.php")
     // Voegt Score toe aan DATABASE
     function addScoreDB(control) {
         const ID = control.parentElement.parentElement.parentElement.id;
+        console.log(control);
+        console.log('id from bevestiging : ',ID);
+        console.log('scores are  : ',Scores);
         const clickedCard = Scores[ID];
 
+        //Scores Query Insert
         socket.emit('send_Turner_card',clickedCard);
-        control.parentElement.parentElement.parentElement.remove();
+
         socket.emit('getCardData',clickedCard);
+
+
         console.log("clickedCard" , clickedCard);
+
         Scores.remove(clickedCard);
+        socket.emit("OnRemoveClickedCard" , clickedCard);
+
+        updateInterFace();
     }
 
 
