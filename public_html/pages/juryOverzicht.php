@@ -35,7 +35,7 @@ include("../../../connection.php");
 </script>
 <body>
 <div id="main">
-    <div id="jury" style="display: none" ></div>
+    <div id="jury" style="" ></div>
     <div class="header">
         <div class="header_item" style="padding-top: 1%">
             <button class="score-logout" onclick="logout()">Uitloggen</button>
@@ -140,13 +140,9 @@ include("../../../connection.php");
 </body>
 <script>
 
+    let username;
     //On reload or close confirm*************************************************
-    function myConfirmation() {
-        alert("test");
-        return 'Are you sure you want to quit?';
-    }
 
-    window.onbeforeunload = myConfirmation;
 
     var loginhash =  localStorage.getItem("loginHash");
     console.log(loginhash);
@@ -165,7 +161,7 @@ include("../../../connection.php");
         if (test) {
             localStorage.removeItem("loginHash");
             const juryname = document.getElementById('jury').innerHTML;
-            socket.emit('logOut',juryname);
+            socket.emit('logOut',username);
             //  this.location.href = "http://localhost/jaar2/p3/projecten/impala/public_html/index.php";
             window.location = "../";
             return true
@@ -174,23 +170,6 @@ include("../../../connection.php");
             return false;
         }
     }
-
-    // Als de gebruiker het tabblad sluit, inplaats van uitlogd*****************************************
-
-    // window.onbeforeunload = function (event) {
-    //     var message = 'Important: Please click on \'Save\' button to leave this page.';
-    //     if (typeof event == 'undefined') {
-    //         event = window.event;
-    //     }
-    //     if (event) {
-    //         event.returnValue = message;
-    //     }
-    //     return message;
-    // };
-
-
-
-  let onderdeel = 'null';
 
 
   function onScoreChange(input) {
@@ -203,8 +182,8 @@ include("../../../connection.php");
   }
 
 
-    //  const socket = io.connect('http://145.120.197.218:3000');
-  const socket = io.connect('http://localhost:3000');
+    const socket = io.connect('http://145.120.206.58:3000');
+  //const socket = io.connect('http://localhost:3000');
 
   // socket.emit('Login_value',value);
 
@@ -233,7 +212,8 @@ include("../../../connection.php");
     const deelnemersSelect = document.getElementById('deelnemers');
     $.when(ClearList(deelnemersSelect)).done(function () {
       //emit to server
-      socket.emit('select_group', select.value , document.getElementById('jury').innerHTML );
+      groupName = select.value;
+      socket.emit('select_group', select.value , username );
     });
   }
 
@@ -266,21 +246,22 @@ include("../../../connection.php");
       let N = document.getElementById('N_score_Input').value;
       let Total = document.getElementById('total').innerText;
       let Nummer = document.getElementById('DnNummer').innerText;
-      let Onderdeel = document.getElementById("jury").innerHTML;
+      let Onderdeel = username;
       let name = document.getElementById('DnNaam').innerHTML;
 
       const scores = new Score(D, E, N, Onderdeel, Nummer, Total, name);
       current_deelnemer.scores = scores;
 
       socket.emit('send_Turner_score', scores);
-      console.log("send score" , scores);
       socket.emit('send_current_turner', current_deelnemer);
-      console.log("current_deelnemer" , current_deelnemer);
+      socket.emit('select_group', groupName , username );
 
       ResetJury();
-      alert('Verzonden!')
+      alert('Verzonden!');
+      location.reload();
     } else {
       alert('Vul waardes in');
+      location.reload();
     }
 
     document.getElementById('opslaan').disabled = true;
@@ -292,6 +273,7 @@ include("../../../connection.php");
     $('#deelnemers option').prop('selected', function() {
       return this.defaultSelected;
     });
+    //location.reload();
   }
 
 
@@ -304,57 +286,63 @@ include("../../../connection.php");
   }
 
   //Request van selected group from the server**********************************************
+
   socket.on('selected_group', function (result) {
-
-
-    const groep = new Groep(groupName, result[0].niveau, result);
-    TheChosenGroup = groep;
-    console.log(TheChosenGroup);
+    console.clear();
+    console.log('result',result);
 
     //fetch deelnemers in select control
     const deelnemersSelect = document.getElementById('deelnemers');
     ClearList(deelnemersSelect);
     deelnemersSelect.options.add(new Option('kiezen', 'default'));
-    TheChosenGroup.turners.forEach(function (deelnemer) {
+    result.forEach(function (deelnemer) {
       deelnemersSelect.options[deelnemersSelect.options.length] = new Option(deelnemer.nummer, deelnemer.deelnemer_ID);
+      console.log('result after for',result);
     });
 
     //Request van gekozen deelnemer van de gekozen groep
     deelnemersSelect.addEventListener('change', function () {
       document.getElementById('opslaan').disabled = false;
-      groep.turners.forEach(function (deelnemer) {
+      result.forEach(function (deelnemer) {
         if (deelnemer.deelnemer_ID == deelnemersSelect.value) {
           UpdateTurnerInfo(deelnemer);
-          console.log("de deelnemer" ,  deelnemer);
         }
       })
     });
   });
 
 
-
-    document.body.onload = function () {
-
         socket.emit('requestUser',{name:'juryOverzicht',status:'connected'});
-        socket.on("sendUrl" , function (data) {
-          console.log(data);
 
-            try{
-                if (data.user == null || data.user.status !== loginhash){
-      
-                    window.location = "../";
-                }else{
-                    document.getElementById('jury').innerHTML = data.user.name;
+        socket.on("sendUrl", function (data) {
+            console.log(data);
+            console.log("users" , data.users);
+
+            data.users.forEach(function(user){
+
+              console.log('loginhash',loginhash);
+                if(user.status === loginhash){
+                    username = user.name
                 }
-                console.log(data);
-            }
-            catch {e} {
+            });
 
-            }
-            document.getElementById('logo').src = "../assets/" + data.user.name + ".png";
+
+
+            // if (data.user.status = loginhash) {
+            //     document.getElementById('jury').innerHTML = data.user.name;
+            // }
+
+            document.getElementById('logo').src = "../assets/" + username+ ".png";
             document.getElementById('opslaan').disabled = true;
+
+
+            if (data.user == null && data.user.status !== loginhash) {
+                window.location = "../";
+                logout();
+            }
         })
-    };
+
+
 </script>
 </html>
 
