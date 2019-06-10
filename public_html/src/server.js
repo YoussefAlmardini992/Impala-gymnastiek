@@ -69,7 +69,7 @@ function emitConnection(SERVER) {
        // console.log(wedstrijddatum);
   
         //connection.query('SELECT DISTINCT nummer FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
-        connection.query('SELECT * FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
+        connection.query('SELECT * FROM uitslagen WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
           if (error) throw error;
           socket.emit('selected_wedstrijd', results);
         });
@@ -84,7 +84,7 @@ function emitConnection(SERVER) {
     });
 
     socket.on('getCardData', function (card) {
-      //  console.log("get data " ,card.Nummer)
+
       try{
           connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
               'FROM wedstrijden ' +
