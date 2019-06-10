@@ -297,7 +297,7 @@ include("../../../connection.php")
         control.parentElement.parentElement.parentElement.remove();
         socket.emit('getCardData',clickedCard);
         console.log("clickedCard" , clickedCard);
-        Scores.remove(clickedCard);
+        console.log("ID ="+ ID);
     }
 
 
