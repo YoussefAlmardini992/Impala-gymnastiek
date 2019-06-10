@@ -53,8 +53,8 @@ include("../../../connection.php")
 
 
     //Connect to SERVER.js**********************************************
-    const socket = io.connect('http://145.120.206.58:3000');
-    //const socket = io.connect('http://localhost:3000');
+    //const socket = io.connect('http://145.120.206.58:3000');
+    const socket = io.connect('http://localhost:3000');
 
     //Set up variables************************************************************
     let current_deelnemer;

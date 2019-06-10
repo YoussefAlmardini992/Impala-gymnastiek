@@ -42,8 +42,8 @@
         window.addEventListener("hashchange", function (e) {
             console.log('as')
         });
-         const socket = io.connect('http://145.120.206.58:3000');
-       //const socket = io.connect('http://localhost:3000');
+         //const socket = io.connect('http://145.120.206.58:3000');
+       const socket = io.connect('http://localhost:3000');
 
         function loginCheck() {
             var iName = document.getElementById("userName").value;
