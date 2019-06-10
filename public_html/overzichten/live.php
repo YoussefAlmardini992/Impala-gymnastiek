@@ -227,6 +227,7 @@ include("../../../connection.php")
 
         console.log("clickedCard" , clickedCard);
 
+
         Scores.remove(clickedCard);
         socket.emit("OnRemoveClickedCard" , clickedCard);
 

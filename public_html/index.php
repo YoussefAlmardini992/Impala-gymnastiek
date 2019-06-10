@@ -71,12 +71,12 @@
                     HandelLogInStatus();
                     break;
 
-                case (iName == 'brug-gelijk' && iPassword == 'brug-gelijk'):
+                case (iName == 'brug_gelijk' && iPassword == 'brug_gelijk'):
                     value = {name: iName, status: makeid(10)};
                     HandelLogInStatus();
                     break;
 
-                case (iName == 'brug-ongelijk' && iPassword == 'brug-ongelijk'):
+                case (iName == 'brug_ongelijk' && iPassword == 'brug_ongelijk'):
                     value = {name: iName, status: makeid(10)};
                     HandelLogInStatus();
                     break;
