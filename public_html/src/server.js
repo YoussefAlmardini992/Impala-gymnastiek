@@ -197,7 +197,7 @@ function emitConnection(SERVER) {
         }
       });
      socket.broadcast.emit("all_users" , users);
-    // console.log('on log out',users);
+     console.log('on log out',users);
     });
 
 
@@ -252,9 +252,18 @@ function emitConnection(SERVER) {
       socket.broadcast.emit('send_Turner_score_to_secretariaat', cards);
     })
 
+    // var allClients = [];
+    // allClients.push(socket);
+
+    socket.on('disconnect', function(target) {
+     
+    });
 
   });
 
+
+
 }
+
 
 emitConnection(http_server);

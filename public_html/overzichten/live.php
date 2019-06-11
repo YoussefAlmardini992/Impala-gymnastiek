@@ -53,8 +53,8 @@ include("../../../connection.php")
 
 
     //Connect to SERVER.js**********************************************
-    const socket = io.connect('http://145.120.206.58:3000');
-    //const socket = io.connect('http://localhost:3000');
+    //const socket = io.connect('http://145.120.206.58:3000');
+    const socket = io.connect('http://localhost:3000');
 
     //Set up variables************************************************************
     let current_deelnemer;
@@ -177,15 +177,33 @@ include("../../../connection.php")
     function createCard(score , id) {
         $("#sended_scores").append("<div class='card_container' id='"+ id + "'><div onmouseenter='AddCardEffect(this)' class='Score_Card' id='Score_Card'>" +
             "<form class='score_card_form'>" +
-            "<input readonly type='text' name='jury' value='"+ score.Onderdeel +"'><br>" +
-            "<input readonly type='number' name='nummer' value='"+score.Nummer+"' min='1' max='999'><br>" +
-            "<input type='number' name='D' value='"+score.D+"' min='0' max='10'><br>" +
-            "<input type='number' name='E' value='"+score.E+"' min='0' max='10'><br>" +
-            "<input type='number' name='N' value='"+score.N+"' min='0' max='10'><br>" +
-            "<input type='number' name='totaal' value='"+score.Total+"' min='0' max='10' step='0.001'><br>" +
+            "<div class='CardLine' style='font-size: 18px; text-decoration: underline; padding-bottom:2%'>"+score.Name+"</div>"+
+            "<div class='CardLine'><div class='CarLabel'>Onderdeel &nbsp;</div><input readonly type='text' name='jury' value='"+score.Onderdeel+"'><br></div>" +
+            "<div class='CardLine'><div class='CarLabel'>Nummer &nbsp;</div><input readonly type='number' name='nummer' value='"+score.Nummer+"' min='1' max='999'><br></div>" +
+            "<div class='CardLine'><div class='CarLabel'>D &nbsp;</div><input onchange='onScoresChange(this)' id='Delement' type='number' name='D' value='"+score.D+"' min='0' max='10'><br></div>" +
+            "<div class='CardLine'><div class='CarLabel'>E &nbsp;</div><input onchange='onScoresChange(this)' id='Eelement' type='number' name='E' value='"+score.E+"' min='0' max='10'><br></div>" +
+            "<div class='CardLine'><div class='CarLabel'>N &nbsp;</div><input onchange='onScoresChange(this)' id='Nelement' type='number' name='N' value='"+score.N+"' min='0' max='10'><br></div>" +
+            "<div class='CardLine'><div class='CarLabel'>Totaal &nbsp;</div><input disabled type='number' name='totaal' value='"+score.Total+"'><br></div>" +
             "</form><div class='bevestigen_button'><button class='Enabled custom' onclick='addScoreDB(this)'>BEVESTIGEN</button></div></div>");
     }
 
+    function onScoresChange(control) {
+      const ID = control.parentElement.parentElement.parentElement.parentElement.id;
+      const targetCard = document.getElementById(ID);
+      const CardBody = targetCard.firstChild.firstChild;
+      let D_Input = CardBody[2];
+      let E_Input = CardBody[3];
+      let N_Input = CardBody[4];
+      let Total = parseInt(D_Input.value) + parseInt(E_Input.value)+parseInt(N_Input.value) + '.000';
+
+      const targetScore = Scores[targetCard.id];
+      targetScore.D = D_Input.value;
+      targetScore.E =  E_Input.value;
+      targetScore.N =  N_Input.value;
+      targetScore.Total = Total;
+
+      updateInterFace();
+    }
 
     // Add Card Effect
     function AddCardEffect(element) {

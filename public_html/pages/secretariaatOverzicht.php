@@ -452,13 +452,9 @@ include("../../../connection.php"); // Voor localhost
 <script>
 
 
-  window.onunload = function () {
-    logout()
-  };
+   //const socketSecretariaat = io.connect('http://145.120.206.58:3000');
+  const socketSecretariaat = io.connect('http://localhost:3000');
 
-
-   const socketSecretariaat = io.connect('http://145.120.206.58:3000');
-  // const socketSecretariaat = io.connect('http://localhost:3000');
 
   function logout() {
     var test = confirm("Are you sure you want to logout?");
@@ -467,6 +463,7 @@ include("../../../connection.php"); // Voor localhost
     } else {
       return false;
     }
+    return null;
   }
 
   socketSecretariaat.on('logOutConfirm', function () {
