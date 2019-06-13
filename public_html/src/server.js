@@ -84,8 +84,12 @@ function emitConnection(SERVER) {
     });
 
     socket.on('getCardData', function (card) {
+<<<<<<< HEAD
         
       //  console.log("get data " ,card.Nummer)
+=======
+
+>>>>>>> master
       try{
           connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
               'FROM wedstrijden ' +
@@ -198,7 +202,7 @@ function emitConnection(SERVER) {
         }
       });
      socket.broadcast.emit("all_users" , users);
-    // console.log('on log out',users);
+     console.log('on log out',users);
     });
 
 
@@ -253,9 +257,18 @@ function emitConnection(SERVER) {
       socket.broadcast.emit('send_Turner_score_to_secretariaat', cards);
     })
 
+    // var allClients = [];
+    // allClients.push(socket);
+
+    socket.on('disconnect', function(target) {
+     
+    });
 
   });
 
+
+
 }
+
 
 emitConnection(http_server);
