@@ -9,6 +9,7 @@ const socket = require('socket.io'),
 
 let connection = mysql.createConnection(connectionData);
 var users = [];
+var cards = [];
 var lastUser;
 var withButton = false;
 
@@ -46,15 +47,20 @@ function emitConnection(SERVER) {
     //Socket Actions
     //ON SELECT GROUP
     socket.on('select_group', function (Group_ID , juryname) {
-        let deelnemersLijst;
 
-     // console.log(Group_ID);
 
       connection.query('SELECT * FROM deelnemers INNER JOIN groepen ON deelnemers.groep_ID = groepen.groep_ID WHERE   groepen.groep_ID= "' + Group_ID + '" AND  deelnemers.deelnemer_ID not in (SELECT deelnemer_ID FROM scores WHERE onderdeel_id = (SELECT onderdeel_ID FROM onderdelen WHERE onderdeel = "' + juryname + '") )', function (error, results, fields) {
         if (error) throw error;
-        socket.emit('selected_group', results);
-      // console.log(results);
+        cards.forEach(function (card) {
+          results.forEach(function (deelnemer) {
+            if(card.Nummer === deelnemer.nummer.toString() && card.Onderdeel === juryname){
+              if(results.remove(deelnemer)){
+              }
+            }
+          });
+        });
 
+        socket.emit('selected_group', results);
       });
     });
 
@@ -79,6 +85,7 @@ function emitConnection(SERVER) {
 
     socket.on('getCardData', function (card) {
         
+      //  console.log("get data " ,card.Nummer)
       try{
           connection.query('SELECT deelnemers.deelnemer_ID, wedstrijden.wedstrijd_ID, subonderdeel.subonderdeel_id,subonderdeel.onderdeel_id ' +
               'FROM wedstrijden ' +
@@ -133,12 +140,13 @@ function emitConnection(SERVER) {
             }
             pushed ? lastUser = users[users.length - 1] : null;
                socket.broadcast.emit("all_users" , users);
-             //  console.log(users);
+               //console.log('log ins',users);
         });
 
 
     socket.on('requestUser', function (user) {
-      let userExist = false;
+       // console.log(user);
+        let userExist = false;
       try {
         for (i = 0; i < users.length; i++) {
           if (users[i].name === user.name) {
@@ -154,10 +162,27 @@ function emitConnection(SERVER) {
       }
       finally {
 
-        socket.emit('sendUrl', {
-          userExist: userExist,
-          user: lastUser
-        });
+        socket.emit('sendUrl', {userExist: userExist, user: lastUser , users});
+        //  console.log(userExist);
+      }
+    });
+
+
+    // Remove array function
+    Array.prototype.remove = function() {
+      var what, a = arguments, L = a.length, ax;
+      while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+          this.splice(ax, 1);
+        }
+      }
+      return this;
+    };
+
+    socket.on('OnRefreshSaveStatus',function (refresh) {
+      if(refresh){
+        socket.emit('getUserStatus',{users:users,cards:cards});
       }
     });
 
@@ -172,7 +197,8 @@ function emitConnection(SERVER) {
           lastUser = null;
         }
       });
-    //  console.log(users);
+     socket.broadcast.emit("all_users" , users);
+    // console.log('on log out',users);
     });
 
 
@@ -209,21 +235,24 @@ function emitConnection(SERVER) {
 
     //////// EXTRA CODE VAN THIJMEN LOCAAL
     socket.on('send_Turner_score', function (scores) {
-      socket.broadcast.emit('send_Turner_score_to_secretariaat', scores);
-      console.log("bevestigdScores :", scores);
+      cards.push(scores);
+      socket.broadcast.emit('send_Turner_score_to_secretariaat', cards);
     });
 
-    //ON RECIEVE CARD
-    // socket.on('send_Turner_card', function (card) {
-    //
-    //     connection.query('SELECT voornaam, achternaam, D_score , E_score , N_score from scores ' +
-    //         'inner join deelnemers on scores.deelnemer_ID = deelnemers.deelnemer_ID ' ,function (error, results, fields)  {
-    //         if (error)
-    //             throw error;
-    //     });
-    //
-    //   socket.broadcast.emit('get_Turner_card', results);
-    // });
+
+
+    socket.on("OnRemoveClickedCard" , function (clickedCard) {
+     // console.log('before Remove' , cards);
+
+      cards.forEach(function (card) {
+        if(card.Nummer === clickedCard.Nummer && card.Onderdeel === clickedCard.Onderdeel){
+          cards.remove(card);//TODO DO NOT CHANGE THIS
+        }
+      });
+
+      socket.broadcast.emit('send_Turner_score_to_secretariaat', cards);
+    })
+
 
   });
 

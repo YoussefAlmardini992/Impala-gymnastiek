@@ -48,8 +48,8 @@ include("../../../connection.php");
 <script>
 
     const cards = [];
-    //  const socket = io.connect('http://145.120.197.218:3000');
-   const socket = io.connect('http://localhost:3000');
+    const socket = io.connect('http://145.120.206.58:3000');
+   //const socket = io.connect('http://localhost:3000');
 
 
     var user;
