@@ -136,6 +136,7 @@
           }
             function LogIn() {
                 socket.emit('LoginValue', value);
+                socket.emit('userSocket', socket.user = value.name);
                 if (value.name === 'secretariaat') {
                     window.location = "pages/secretariaatOverzicht.php";
                 } else {
