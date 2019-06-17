@@ -6,6 +6,7 @@ const socket = require('socket.io'),
   http = require('http'),
   logger = require('winston'),
   mysql = require('mysql');
+  path = require('path');
 
 let connection = mysql.createConnection(connectionData);
 var users = [];
@@ -23,6 +24,7 @@ connection.connect(function (err) {
 const app = express();
 const http_server = http.createServer(app).listen(3000);
 
+
 logger.info('Socket connected...');
 
 const screenConnections = [];
@@ -35,7 +37,6 @@ function emitConnection(SERVER) {
 
 
   io.sockets.on('connection', function (socket) {
-
 
     // 2. Keep track of new screens so we can send messages to it. - Jarrin
     socket.on('new-screen', function () {
@@ -67,7 +68,7 @@ function emitConnection(SERVER) {
     // ON SELECT WEDSTRIJD bij uitslagen.php
     socket.on('select_wedstrijd', function (wedstrijddatum) {
        // console.log(wedstrijddatum);
-  
+
         //connection.query('SELECT DISTINCT nummer FROM onderdeel_uitsl WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
         connection.query('SELECT * FROM uitslagen WHERE wedstrijddatum ="' + wedstrijddatum + '"', function (error, results, fields) {
           if (error) throw error;
@@ -252,12 +253,6 @@ function emitConnection(SERVER) {
       socket.broadcast.emit('send_Turner_score_to_secretariaat', cards);
     })
 
-    // var allClients = [];
-    // allClients.push(socket);
-
-    socket.on('disconnect', function(target) {
-     
-    });
 
   });
 
