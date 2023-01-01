@@ -13,7 +13,7 @@
     "path": "^0.12.7",
     "socket.io": "^2.2.0",
     "tableexport": "^5.2.0",
-    "webpack": "^4.29.5",
+    "webpack": "^5.75.0",
     "winston": "^3.2.1",
     "xlsx": "^0.14.3"
   },
